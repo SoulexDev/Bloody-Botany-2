@@ -25,6 +25,12 @@ public class InventorySystem : MonoBehaviour
             case "3":
                 SwitchItem(2);
                 break;
+            case "4":
+                SwitchItem(3);
+                break;
+            case "5":
+                SwitchItem(4);
+                break;
             default:
                 break;
         }

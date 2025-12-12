@@ -37,6 +37,7 @@ public class CurrencySystem : MonoBehaviour
     }
     public bool SpendCurrency(int amount)
     {
+        print(m_CurrencyAmount - amount);
         if (m_CurrencyAmount - amount < 0)
             return false;
 

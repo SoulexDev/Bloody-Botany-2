@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7347928121238779913}
   - component: {fileID: 6356635307246165787}
   - component: {fileID: 2514371797713992113}
-  - component: {fileID: -8851125075205421553}
+  - component: {fileID: 2406403918732740981}
   m_Layer: 8
-  m_Name: Shotgun Seed
+  m_Name: NutrientGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &-8851125075205421553
+--- !u!114 &2406403918732740981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,9 +143,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6100034011230005648}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3eb6b1655727b344be14c948f82f32d, type: 3}
+  m_Script: {fileID: 11500000, guid: dec95859226f6ff4aa5fc7e80bd3f636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Rb: {fileID: 2514371797713992113}
   m_ThrowForce: 16
-  m_SpawnPlant: {fileID: 2816640912117528658, guid: dd9849d6bed954a499b5483d9b6c6a2c, type: 3}
+  m_SplashEffect: {fileID: 573536053579209455, guid: 9595ce6d0bc811a4e8df547e7c3a0d3d, type: 3}

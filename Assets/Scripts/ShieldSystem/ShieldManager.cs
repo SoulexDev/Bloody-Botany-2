@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class ShieldManager : MonoBehaviour
 {
+    public static ShieldManager Instance;
+
     private Shield m_CurrentSheild;
 
-    private void Update()
+    private void Awake()
     {
-        if (m_CurrentSheild.shieldState == ShieldState.Active)
-        {
-
-        }
+        Instance = this;
     }
     public bool TrySetCurrentShield(Shield shield)
     {
@@ -19,10 +18,8 @@ public class ShieldManager : MonoBehaviour
         {
             if (m_CurrentSheild.shieldState != ShieldState.Active)
             {
-                m_CurrentSheild.OnShieldStateChanged -= ShieldStateChanged;
                 m_CurrentSheild = shield;
                 m_CurrentSheild.OnShieldStateChanged += ShieldStateChanged;
-
                 return true;
             }
         }
@@ -30,13 +27,45 @@ public class ShieldManager : MonoBehaviour
         {
             m_CurrentSheild = shield;
             m_CurrentSheild.OnShieldStateChanged += ShieldStateChanged;
+
             return true;
         }
 
         return false;
     }
+    public bool GetActiveShieldPosition(out Vector3 position)
+    {
+        if (m_CurrentSheild)
+        {
+            position = m_CurrentSheild.transform.position;
+            return true;
+        }
+        else
+        {
+            position = Vector3.zero;
+            return false;
+        }
+    }
     private void ShieldStateChanged()
     {
-
+        switch (m_CurrentSheild.shieldState)
+        {
+            case ShieldState.Inactive:
+                m_CurrentSheild.OnShieldStateChanged -= ShieldStateChanged;
+                m_CurrentSheild = null;
+                break;
+            case ShieldState.Active:
+                break;
+            case ShieldState.Broken:
+                m_CurrentSheild.OnShieldStateChanged -= ShieldStateChanged;
+                m_CurrentSheild = null;
+                break;
+            case ShieldState.Locked:
+                m_CurrentSheild.OnShieldStateChanged -= ShieldStateChanged;
+                m_CurrentSheild = null;
+                break;
+            default:
+                break;
+        }
     }
 }

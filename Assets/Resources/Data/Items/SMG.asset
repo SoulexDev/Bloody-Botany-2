@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SMG
   m_EditorClassIdentifier: 
   itemType: 1
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 5345824889723563859, guid: e2710c178172c284e81ff591cdf3cb94, type: 3}
   maxStack: 1
   equipAnimationTrigger: 

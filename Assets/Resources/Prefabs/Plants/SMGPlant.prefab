@@ -847,7 +847,7 @@ GameObject:
   - component: {fileID: 2816640912117528658}
   - component: {fileID: 5066648785335965792}
   m_Layer: 0
-  m_Name: ShotgunPlant
+  m_Name: SMGPlant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -902,7 +902,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isInteractable: 1
-  item: {fileID: 11400000, guid: 3899e094a6f71154d9abde890a8fc098, type: 2}
+  item: {fileID: 11400000, guid: 8f32b7c4866fe5b488260b7c5ba20abc, type: 2}
   itemCount: 1
   m_PlantModels:
   - {fileID: 4170291448855562235}

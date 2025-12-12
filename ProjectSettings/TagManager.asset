@@ -7,6 +7,7 @@ TagManager:
   - Sand
   - Metal
   - Grass
+  - Enemy
   layers:
   - Default
   - TransparentFX

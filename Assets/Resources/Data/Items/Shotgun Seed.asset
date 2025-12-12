@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Shotgun Seed
   m_EditorClassIdentifier: 
   itemType: 0
-  itemPrefab: {fileID: 970723436449783549, guid: 24050b77ec88906408192154cd325ec2, type: 3}
+  itemPrefab: {fileID: 970723436449783549, guid: a49a128a616f53b4590ca06f6c1dab9a, type: 3}
   maxStack: 4
   equipAnimationTrigger: 

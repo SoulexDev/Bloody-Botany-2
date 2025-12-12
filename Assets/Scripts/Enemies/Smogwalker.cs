@@ -9,8 +9,10 @@ public class Smogwalker : StateMachine<Smogwalker>
 {
     public HealthComponent healthComponent;
     public NavMeshAgent agent;
-
+    public Animator anims;
     public Transform visual;
+
+    [SerializeField] private GameObject m_DamageVolume;
 
     [SerializeField] private AnimationCurve m_ImpactXZCurve;
     [SerializeField] private AnimationCurve m_ImpactYCurve;
@@ -37,9 +39,14 @@ public class Smogwalker : StateMachine<Smogwalker>
     public Vector3 GetNearestTarget(out SmogwalkerTarget targetType)
     {
         Vector3 playerPos = Player.Instance.playerController.transform.position;
-        Vector3 sheildPos = Vector3.zero;
 
-        if (Vector3.Distance(transform.position, playerPos) < Vector3.Distance(transform.position, sheildPos))
+        if (!ShieldManager.Instance.GetActiveShieldPosition(out Vector3 shieldPos))
+        {
+            targetType = SmogwalkerTarget.Player;
+            return playerPos;
+        }
+
+        if (Vector3.Distance(transform.position, playerPos) < Vector3.Distance(transform.position, shieldPos))
         {
             targetType = SmogwalkerTarget.Player;
             return playerPos;
@@ -47,7 +54,7 @@ public class Smogwalker : StateMachine<Smogwalker>
         else
         {
             targetType = SmogwalkerTarget.Shield;
-            return sheildPos;
+            return shieldPos;
         }
     }
     private void Die()
@@ -81,5 +88,9 @@ public class Smogwalker : StateMachine<Smogwalker>
         }
 
         visual.localScale = Vector3.one;
+    }
+    public void SetDamageTriggerActiveState(bool state)
+    {
+        m_DamageVolume.SetActive(state);
     }
 }

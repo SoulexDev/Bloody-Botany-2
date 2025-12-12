@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2514371797713992113}
   - component: {fileID: -8851125075205421553}
   m_Layer: 8
-  m_Name: Shotgun Seed
+  m_Name: ShotgunSeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,4 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Rb: {fileID: 2514371797713992113}
   m_ThrowForce: 16
-  m_SpawnPlant: {fileID: 2816640912117528658, guid: dd9849d6bed954a499b5483d9b6c6a2c, type: 3}
+  m_SpawnPlant: {fileID: 2816640912117528658, guid: ba3351d9a5946874781f6c4b9101438a, type: 3}
