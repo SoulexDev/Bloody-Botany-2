@@ -18,6 +18,7 @@ public class Shield : Interactable, IHealth
                 UpdateInteractionText();
 
                 OnShieldStateChanged?.Invoke();
+                m_ShieldVolume.SetActive(m_ShieldStateBuffer == ShieldState.Active);
             }
         }
     }
@@ -26,6 +27,7 @@ public class Shield : Interactable, IHealth
 
     [SerializeField] private int m_MaxHealth = 100;
     [SerializeField] private int m_RepairCost;
+    [SerializeField] private GameObject m_ShieldVolume;
     private int m_Health;
 
     public override void Awake()
@@ -33,13 +35,17 @@ public class Shield : Interactable, IHealth
         base.Awake();
 
         shieldState = ShieldState.Inactive;
+
+        UpdateInteractionText();
     }
     public void ChangeHealth(int amount)
     {
-        if (shieldState == ShieldState.Locked)
+        if (shieldState == ShieldState.Locked || shieldState == ShieldState.Broken)
             return;
 
         m_Health += amount;
+
+        print(m_Health);
 
         if (m_Health <= 0)
         {
@@ -53,7 +59,10 @@ public class Shield : Interactable, IHealth
         switch (shieldState)
         {
             case ShieldState.Inactive:
-                shieldState = ShieldState.Active;
+                if (ShieldManager.Instance.TrySetCurrentShield(this))
+                    shieldState = ShieldState.Active;
+                else
+                    print("Cant set shield");
                 break;
             case ShieldState.Active:
                 shieldState = ShieldState.Locked;
@@ -61,12 +70,19 @@ public class Shield : Interactable, IHealth
             case ShieldState.Broken:
                 if (Player.Instance.currencySystem.SpendCurrency(m_RepairCost))
                 {
-                    shieldState = ShieldState.Active;
+                    if (ShieldManager.Instance.TrySetCurrentShield(this))
+                        shieldState = ShieldState.Active;
+                    else
+                        shieldState = ShieldState.Inactive;
+
                     m_Health = m_MaxHealth;
                 }
                 break;
             case ShieldState.Locked:
-                shieldState = ShieldState.Active;
+                if (ShieldManager.Instance.TrySetCurrentShield(this))
+                    shieldState = ShieldState.Active;
+                else
+                    print("Cant set shield");
                 break;
             default:
                 break;

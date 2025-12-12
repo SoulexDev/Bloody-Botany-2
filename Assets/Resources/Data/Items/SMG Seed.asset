@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 259d0ecef1e4b10488eae906266241bb, type: 3}
-  m_Name: Nutrient Grenade
+  m_Name: SMG Seed
   m_EditorClassIdentifier: 
   itemType: 0
-  itemPrefab: {fileID: 970723436449783549, guid: 8bd5c6d60b85d2c4a8cb44fbb68e990d, type: 3}
-  maxStack: 16
+  itemPrefab: {fileID: 970723436449783549, guid: f9909234157447143a7a89d52014fe81, type: 3}
+  maxStack: 4
   equipAnimationTrigger: 

@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 64805e72f17495a44b7686cdbfcc2fdf, type: 2}
-  throwable: {fileID: 2406403918732740981, guid: ea6cd0b38533827498b5057de24a3bb1, type: 3}
+  throwable: {fileID: 2406403918732740981, guid: 3a1090e8378d71e4ab661f878bd4c072, type: 3}

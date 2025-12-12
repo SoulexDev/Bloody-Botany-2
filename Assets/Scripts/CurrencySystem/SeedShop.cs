@@ -18,6 +18,7 @@ public class SeedShop : Interactable
     {
         base.OnInteract();
 
+        print(Player.Instance.inventorySystem.CanStoreItem(m_SeedItem, m_ItemAmount));
         if (Player.Instance.inventorySystem.CanStoreItem(m_SeedItem, m_ItemAmount) && Player.Instance.currencySystem.SpendCurrency(m_Cost))
         {
             Player.Instance.inventorySystem.AddItem(m_SeedItem, m_ItemAmount);

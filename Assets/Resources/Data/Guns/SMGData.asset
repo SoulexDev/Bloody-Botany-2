@@ -42,5 +42,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   bulletsPerShot: 1
-  magazineSize: 24
+  magazineSize: 32
   fireSound: {fileID: 8300000, guid: 8b17e8eb03578e445bc2af6ae4965d15, type: 3}
