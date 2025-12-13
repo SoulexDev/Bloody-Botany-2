@@ -16,7 +16,8 @@ public class NutrientGrenade : Throwable
                 plant.Feed();
             }
         }
-        Instantiate(m_SplashEffect, transform.position, Quaternion.identity);
+        if (m_SplashEffect)
+            Instantiate(m_SplashEffect, transform.position, Quaternion.identity);
         base.OnImpact(collision);
     }
 }

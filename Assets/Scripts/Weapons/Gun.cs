@@ -3,17 +3,35 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour, IUsable
 {
-    [SerializeField] private GunData m_GunData;
+    public GunData gunData;
     [SerializeField] private AudioSource m_Source;
 
     private bool m_Firing = false;
     private bool m_OnCooldown = false;
 
-    private int m_AmmoCount;
+    public int ammoCount;
+
+    private float m_Spread;
+
+    private InventorySlot m_SlotBuffer;
+    public InventorySlot slot
+    {
+        get { return m_SlotBuffer; }
+        set { m_SlotBuffer = value; }
+    }
 
     private void Awake()
     {
-        m_AmmoCount = m_GunData.magazineSize;
+        ammoCount = gunData.magazineSize;
+    }
+    private void OnEnable()
+    {
+        m_Firing = false;
+        Crosshair.Instance.SetCrosshairOuterState(true);
+    }
+    private void OnDisable()
+    {
+        Crosshair.Instance.SetCrosshairOuterState(false);
     }
     public virtual void Use()
     {
@@ -21,15 +39,19 @@ public class Gun : MonoBehaviour, IUsable
     }
     private void Update()
     {
-        if (m_AmmoCount == 0)
+        if (ammoCount == 0)
             return;
+
+        m_Spread = Mathf.Lerp(m_Spread, Player.Instance.playerController.isMoving ? 0.05f : 0, Time.deltaTime * 10);
+
+        Crosshair.Instance.SetCrosshairRadius(m_Spread + gunData.spread);
 
         if (m_Firing)
         {
             if (m_OnCooldown)
                 return;
 
-            if (m_GunData.automatic)
+            if (gunData.automatic)
             {
                 Fire();
             }
@@ -42,29 +64,32 @@ public class Gun : MonoBehaviour, IUsable
     }
     private void Fire()
     {
-        for (int i = 0; i < m_GunData.bulletsPerShot; i++)
+        for (int i = 0; i < gunData.bulletsPerShot; i++)
         {
-            Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f + Vector2.one * Random.insideUnitCircle * m_GunData.spread);
+            Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f + Vector2.one * Random.insideUnitCircle * (gunData.spread + m_Spread));
 
             if (Physics.Raycast(ray, out RaycastHit hit, 999, GameManager.Instance.playerIgnoreMask))
             {
                 if (hit.transform.TryGetComponent(out IHealth health))
                 {
-                    int finalDamage = Mathf.RoundToInt(m_GunData.damage * m_GunData.damageFalloff.Evaluate(hit.distance));
+                    int finalDamage = Mathf.RoundToInt(gunData.damage * gunData.damageFalloff.Evaluate(hit.distance));
                     health.ChangeHealth(-finalDamage);
                 }  
             }
         }
 
         m_Source.pitch = 1 + (Random.value - 0.5f) * 2 * 0.2f;
-        m_Source.PlayOneShot(m_GunData.fireSound);
-        StartCoroutine(Cooldown());
+        m_Source.PlayOneShot(gunData.fireSound);
 
-        m_AmmoCount -= 1;
+        Player.Instance.StartCoroutine(Cooldown());
 
-        if (m_AmmoCount <= 0)
+        ammoCount -= 1;
+
+        ItemSelectBar.Instance.UpdateValue(ammoCount);
+
+        if (ammoCount <= 0)
         {
-            StartCoroutine(Wilt());
+            Player.Instance.StartCoroutine(Wilt());
         }
     }
     public virtual void UnUse()
@@ -82,14 +107,14 @@ public class Gun : MonoBehaviour, IUsable
     private IEnumerator Cooldown()
     {
         m_OnCooldown = true;
-        yield return new WaitForSeconds(m_GunData.fireRate);
+        yield return new WaitForSeconds(gunData.fireRate);
         m_OnCooldown = false;
     }
     private IEnumerator Wilt()
     {
         yield return new WaitForSeconds(2);
 
-        if (Player.Instance.inventorySystem.RemoveItem(m_GunData.gunItem))
+        if (Player.Instance.inventorySystem.RemoveItemFromSlot(slot))
         {
             Player.Instance.inventorySystem.UnequipAll();
         }

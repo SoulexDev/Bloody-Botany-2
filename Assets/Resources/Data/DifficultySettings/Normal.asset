@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prepTimeSeconds: 5
   maxGuns: 15
-  plantGrowthRate: 4
+  plantGrowthRate: 0.1

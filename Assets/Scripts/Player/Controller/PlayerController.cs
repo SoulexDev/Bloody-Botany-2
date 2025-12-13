@@ -16,6 +16,7 @@ public class PlayerController : StateMachine<PlayerController>
     public float gravity = 20;
     public float moveSpeed = 4;
     public float airSpeed = 2.5f;
+    public float maxAirSpeed = 4;
     public float jumpForce = 4;
 
     [Header("Movement Curves")]

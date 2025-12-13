@@ -40,7 +40,7 @@ public class Shield : Interactable, IHealth
     }
     public void ChangeHealth(int amount)
     {
-        if (shieldState == ShieldState.Locked || shieldState == ShieldState.Broken)
+        if (shieldState != ShieldState.Active)
             return;
 
         m_Health += amount;
