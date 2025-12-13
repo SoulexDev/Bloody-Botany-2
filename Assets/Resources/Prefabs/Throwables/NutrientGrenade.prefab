@@ -148,4 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Rb: {fileID: 2514371797713992113}
   m_ThrowForce: 16
-  m_SplashEffect: {fileID: 573536053579209455, guid: 9595ce6d0bc811a4e8df547e7c3a0d3d, type: 3}
+  m_SplashEffect: {fileID: 1874256831651898077, guid: 5130d5f004d5b4b4fb8725a8915157ea, type: 3}

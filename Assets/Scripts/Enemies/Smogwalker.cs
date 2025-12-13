@@ -12,6 +12,7 @@ public class Smogwalker : StateMachine<Smogwalker>
     public Animator anims;
     public Transform visual;
 
+    [SerializeField] private InventoryItem m_NutrientGrenade;
     [SerializeField] private GameObject m_DamageVolume;
 
     [SerializeField] private AnimationCurve m_ImpactXZCurve;
@@ -59,10 +60,8 @@ public class Smogwalker : StateMachine<Smogwalker>
     }
     private void Die()
     {
-        if (Random.value >= 0.5f)
-        {
-            Player.Instance.currencySystem.AddCurrency(Random.Range(50, 100));
-        }
+        Player.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
+        Player.Instance.inventorySystem.AddItem(m_NutrientGrenade, 1);
         Destroy(gameObject);
     }
     private void DoImpactEffect()

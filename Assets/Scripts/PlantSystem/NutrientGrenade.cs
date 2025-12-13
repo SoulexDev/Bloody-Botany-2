@@ -15,8 +15,13 @@ public class NutrientGrenade : Throwable
             {
                 plant.Feed();
             }
+            if (col.TryGetComponent(out IHealth health) && col.CompareTag("Enemy"))
+            {
+                health.ChangeHealth(-4);
+            }
         }
-        Instantiate(m_SplashEffect, transform.position, Quaternion.identity);
+        if (m_SplashEffect)
+            Instantiate(m_SplashEffect, transform.position, Quaternion.identity);
         base.OnImpact(collision);
     }
 }

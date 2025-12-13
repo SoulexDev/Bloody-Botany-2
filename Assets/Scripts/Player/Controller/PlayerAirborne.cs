@@ -9,7 +9,7 @@ public class PlayerAirborne : State<PlayerController>
         m_MoveVelocity.x = ctx.lastVelocity.x;
         m_MoveVelocity.z = ctx.lastVelocity.z;
 
-        m_EnterMagnitude = Mathf.Max(m_MoveVelocity.magnitude, ctx.airSpeed);
+        m_EnterMagnitude = Mathf.Max(ctx.airSpeed, Mathf.Min(m_MoveVelocity.magnitude, ctx.maxAirSpeed));
     }
     public override void ExitState(PlayerController ctx)
     {

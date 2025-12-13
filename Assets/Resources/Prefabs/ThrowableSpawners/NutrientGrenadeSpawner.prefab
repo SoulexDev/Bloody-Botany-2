@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5751414411922293479}
-  - component: {fileID: 4187794875530605384}
+  - component: {fileID: -2607247501126236494}
   m_Layer: 0
   m_Name: NutrientGrenadeSpawner
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4187794875530605384
+--- !u!114 &-2607247501126236494
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 970723436449783549}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51512a472e607074eaede88e7dca33b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 27b476e19662e454fa3e001046cabdf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 64805e72f17495a44b7686cdbfcc2fdf, type: 2}

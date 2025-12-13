@@ -7,6 +7,13 @@ public class ThrowableSpawner : MonoBehaviour, IUsable
     public InventoryItem item;
     public Throwable throwable;
 
+    private InventorySlot m_SlotBuffer;
+    public InventorySlot slot
+    {
+        get { return m_SlotBuffer; }
+        set { m_SlotBuffer = value; }
+    }
+
     public void AltUnUse()
     {
         
