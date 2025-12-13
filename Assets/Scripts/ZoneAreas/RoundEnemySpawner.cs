@@ -15,6 +15,7 @@ public class RoundEnemySpawner : MonoBehaviour
 {
     #region========================================( Variables )======================================================//
     /*-----[ Inspector Variables ]------------------------------------------------------------------------------------*/
+    public float delay=5;
 
 
     /*-----[ External Variables ]-------------------------------------------------------------------------------------*/
@@ -41,9 +42,9 @@ public class RoundEnemySpawner : MonoBehaviour
 
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= 5)
+        if (spawnTimer >= delay)
         {
-            spawnTimer -= 5;
+            spawnTimer -= delay;
 
             Transform spawn = GetRandomActiveSpawn();
 
