@@ -68,7 +68,7 @@ public class Shield : Interactable, IHealth
                 shieldState = ShieldState.Locked;
                 break;
             case ShieldState.Broken:
-                if (Player.Instance.currencySystem.SpendCurrency(m_RepairCost))
+                if (GameProfile.Instance.currencySystem.SpendCurrency(m_RepairCost))
                 {
                     if (ShieldManager.Instance.TrySetCurrentShield(this))
                         shieldState = ShieldState.Active;

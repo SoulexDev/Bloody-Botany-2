@@ -20,11 +20,6 @@ public class Smogwalker : StateMachine<Smogwalker>
 
     private void Awake()
     {
-        stateDictionary.Add(SmogwalkerState.Chase, new SmogwalkerChase());
-        stateDictionary.Add(SmogwalkerState.Attack, new SmogwalkerAttack());
-
-        SwitchState(SmogwalkerState.Chase);
-
         healthComponent.OnHealthDepleted += Die;
         healthComponent.OnHealthLost += DoImpactEffect;
     }
@@ -33,13 +28,22 @@ public class Smogwalker : StateMachine<Smogwalker>
         healthComponent.OnHealthDepleted -= Die;
         healthComponent.OnHealthLost -= DoImpactEffect;
     }
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
+        stateDictionary.Add(SmogwalkerState.Chase, new SmogwalkerChase());
+        stateDictionary.Add(SmogwalkerState.Attack, new SmogwalkerAttack());
+
+        SwitchState(SmogwalkerState.Chase);
+    }
     public override void Update()
     {
         base.Update();
     }
     public Vector3 GetNearestTarget(out SmogwalkerTarget targetType)
     {
-        Vector3 playerPos = Player.Instance.playerController.transform.position;
+        Vector3 playerPos = GameProfile.Instance.playerController.transform.position;
 
         if (!ShieldManager.Instance.GetActiveShieldPosition(out Vector3 shieldPos))
         {
@@ -60,8 +64,9 @@ public class Smogwalker : StateMachine<Smogwalker>
     }
     private void Die()
     {
-        Player.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
-        Player.Instance.inventorySystem.AddItem(m_NutrientGrenade, 1);
+        //TODO: make server authoritative and stuff or whatever to make this correct
+        GameProfile.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
+        GameProfile.Instance.inventorySystem.AddItem(m_NutrientGrenade, 1);
         Destroy(gameObject);
     }
     private void DoImpactEffect()

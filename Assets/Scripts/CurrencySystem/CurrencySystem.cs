@@ -1,11 +1,12 @@
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class CurrencySystem : MonoBehaviour
+public class CurrencySystem : NetworkBehaviour
 {
-    [SerializeField] private TextMeshProUGUI m_CurrencyText;
+    private TextMeshProUGUI m_CurrencyText => CanvasFinder.Instance.currencyText;
 
     private int m_CurrencyAmountBuffer = 100;
     private int m_CurrencyAmount
@@ -24,6 +25,9 @@ public class CurrencySystem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner)
+            return;
+
         if (m_CurrencyDisplayAmount < m_CurrencyAmount)
         {
             m_CurrencyDisplayAmount += 2;

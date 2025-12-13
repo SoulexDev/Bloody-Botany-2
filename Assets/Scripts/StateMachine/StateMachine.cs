@@ -1,11 +1,12 @@
+using FishNet.Object;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
+public class StateMachine<T> : NetworkBehaviour where T : StateMachine<T>
 {
-    //public bool serverAuthoritative = false;
+    public bool serverAuthoritative = false;
     public Dictionary<Enum, State<T>> stateDictionary = new Dictionary<Enum, State<T>>();
     public State<T> currentState;
     private bool m_switchingState;
@@ -17,6 +18,9 @@ public class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
 
     public virtual void Update()
     {
+        if (serverAuthoritative && !IsServerInitialized || !IsOwner)
+            return;
+
         if (m_switchingState || currentState == null)
             return;
 
@@ -25,6 +29,9 @@ public class StateMachine<T> : MonoBehaviour where T : StateMachine<T>
     }
     public virtual void FixedUpdate()
     {
+        if (serverAuthoritative && !IsServerInitialized || !IsOwner)
+            return;
+
         if (m_switchingState || currentState == null)
             return;
 

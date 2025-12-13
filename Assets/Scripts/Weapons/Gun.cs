@@ -42,7 +42,7 @@ public class Gun : MonoBehaviour, IUsable
         if (ammoCount == 0)
             return;
 
-        m_Spread = Mathf.Lerp(m_Spread, Player.Instance.playerController.isMoving ? 0.05f : 0, Time.deltaTime * 10);
+        m_Spread = Mathf.Lerp(m_Spread, GameProfile.Instance.playerController.isMoving ? 0.05f : 0, Time.deltaTime * 10);
 
         Crosshair.Instance.SetCrosshairRadius(m_Spread + gunData.spread);
 
@@ -70,7 +70,7 @@ public class Gun : MonoBehaviour, IUsable
 
             if (Physics.Raycast(ray, out RaycastHit hit, 999, GameManager.Instance.playerIgnoreMask))
             {
-                if (hit.transform.TryGetComponent(out IHealth health))
+                if (hit.transform.CompareTag("Enemy") && hit.transform.TryGetComponent(out IHealth health))
                 {
                     int finalDamage = Mathf.RoundToInt(gunData.damage * gunData.damageFalloff.Evaluate(hit.distance));
                     health.ChangeHealth(-finalDamage);
@@ -81,15 +81,15 @@ public class Gun : MonoBehaviour, IUsable
         m_Source.pitch = 1 + (Random.value - 0.5f) * 2 * 0.2f;
         m_Source.PlayOneShot(gunData.fireSound);
 
-        Player.Instance.StartCoroutine(Cooldown());
+        GameProfile.Instance.StartCoroutine(Cooldown());
 
         ammoCount -= 1;
 
-        ItemSelectBar.Instance.UpdateValue(ammoCount);
+        SideSelectBar.Instance.UpdateValue(ammoCount);
 
         if (ammoCount <= 0)
         {
-            Player.Instance.StartCoroutine(Wilt());
+            GameProfile.Instance.StartCoroutine(Wilt());
         }
     }
     public virtual void UnUse()
@@ -114,9 +114,9 @@ public class Gun : MonoBehaviour, IUsable
     {
         yield return new WaitForSeconds(2);
 
-        if (Player.Instance.inventorySystem.RemoveItemFromSlot(slot))
+        if (GameProfile.Instance.inventorySystem.RemoveItemFromSlot(slot))
         {
-            Player.Instance.inventorySystem.UnequipAll();
+            GameProfile.Instance.inventorySystem.UnequipAll();
         }
         else
         {

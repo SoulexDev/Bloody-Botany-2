@@ -23,6 +23,9 @@ public class PlayerController : StateMachine<PlayerController>
     public AnimationCurve groundAccelerationCurve;
     public AnimationCurve landCurve;
 
+    [Header("Camera")]
+    public Transform cameraTarget;
+
     public Vector3 playerCenter => transform.position + Vector3.up * characterController.height * 0.5f;
 
     [HideInInspector] public Vector3 groundNormal;
@@ -41,6 +44,18 @@ public class PlayerController : StateMachine<PlayerController>
 
     private void Awake()
     {
+        
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if (!IsOwner)
+            return;
+
+        print(Owner);
+
+        CameraController.Instance.camTarget = cameraTarget;
         stateDictionary.Add(PlayerState.Idle, new PlayerIdle());
         stateDictionary.Add(PlayerState.Run, new PlayerRun());
         stateDictionary.Add(PlayerState.Jump, new PlayerJump());
@@ -50,6 +65,9 @@ public class PlayerController : StateMachine<PlayerController>
     }
     public override void Update()
     {
+        if (!IsOwner)
+            return;
+
         GroundCheck();
 
         inputVector.x = Input.GetAxisRaw("Horizontal");

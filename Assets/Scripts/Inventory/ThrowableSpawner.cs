@@ -28,7 +28,7 @@ public class ThrowableSpawner : MonoBehaviour, IUsable
     }
     public void Use()
     {
-        if (Player.Instance.inventorySystem.RemoveItem(item))
+        if (GameProfile.Instance.inventorySystem.RemoveItem(item))
         {
             Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f);
 

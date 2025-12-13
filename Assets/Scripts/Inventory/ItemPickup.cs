@@ -17,7 +17,7 @@ public class ItemPickup : Interactable
     {
         base.OnInteract();
 
-        int returnAmount = Player.Instance.inventorySystem.AddItem(item, itemCount);
+        int returnAmount = GameProfile.Instance.inventorySystem.AddItem(item, itemCount);
 
         if (returnAmount == 0)
         {

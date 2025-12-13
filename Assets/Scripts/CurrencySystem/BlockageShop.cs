@@ -17,7 +17,7 @@ public class BlockageShop : Interactable
     {
         base.OnInteract();
 
-        if (Player.Instance.currencySystem.SpendCurrency(m_Cost))
+        if (GameProfile.Instance.currencySystem.SpendCurrency(m_Cost))
         {
             gameObject.SetActive(false);
         }
