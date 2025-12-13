@@ -3,7 +3,7 @@ Shader "Bloody Botany/Diagonal Lines"
     Properties
     {
         [HideInInspector] _MainTex ("Main Tex", 2D) = "white" {}
-        _Color ("Color", Vector) = (1, 1, 1, 1)
+        _Color ("Color", Color) = (1, 1, 1, 1)
         _LineThickness ("Line Thickness", Range(0, 1)) = 0.25
         _ScrollSpeed ("Scroll Speed", Range(0, 5)) = 4
         _OtherLinesValue ("Other Lines Value", Range(0, 1)) = 0.5
