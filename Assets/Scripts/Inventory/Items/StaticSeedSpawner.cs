@@ -66,6 +66,9 @@ public class StaticSeedSpawner : NetworkBehaviour
     [TargetRpc]
     private void SeedPlantCallback(NetworkConnection conn, SeedType seedType, bool value)
     {
+        if (!value)
+            return;
+
         if (!GameProfile.Instance.inventorySystem.RemoveItem(m_SeedData.First(d => d.seedType == seedType).seedItem))
         {
             Debug.LogError("Failed to plant seed after confirmation. Client desync");

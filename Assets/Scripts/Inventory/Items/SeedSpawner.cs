@@ -20,10 +20,10 @@ public class SeedSpawner : MonoBehaviour, IUsable
     }
     public void UnUse()
     {
-        StaticSeedSpawner.Instance.TryThrowClient(m_SeedType);
+        //StaticSeedSpawner.Instance.TryThrowClient(m_SeedType);
     }
     public void Use()
     {
-        
+        StaticSeedSpawner.Instance.TryThrowClient(m_SeedType);
     }
 }

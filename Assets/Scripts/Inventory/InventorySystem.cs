@@ -56,7 +56,7 @@ public class InventorySystem : NetworkBehaviour
     }
     private void Update()
     {
-        if (!IsOwner || GameProfile.Instance.playerHealth.dead)
+        if (!IsOwner || GameProfile.Instance.playerHealth.dead.Value)
             return;
 
         if (Input.GetKeyDown(KeyCode.Q))
