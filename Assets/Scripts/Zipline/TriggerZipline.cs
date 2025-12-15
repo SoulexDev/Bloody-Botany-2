@@ -32,7 +32,6 @@ public class TriggerZipline : Interactable
     [SerializeField] private float currentTime = 0f;
     [SerializeField] private float speed = 5f;
     [SerializeField] private Vector3 ziplineOffset;
-    [SerializeField] private List<GameObject> playersInTrigger = new List<GameObject>();
     [SerializeField] private Transform dismountPoint;
 
 
@@ -45,29 +44,6 @@ public class TriggerZipline : Interactable
     public void Update()
     {
         if (spline == null || !ziplineActive || targetObject == null) return;
-        
-        currentTime += (speed / spline.CalculateLength()) * Time.deltaTime;
-        currentTime = Mathf.Clamp01(currentTime);
-        
-        Vector3 currentPosition = spline.EvaluatePosition(currentTime);
-        var currentTangent = spline.EvaluateTangent(currentTime);
-        
-        targetObject.transform.position = currentPosition + ziplineOffset;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!playersInTrigger.Contains(other.gameObject))
-        {
-            playersInTrigger.Add(other.gameObject);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (playersInTrigger.Contains(other.gameObject))
-        {
-            playersInTrigger.Remove(other.gameObject);
-        }
     }
 
 
@@ -75,25 +51,29 @@ public class TriggerZipline : Interactable
     public override void OnInteract()
     {
         base.OnInteract();
+        if (ziplineActive) return;
         StartCoroutine(StartZipline());
     }
 
     private IEnumerator StartZipline()
     {
-        if (playersInTrigger.Count == 0) yield break;
-        
-        var playerRigidbody = targetObject.GetComponent<Rigidbody>();
-        if (playerRigidbody != null) { playerRigidbody.isKinematic = true; }
-        targetObject = playersInTrigger[0];
+        targetObject = GameProfile.Instance.playerController.gameObject;
+        print("ZIPLINE: " + targetObject.name);
         ziplineActive = true;
         currentTime = 0f;
         
         while (currentTime < 1)
         {
+            currentTime += (speed / spline.CalculateLength()) * Time.deltaTime;
+            currentTime = Mathf.Clamp01(currentTime);
+        
+            Vector3 currentPosition = spline.EvaluatePosition(currentTime);
+            var currentTangent = spline.EvaluateTangent(currentTime);
+        
+            targetObject.transform.position = currentPosition + ziplineOffset;
             yield return null;
         }
         
-        if (playerRigidbody != null) { playerRigidbody.isKinematic = false; }
         ziplineActive = false;
         targetObject.transform.position = dismountPoint.position;
         targetObject = null;

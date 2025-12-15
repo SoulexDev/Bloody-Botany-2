@@ -38,22 +38,26 @@ public class ZoneStinger : MonoBehaviour
 
             while (timer < 1)
             {
-                transform.position = Vector3.Lerp(m_OgPos, m_OutPos, timer);
+                //transform.position = Vector3.Lerp(m_OgPos, m_OutPos, timer);
+                m_StingerText.color = new Color(1, 1, 1, timer);
                 timer += Time.deltaTime;
                 yield return null;
             }
-            transform.position = m_OutPos;
+            //transform.position = m_OutPos;
+            m_StingerText.color = new Color(1, 1, 1, 1);
 
             yield return new WaitForSeconds(1);
 
             while (timer > 0)
             {
-                transform.position = Vector3.Lerp(m_OgPos, m_OutPos, timer);
+                //transform.position = Vector3.Lerp(m_OgPos, m_OutPos, timer);
+                m_StingerText.color = new Color(1, 1, 1, timer);
                 timer -= Time.deltaTime;
                 yield return null;
             }
 
-            transform.position = m_OgPos;
+            //transform.position = m_OgPos;
+            m_StingerText.color = new Color(1, 1, 1, 0);
             m_StingerQueue.RemoveAt(0);
         }
         m_QueueRunning = false;
