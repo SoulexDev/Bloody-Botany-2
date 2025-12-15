@@ -84,7 +84,7 @@ public class PlayerHealth : NetworkBehaviour
         {
             if (m_DamageTimer <= 0)
             {
-                m_DamageTimer += 0.5f;
+                m_DamageTimer += 1f;
                 m_HealthComponent.ChangeHealth(-1, ref died);
             }
 

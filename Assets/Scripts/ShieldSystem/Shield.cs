@@ -29,6 +29,10 @@ public class Shield : Interactable, IHealth
         base.OnStartServer();
 
         shieldState.Value = m_StartStatus;
+        if (shieldState.Value == ShieldState.Active)
+        {
+            ShieldManager.Instance.TrySetCurrentShield(this);
+        }
     }
     private void OnDestroy()
     {
