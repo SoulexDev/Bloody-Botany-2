@@ -25,6 +25,7 @@ public class CanvasFinder : MonoBehaviour
     public TextMeshProUGUI topSelectText2;
 
     public TextMeshProUGUI currencyText;
+    public TextMeshProUGUI roundText;
 
     private void Awake()
     {

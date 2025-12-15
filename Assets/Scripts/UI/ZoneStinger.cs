@@ -11,6 +11,7 @@ public class ZoneStinger : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_StingerText;
 
     private List<string> m_StingerQueue = new List<string>();
+    private string m_LastStinger;
     private Vector3 m_OgPos;
     private Vector3 m_OutPos = new Vector3(Screen.width * 0.5f, Screen.height - 50, 0);
 
@@ -22,7 +23,11 @@ public class ZoneStinger : MonoBehaviour
     }
     public void SubmitStingerToQueue(string text)
     {
+        if (m_LastStinger == text)
+            return;
+
         m_StingerQueue.Add(text);
+        m_LastStinger = text;
         if (!m_QueueRunning)
         {
             StartCoroutine(RunQueue());

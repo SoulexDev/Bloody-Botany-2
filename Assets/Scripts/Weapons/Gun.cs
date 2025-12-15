@@ -105,7 +105,7 @@ public class Gun : MonoBehaviour, IUsable
 
         if (GameProfile.Instance.inventorySystem.RemoveItemFromSlot(slot))
         {
-            GameProfile.Instance.inventorySystem.UnequipAll();
+            GameProfile.Instance.inventorySystem.UnequipSlot(slot);
         }
         else
         {

@@ -27,6 +27,8 @@ public class WaveManager : NetworkBehaviour
         StartCoroutine(HandleWaves());
 
         m_MobCap = GameManager.Instance.difficultySettings.mobCap * InstanceFinder.ClientManager.Clients.Count;
+
+        SetWaveText(1);
     }
     private IEnumerator HandleWaves()
     {
@@ -45,7 +47,13 @@ public class WaveManager : NetworkBehaviour
             }
 
             wave++;
+            SetWaveText(wave);
         }
+    }
+    [ObserversRpc]
+    public void SetWaveText(int wave)
+    {
+        CanvasFinder.Instance.roundText.text = $"Round: {wave}";
     }
     [ObserversRpc]
     public void SpawnOnClients()

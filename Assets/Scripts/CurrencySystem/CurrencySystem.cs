@@ -5,7 +5,7 @@ public class CurrencySystem : NetworkBehaviour
 {
     private TextMeshProUGUI m_CurrencyText => CanvasFinder.Instance.currencyText;
 
-    private int m_CurrencyAmountBuffer = 1000;
+    private int m_CurrencyAmountBuffer = 250;
     private int m_CurrencyAmount
     {
         get { return m_CurrencyAmountBuffer; }

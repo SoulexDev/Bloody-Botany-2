@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class InventorySystem : NetworkBehaviour
 {
@@ -35,9 +36,14 @@ public class InventorySystem : NetworkBehaviour
             {
                 m_BotanyModeBuffer = value;
 
-                m_TopSelectText1.text = "1 " + m_InventorySlots[m_BotanyModeBuffer ? 2 : 0].item?.name;
-                m_TopSelectText2.text = "2 " + m_InventorySlots[m_BotanyModeBuffer ? 3 : 1].item?.name;
+                //for (int i = 0; i < m_InventorySlots.Count; i++)
+                //{
+                //    print($"{m_InventorySlots[i].item} : {i}");
+                //}
+                
             }
+            m_TopSelectText1.text = "1 " + m_InventorySlots[value ? 2 : 0].item?.name;
+            m_TopSelectText2.text = "2 " + m_InventorySlots[value ? 3 : 1].item?.name;
         }
     }
 
@@ -122,6 +128,14 @@ public class InventorySystem : NetworkBehaviour
         SideSelectBar.Instance.DeInitialize();
         m_InventorySlots.ForEach(s => s.SetCountTextEnabledState(true));
     }
+    public void UnequipSlot(InventorySlot slot)
+    {
+        int slotIndex = m_InventorySlots.IndexOf(slot);
+        if (slotIndex == m_LastIndex)
+        {
+            UnequipAll();
+        }
+    }
     private void SwitchItem(int itemIndex)
     {
         if (itemIndex >= m_InventorySlots.Count || m_LastIndex == itemIndex)
@@ -169,6 +183,10 @@ public class InventorySystem : NetworkBehaviour
             usable.slot = slot;
             m_CurrentUsable = usable;
         }
+
+        //TODO: This is a bandaid fix. come back later. also fuck this inventory system.. i gotta fix it up
+        m_TopSelectText1.text = "1 " + m_InventorySlots[m_BotanyMode ? 2 : 0].item?.name;
+        m_TopSelectText2.text = "2 " + m_InventorySlots[m_BotanyMode ? 3 : 1].item?.name;
 
         m_LastItem = obj;
         m_LastIndex = itemIndex;

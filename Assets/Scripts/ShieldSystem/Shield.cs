@@ -21,6 +21,7 @@ public class Shield : Interactable, IHealth
         base.Awake();
 
         shieldState.OnChange += ShieldState_OnChange;
+        m_Health = m_MaxHealth;
 
         UpdateInteractionText();
     }
