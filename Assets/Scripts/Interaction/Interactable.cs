@@ -1,10 +1,12 @@
+using FishNet.Connection;
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(ViewInfo))]
-public class Interactable : MonoBehaviour
+public class Interactable : NetworkBehaviour
 {
     [SerializeField] protected ViewInfo m_ViewInfo;
 

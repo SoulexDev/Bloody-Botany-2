@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using FishNet.Object;
 using TMPro;
-using UnityEngine;
 
-public class CurrencySystem : MonoBehaviour
+public class CurrencySystem : NetworkBehaviour
 {
-    [SerializeField] private TextMeshProUGUI m_CurrencyText;
+    private TextMeshProUGUI m_CurrencyText => CanvasFinder.Instance.currencyText;
 
-    private int m_CurrencyAmountBuffer = 100;
+    private int m_CurrencyAmountBuffer = 1000;
     private int m_CurrencyAmount
     {
         get { return m_CurrencyAmountBuffer; }
@@ -24,6 +22,9 @@ public class CurrencySystem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsOwner)
+            return;
+
         if (m_CurrencyDisplayAmount < m_CurrencyAmount)
         {
             m_CurrencyDisplayAmount += 2;
@@ -43,6 +44,10 @@ public class CurrencySystem : MonoBehaviour
 
         m_CurrencyAmount -= amount;
         return true;
+    }
+    public bool HasCurrency(int amount)
+    {
+        return m_CurrencyAmount - amount >= 0;
     }
     public void AddCurrency(int amount)
     {

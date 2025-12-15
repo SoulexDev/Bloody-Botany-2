@@ -20,7 +20,7 @@ public class SmogwalkerAttack : State<Smogwalker>
     {
         Vector3 targetPos = ctx.GetNearestTarget(out SmogwalkerTarget targetType);
 
-        if (ctx.SwitchByCondition(SmogwalkerState.Chase, Vector3.Distance(ctx.transform.position, targetPos) > 1.5f))
+        if (ctx.SwitchByCondition(SmogwalkerState.Chase, Vector3.Distance(ctx.transform.position, targetPos) > 2f))
             return;
     }
 }

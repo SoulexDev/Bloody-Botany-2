@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public LayerMask playerIgnoreMask;
     public LayerMask enemyIgnoreMask;
 
-    private float stageTimer = 0;
+    public LayerMask seedThrowMask;
 
     private void Awake()
     {
@@ -21,18 +21,10 @@ public class GameManager : MonoBehaviour
 
         playerIgnoreMask = ~LayerMask.GetMask("Player", "Ignore Player", "Ignore Raycast");
         enemyIgnoreMask = ~LayerMask.GetMask("Enemy", "Ignore Enemy", "Ignore Raycast");
-
-        stageTimer = difficultySettings.prepTimeSeconds;
+        seedThrowMask = ~LayerMask.GetMask("Player", "Enemy", "Ignore Player", "Ignore Enemy", "Ignore Raycast");
     }
-    private void Update()
+    public float GetEnemyHealthMultiplier()
     {
-        stageTimer -= Time.deltaTime;
-
-        if (stageTimer <= 0)
-        {
-            stageTimer = 0;
-
-            gameStage = GameStage.Waves;
-        }
+        return 1f + difficultySettings.enemyWaveHealthMultiplicationRate * WaveManager.Instance.wave;
     }
 }

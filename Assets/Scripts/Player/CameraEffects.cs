@@ -36,7 +36,7 @@ public class CameraEffects : MonoBehaviour
 
         while (timer < 1)
         {
-            float eval = Player.Instance.playerController.landCurve.Evaluate(timer);
+            float eval = GameProfile.Instance.playerController.landCurve.Evaluate(timer);
 
             transform.localPosition = Vector3.up * eval;
             SetJumpDirection(-eval * 5);

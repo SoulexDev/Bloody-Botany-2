@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using FishNet.CodeGenerating;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 
 public class ItemPickup : Interactable
 {
     public InventoryItem item;
-    public int itemCount = 1;
+    [AllowMutableSyncType] public SyncVar<int> itemCount = new SyncVar<int>(1);
 
     public override void Awake()
     {
@@ -17,18 +17,30 @@ public class ItemPickup : Interactable
     {
         base.OnInteract();
 
-        int returnAmount = Player.Instance.inventorySystem.AddItem(item, itemCount);
+        int returnAmount = GameProfile.Instance.inventorySystem.AddItem(item, itemCount.Value);
 
         if (returnAmount == 0)
         {
-            OnPickupSuccess();
-            Destroy(gameObject);
+            OnPickup();
+            RemoveObject();
         }
         else
-            itemCount = returnAmount;
+        {
+            SetItemCount(returnAmount);
+        }
     }
-    public virtual void OnPickupSuccess()
+    public virtual void OnPickup()
     {
 
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void SetItemCount(int itemCount)
+    {
+        this.itemCount.Value = itemCount;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void RemoveObject()
+    {
+        Despawn(DespawnType.Destroy);
     }
 }

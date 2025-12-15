@@ -1,3 +1,5 @@
+using FishNet;
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,8 +20,18 @@ public class Smogwalker : StateMachine<Smogwalker>
     [SerializeField] private AnimationCurve m_ImpactXZCurve;
     [SerializeField] private AnimationCurve m_ImpactYCurve;
 
-    private void Awake()
+    private void OnDestroy()
     {
+        if (!IsServerInitialized)
+            return;
+
+        healthComponent.OnHealthDepleted -= Die;
+        healthComponent.OnHealthLost -= DoImpactEffect;
+    }
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+
         stateDictionary.Add(SmogwalkerState.Chase, new SmogwalkerChase());
         stateDictionary.Add(SmogwalkerState.Attack, new SmogwalkerAttack());
 
@@ -27,26 +39,40 @@ public class Smogwalker : StateMachine<Smogwalker>
 
         healthComponent.OnHealthDepleted += Die;
         healthComponent.OnHealthLost += DoImpactEffect;
+
+        healthComponent.health = Mathf.RoundToInt(healthComponent.health * GameManager.Instance.GetEnemyHealthMultiplier());
     }
-    private void OnDestroy()
-    {
-        healthComponent.OnHealthDepleted -= Die;
-        healthComponent.OnHealthLost -= DoImpactEffect;
-    }
-    public override void Update()
-    {
-        base.Update();
-    }
+    [Server]
     public Vector3 GetNearestTarget(out SmogwalkerTarget targetType)
     {
-        Vector3 playerPos = Player.Instance.playerController.transform.position;
+        float furthest = float.PositiveInfinity;
+        int closestIndex = -1;
+        for (int i = 0; i < GameProfileManager.Instance.gameProfiles.Count; i++)
+        {
+            float distance = Vector3.Distance(transform.position, 
+                GameProfileManager.Instance.gameProfiles[i].playerController.transform.position);
+
+            if (distance < furthest)
+            {
+                furthest = distance;
+                closestIndex = i;
+            }
+        }
+
+        if (closestIndex == -1)
+        {
+            Debug.LogError("Closest index is -1. FIX THIS BTICH!");
+            targetType = SmogwalkerTarget.Player;
+            return Vector3.zero;
+        }
+
+        Vector3 playerPos = GameProfileManager.Instance.gameProfiles[closestIndex].playerController.transform.position;
 
         if (!ShieldManager.Instance.GetActiveShieldPosition(out Vector3 shieldPos))
         {
             targetType = SmogwalkerTarget.Player;
             return playerPos;
         }
-
         if (Vector3.Distance(transform.position, playerPos) < Vector3.Distance(transform.position, shieldPos))
         {
             targetType = SmogwalkerTarget.Player;
@@ -58,12 +84,13 @@ public class Smogwalker : StateMachine<Smogwalker>
             return shieldPos;
         }
     }
+    [Server]
     private void Die()
     {
-        Player.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
-        Player.Instance.inventorySystem.AddItem(m_NutrientGrenade, 1);
-        Destroy(gameObject);
+        WaveManager.Instance.RemoveEnemy();
+        InstanceFinder.ServerManager.Despawn(gameObject);
     }
+    [ObserversRpc]
     private void DoImpactEffect()
     {
         StopAllCoroutines();

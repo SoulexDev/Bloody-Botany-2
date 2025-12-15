@@ -7,8 +7,9 @@ public class CameraController : MonoBehaviour
     public static CameraController Instance;
 
     public CameraEffects cameraEffects;
+    public Transform camTarget;
+    public Transform itemSpawnTransform;
     [SerializeField] private Transform m_CamHolder;
-    [SerializeField] private Transform m_CamTarget;
     [SerializeField] private float m_Sensitivity = 2.0f;
 
     private float m_X, m_Y;
@@ -22,6 +23,9 @@ public class CameraController : MonoBehaviour
     }
     private void Update()
     {
+        if (!camTarget)
+            return;
+
         PlayerInput();
         HandleCamera();
     }
@@ -34,7 +38,7 @@ public class CameraController : MonoBehaviour
     }
     private void HandleCamera()
     {
-        m_CamHolder.position = m_CamTarget.position;
+        m_CamHolder.position = camTarget.position;
         m_CamHolder.rotation = Quaternion.Euler(m_Y, m_X, 0);
     }
     public Vector3 GetCamForward()

@@ -1,44 +1,81 @@
+using FishNet;
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
-public class InventorySystem : MonoBehaviour
+public class InventorySystem : NetworkBehaviour
 {
-    [SerializeField] private List<InventorySlot> m_InventorySlots = new List<InventorySlot>();
-    [SerializeField] private Transform m_ItemSpawnTransform;
+    private List<InventorySlot> m_InventorySlots => CanvasFinder.Instance.inventorySlots;
+    private Transform m_ItemSpawnTransform => CameraController.Instance.itemSpawnTransform;
 
-    [SerializeField] private GameObject m_GrayoutTop;
-    [SerializeField] private GameObject m_GrayoutBottom;
+    private GameObject m_GrayoutTop => CanvasFinder.Instance.grayoutTop;
+    private GameObject m_GrayoutBottom => CanvasFinder.Instance.grayoutBottom;
+    private Transform m_SelectAnchor1 => CanvasFinder.Instance.selectAnchor1;
+    private Transform m_SelectAnchor2 => CanvasFinder.Instance.selectAnchor2;
+    private Transform m_TopSelectBar => CanvasFinder.Instance.topSelectBar;
+
+    private TextMeshProUGUI m_TopSelectText1 => CanvasFinder.Instance.topSelectText1;
+    private TextMeshProUGUI m_TopSelectText2 => CanvasFinder.Instance.topSelectText2;
 
     private IUsable m_CurrentUsable;
     private Dictionary<int, GameObject> m_SpawnedItems;
     private GameObject m_LastItem;
     private int m_LastIndex = -1;
 
-    private bool m_BotanyMode = false;
-
-    private void Awake()
+    private bool m_BotanyModeBuffer = false;
+    private bool m_BotanyMode
     {
+        get { return m_BotanyModeBuffer; }
+        set
+        {
+            if (m_BotanyModeBuffer != value)
+            {
+                m_BotanyModeBuffer = value;
+
+                m_TopSelectText1.text = "1 " + m_InventorySlots[m_BotanyModeBuffer ? 2 : 0].item?.name;
+                m_TopSelectText2.text = "2 " + m_InventorySlots[m_BotanyModeBuffer ? 3 : 1].item?.name;
+            }
+        }
+    }
+
+    //private void Awake()
+    //{
+        
+    //}
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if (!IsOwner)
+            return;
+
         m_SpawnedItems = new Dictionary<int, GameObject>();
     }
     private void Update()
     {
+        if (!IsOwner || GameProfile.Instance.playerHealth.dead)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Q))
         {
             m_BotanyMode = !m_BotanyMode;
             m_GrayoutTop.SetActive(m_BotanyMode);
             m_GrayoutBottom.SetActive(!m_BotanyMode);
             SwitchItem(m_BotanyMode ? 2 : 0);
+            m_TopSelectBar.position = m_SelectAnchor1.position;
         }
         switch (Input.inputString)
         {
             case "1":
                 SwitchItem(m_BotanyMode ? 2 : 0);
+                m_TopSelectBar.position = m_SelectAnchor1.position;
                 break;
             case "2":
                 SwitchItem(m_BotanyMode ? 3 : 1);
+                m_TopSelectBar.position = m_SelectAnchor2.position;
                 break;
             default:
                 break;
@@ -80,7 +117,9 @@ public class InventorySystem : MonoBehaviour
 
         m_CurrentUsable = null;
 
-        ItemSelectBar.Instance.DeInitialize();
+        m_TopSelectBar.gameObject.SetActive(false);
+
+        SideSelectBar.Instance.DeInitialize();
         m_InventorySlots.ForEach(s => s.SetCountTextEnabledState(true));
     }
     private void SwitchItem(int itemIndex)
@@ -97,6 +136,8 @@ public class InventorySystem : MonoBehaviour
             UnequipAll();
             return;
         }
+
+        m_TopSelectBar.gameObject.SetActive(true);
 
         m_InventorySlots.ForEach(s => s.SetCountTextEnabledState(true));
 
@@ -119,9 +160,9 @@ public class InventorySystem : MonoBehaviour
         }
 
         if (item.itemType == ItemType.Gun && obj.TryGetComponent(out Gun gun))
-            ItemSelectBar.Instance.InitializeValues(slot.selectBarAnchor.position, gun.gunData.magazineSize, gun.ammoCount);
+            SideSelectBar.Instance.InitializeValues(slot.selectBarAnchor.position, gun.gunData.magazineSize, gun.ammoCount);
         else
-            ItemSelectBar.Instance.InitializeValues(slot.selectBarAnchor.position, item.maxStack, slot.itemCount);
+            SideSelectBar.Instance.InitializeValues(slot.selectBarAnchor.position, item.maxStack, slot.itemCount);
 
         if (obj.TryGetComponent(out IUsable usable))
         {
@@ -194,6 +235,15 @@ public class InventorySystem : MonoBehaviour
                 m_SpawnedItems.Remove(index);
             }
         }
+
+        return true;
+    }
+    public bool HasItem(InventoryItem item, int count = 1)
+    {
+        InventorySlot slot = m_InventorySlots.FirstOrDefault(s => s.item == item);
+
+        if (slot == null || slot.itemCount - count < 0)
+            return false;
 
         return true;
     }

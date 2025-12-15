@@ -20,9 +20,17 @@ public class SmogwalkerChase : State<Smogwalker>
     {
         Vector3 targetPos = ctx.GetNearestTarget(out SmogwalkerTarget targetType);
 
+        //Debug.Log($"Target Pos:{targetPos}, Target Type: {targetType}, Target Distance: {Vector3.Distance(ctx.transform.position, targetPos)}");
+
         ctx.agent.SetDestination(targetPos);
 
-        if (ctx.SwitchByCondition(SmogwalkerState.Attack, Vector3.Distance(ctx.transform.position, targetPos) < 1.5f))
+        float targetDistance = Vector3.Distance(ctx.transform.position, targetPos);
+
+        targetDistance -= targetType == SmogwalkerTarget.Shield ? 1 : 0;
+
+        targetDistance = Mathf.Max(targetDistance, 0);
+
+        if (ctx.SwitchByCondition(SmogwalkerState.Attack, targetDistance < 1.5f))
             return;
     }
 }

@@ -2,50 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HealthComponent : MonoBehaviour, IHealth
 {
-    [SerializeField] private int m_MaxHealth = 15;
-    [SerializeField] private Image m_HealthBar;
-    [SerializeField] private TextMeshProUGUI m_HealthText;
+    public int maxHealth = 15;
+    public bool callHealthLostEventOnDeplete = true;
 
     private int m_HealthBuffer;
-    private int m_Health
+    public int health
     {
         get { return m_HealthBuffer; }
         set
         {
-            //Lost health
-            if (m_HealthBuffer > value)
-            {
-                OnHealthLost?.Invoke();
-            }
-            m_HealthBuffer = Mathf.Clamp(value, 0, m_MaxHealth);
+            float lastHealth = m_HealthBuffer;
 
-            if (m_HealthBar)
-                m_HealthBar.fillAmount = (float)m_HealthBuffer / m_MaxHealth;
-            if (m_HealthText)
-                m_HealthText.text = m_HealthBuffer.ToString("D2") + "/" + m_MaxHealth.ToString("D2");
+            m_HealthBuffer = Mathf.Clamp(value, 0, maxHealth);
 
             if (m_HealthBuffer <= 0)
             {
                 OnHealthDepleted?.Invoke();
+
+                if (callHealthLostEventOnDeplete)
+                    OnHealthLost?.Invoke();
             }
+            else if (lastHealth > value)
+            {
+                OnHealthLost?.Invoke();
+            }
+
+            OnHealthChanged?.Invoke();
         }
     }
     public delegate void HealthLost();
     public event HealthLost OnHealthLost;
+
+    public delegate void HealthChanged();
+    public event HealthChanged OnHealthChanged;
 
     public delegate void HealthDepleted();
     public event HealthDepleted OnHealthDepleted;
 
     private void Awake()
     {
-        m_Health = m_MaxHealth;
+        health = maxHealth;
     }
-    public void ChangeHealth(int amount)
+    public void ChangeHealth(int amount, ref bool died)
     {
-        m_Health += amount;
+        died = health + amount <= 0;
+
+        health += amount;
     }
 }

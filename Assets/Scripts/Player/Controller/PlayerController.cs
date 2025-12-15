@@ -13,6 +13,7 @@ public enum PlayerState
 public class PlayerController : StateMachine<PlayerController>
 {
     public CharacterController characterController;
+    public Transform visual;
     public float gravity = 20;
     public float moveSpeed = 4;
     public float airSpeed = 2.5f;
@@ -22,6 +23,9 @@ public class PlayerController : StateMachine<PlayerController>
     [Header("Movement Curves")]
     public AnimationCurve groundAccelerationCurve;
     public AnimationCurve landCurve;
+
+    [Header("Camera")]
+    public Transform cameraTarget;
 
     public Vector3 playerCenter => transform.position + Vector3.up * characterController.height * 0.5f;
 
@@ -41,6 +45,16 @@ public class PlayerController : StateMachine<PlayerController>
 
     private void Awake()
     {
+        
+    }
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if (!IsOwner)
+            return;
+
+        CameraController.Instance.camTarget = cameraTarget;
         stateDictionary.Add(PlayerState.Idle, new PlayerIdle());
         stateDictionary.Add(PlayerState.Run, new PlayerRun());
         stateDictionary.Add(PlayerState.Jump, new PlayerJump());
@@ -50,6 +64,15 @@ public class PlayerController : StateMachine<PlayerController>
     }
     public override void Update()
     {
+        if (!IsOwner)
+            return;
+
+        if (GameProfile.Instance.playerHealth.dead)
+        {
+            inputVector = Vector2.zero;
+            return;
+        }
+
         GroundCheck();
 
         inputVector.x = Input.GetAxisRaw("Horizontal");
@@ -57,6 +80,8 @@ public class PlayerController : StateMachine<PlayerController>
 
         moveVector = Vector3.Cross(CameraController.Instance.GetCamRight(), groundNormal) * inputVector.y - 
             Vector3.Cross(CameraController.Instance.GetCamForward(), groundNormal) * inputVector.x;
+
+        visual.forward = CameraController.Instance.GetCamForward();
 
         moveVector = Vector3.ClampMagnitude(moveVector, 1);
 

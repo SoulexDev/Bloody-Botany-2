@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6517954977718049136}
   - component: {fileID: 1107795235400911850}
-  - component: {fileID: 4144726733730188469}
+  - component: {fileID: -32958128158579857}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Untagged
@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunData: {fileID: 11400000, guid: 71b87cc0b6ea3d542b93cd6fbd6d4ea8, type: 2}
-  m_Source: {fileID: 4144726733730188469}
---- !u!82 &4144726733730188469
+  m_GunType: 0
+  m_Source: {fileID: -32958128158579857}
+  ammoCount: 0
+--- !u!82 &-32958128158579857
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

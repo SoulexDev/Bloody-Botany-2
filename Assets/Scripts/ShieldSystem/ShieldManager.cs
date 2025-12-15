@@ -16,7 +16,7 @@ public class ShieldManager : MonoBehaviour
     {
         if (m_CurrentSheild != null)
         {
-            if (m_CurrentSheild.shieldState != ShieldState.Active)
+            if (m_CurrentSheild.shieldState.Value != ShieldState.Active)
             {
                 m_CurrentSheild = shield;
                 m_CurrentSheild.OnShieldStateChanged += ShieldStateChanged;
@@ -48,7 +48,7 @@ public class ShieldManager : MonoBehaviour
     }
     private void ShieldStateChanged()
     {
-        switch (m_CurrentSheild.shieldState)
+        switch (m_CurrentSheild.shieldState.Value)
         {
             case ShieldState.Inactive:
                 m_CurrentSheild.OnShieldStateChanged -= ShieldStateChanged;

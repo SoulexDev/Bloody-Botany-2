@@ -16,7 +16,8 @@ public class EnemyDamageVolume : MonoBehaviour
         print(other);
         if (m_CanDamage && !other.CompareTag("Enemy") && other.transform.TryGetComponent(out IHealth health))
         {
-            health.ChangeHealth(-m_Damage);
+            bool died = false;
+            health.ChangeHealth(-m_Damage, ref died);
 
             m_CanDamage = false;
         }
