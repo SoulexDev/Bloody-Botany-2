@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Crosshair : MonoBehaviour
 {
     public static Crosshair Instance;
 
     [SerializeField] private Material m_CrosshairMat;
+    [SerializeField] private Image m_CrosshairImage;
     [SerializeField] private RectTransform m_RectTransform;
 
     private void Awake()
     {
         Instance = this;
+
+        m_CrosshairMat = new Material(m_CrosshairMat);
+        m_CrosshairImage.material = m_CrosshairMat;
     }
     public void SetCrosshairRadius(float value)
     {

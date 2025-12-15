@@ -48,7 +48,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8634438532126650283}
   _networkObjectCache: {fileID: 8634438532126650283}
-  m_SceneToLoad: GameScene
+  m_SceneToLoad: DesertCamp
   m_Maps: []
   m_GameProfile: {fileID: 7934133904806874848, guid: a71d2fc2f9db7d04597bcf6b86c89beb, type: 3}
 --- !u!114 &8634438532126650283
@@ -81,7 +81,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584357994902956664
+  _initializedTimestamp: -8584357834432112711
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0

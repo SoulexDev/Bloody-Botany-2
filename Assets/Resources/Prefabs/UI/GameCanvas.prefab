@@ -3384,6 +3384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CrosshairMat: {fileID: 2100000, guid: bf538bccfd9bd5949abfa17716288f52, type: 2}
+  m_CrosshairImage: {fileID: 7209058605811868178}
   m_RectTransform: {fileID: 2259782024417967740}
 --- !u!1 &5218623941705917866
 GameObject:
