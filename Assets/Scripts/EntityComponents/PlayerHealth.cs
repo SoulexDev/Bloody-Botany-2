@@ -1,4 +1,6 @@
+using FishNet.CodeGenerating;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,12 +10,13 @@ public class PlayerHealth : NetworkBehaviour
     [SerializeField] private HealthComponent m_HealthComponent;
     [SerializeField] private Sprite m_ShieldIcon;
     [SerializeField] private Sprite m_WarningIcon;
+    [SerializeField] private GameObject m_ReviveObj;
     private TextMeshProUGUI m_StatusText => CanvasFinder.Instance.statusText;
     private Image m_StatusImage => CanvasFinder.Instance.statusImage;
     private Image m_HealthBar => CanvasFinder.Instance.healthBar;
     private TextMeshProUGUI m_HealthText => CanvasFinder.Instance.healthText;
 
-    public bool dead;
+    [AllowMutableSyncType] public SyncVar<bool> dead = new SyncVar<bool>();
 
     private bool m_ShieldedBuffer;
     private bool m_Shielded
@@ -31,7 +34,7 @@ public class PlayerHealth : NetworkBehaviour
     private float m_DamageTimer;
     private float m_HealTimer;
 
-    private float m_OxygenValue;
+    //private float m_OxygenValue;
 
     private void Awake()
     {
@@ -67,12 +70,13 @@ public class PlayerHealth : NetworkBehaviour
     }
     private void HealthComponent_OnHealthDepleted()
     {
-        dead = true;
+        SetDeadStateServer(true);
+        SetReviveActiveStateServer(true);
     }
     //TODO: Add in specific callback function to IHealth, rather than forcing everything to use ref bool
     private void Update()
     {
-        if (!IsOwner || dead)
+        if (!IsOwner || dead.Value)
             return;
 
         bool died = false;
@@ -105,5 +109,27 @@ public class PlayerHealth : NetworkBehaviour
     {
         m_Shielded = state;
         //print(m_Shielded);
+    }
+    [ServerRpc]
+    private void SetDeadStateServer(bool state)
+    {
+        dead.Value = state;
+    }
+    public void Revive()
+    {
+        SetDeadStateServer(false);
+        m_HealthComponent.health = m_HealthComponent.maxHealth / 2;
+
+        SetReviveActiveStateServer(false);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SetReviveActiveStateServer(bool state)
+    {
+        SetReviveActiveStateClients(state);
+    }
+    [ObserversRpc]
+    public void SetReviveActiveStateClients(bool state)
+    {
+        m_ReviveObj.SetActive(state);
     }
 }

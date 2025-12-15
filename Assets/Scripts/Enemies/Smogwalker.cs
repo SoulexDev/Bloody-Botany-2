@@ -49,8 +49,12 @@ public class Smogwalker : StateMachine<Smogwalker>
         int closestIndex = -1;
         for (int i = 0; i < GameProfileManager.Instance.gameProfiles.Count; i++)
         {
-            float distance = Vector3.Distance(transform.position, 
-                GameProfileManager.Instance.gameProfiles[i].playerController.transform.position);
+            GameProfile profile = GameProfileManager.Instance.gameProfiles[i];
+
+            if (profile.playerHealth.dead.Value)
+                continue;
+
+            float distance = Vector3.Distance(transform.position, profile.playerController.transform.position);
 
             if (distance < furthest)
             {

@@ -9,7 +9,7 @@ public class WaveManager : NetworkBehaviour
     public static WaveManager Instance;
 
     [SerializeField] private NetworkObject m_SmogwalkerPrefab;
-    public List<SpawnZone> spawnZones = new List<SpawnZone>();
+    [HideInInspector] public List<SpawnZone> spawnZones = new List<SpawnZone>();
 
     public int wave;
     private int m_MobCap;

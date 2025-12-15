@@ -13,6 +13,7 @@ public class GameProfile : NetworkBehaviour
     public InventorySystem inventorySystem;
     public CurrencySystem currencySystem;
     public PlayerHealth playerHealth;
+    public PlayerRevive playerRevive;
 
     public GameObject visual;
 
@@ -39,6 +40,7 @@ public class GameProfile : NetworkBehaviour
         {
             Instance = this;
             visual.SetActive(false);
+            playerRevive.isInteractable = false;
             //car.tag = "Player";
 
             AddProfile();

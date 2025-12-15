@@ -67,7 +67,7 @@ public class PlayerController : StateMachine<PlayerController>
         if (!IsOwner)
             return;
 
-        if (GameProfile.Instance.playerHealth.dead)
+        if (GameProfile.Instance.playerHealth.dead.Value)
         {
             inputVector = Vector2.zero;
             return;
