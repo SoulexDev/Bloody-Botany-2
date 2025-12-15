@@ -7,7 +7,6 @@ public class ShieldBubble : MonoBehaviour
     private PlayerHealth m_PlayerHealth;
     private void OnTriggerEnter(Collider other)
     {
-        print(other);
         if (other.CompareTag("Player"))
         {
             if (other.transform.TryGetComponent(out m_PlayerHealth))

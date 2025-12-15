@@ -18,19 +18,35 @@ public class StateMachine<T> : NetworkBehaviour where T : StateMachine<T>
 
     public virtual void Update()
     {
-        if (serverAuthoritative && !IsServerInitialized || !IsOwner)
+        //Check for server authority=>check if on server. if client authoritative=>check if owner
+        if (serverAuthoritative)
+        {
+            if (!IsServerInitialized)
+                return;
+        }
+        else if (!IsOwner)
+        {
             return;
+        }
 
         if (m_switchingState || currentState == null)
             return;
 
+        print(currentState);
         currentState.UpdateState((T)this);
         currentState.stateTime += Time.deltaTime;
     }
     public virtual void FixedUpdate()
     {
-        if (serverAuthoritative && !IsServerInitialized || !IsOwner)
+        if (serverAuthoritative)
+        {
+            if (!IsServerInitialized)
+                return;
+        }
+        else if (!IsOwner)
+        {
             return;
+        }
 
         if (m_switchingState || currentState == null)
             return;

@@ -23,6 +23,9 @@ public class CameraController : MonoBehaviour
     }
     private void Update()
     {
+        if (!camTarget)
+            return;
+
         PlayerInput();
         HandleCamera();
     }

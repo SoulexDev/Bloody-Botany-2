@@ -5,7 +5,7 @@ public class TestDummy : MonoBehaviour, IHealth
 {
     [SerializeField] private AnimationCurve m_XZScaleCurve;
     [SerializeField] private AnimationCurve m_YScaleCurve;
-    public void ChangeHealth(int amount)
+    public void ChangeHealth(int amount, ref bool died)
     {
         StopAllCoroutines();
         StartCoroutine(ImpactAnimation());

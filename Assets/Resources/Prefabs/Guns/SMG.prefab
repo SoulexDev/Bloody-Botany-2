@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6517954977718049136}
   - component: {fileID: 1107795235400911850}
-  - component: {fileID: 4144726733730188469}
+  - component: {fileID: 4542920054532978282}
   m_Layer: 0
   m_Name: SMG
   m_TagString: Untagged
@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunData: {fileID: 11400000, guid: 2ca6d16d030dfbd45a25c2de28824586, type: 2}
-  m_Source: {fileID: 4144726733730188469}
---- !u!82 &4144726733730188469
+  m_GunType: 1
+  m_Source: {fileID: 4542920054532978282}
+  ammoCount: 0
+--- !u!82 &4542920054532978282
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

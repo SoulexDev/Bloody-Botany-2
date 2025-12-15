@@ -12,6 +12,9 @@ public class GameProfile : NetworkBehaviour
     public PlayerController playerController;
     public InventorySystem inventorySystem;
     public CurrencySystem currencySystem;
+    public PlayerHealth playerHealth;
+
+    public GameObject visual;
 
     public readonly SyncVar<string> steamName = new SyncVar<string>();
     [SerializeField] private TextMeshPro m_NameTag;
@@ -26,8 +29,7 @@ public class GameProfile : NetworkBehaviour
     }
     private void OnChangeName(string prev, string next, bool asServer)
     {
-        //TODO: Implement name tag on prefab
-        //m_NameTag.text = next;
+        m_NameTag.text = next;
     }
     public override void OnStartClient()
     {
@@ -36,6 +38,7 @@ public class GameProfile : NetworkBehaviour
         if (IsOwner)
         {
             Instance = this;
+            visual.SetActive(false);
             //car.tag = "Player";
 
             AddProfile();

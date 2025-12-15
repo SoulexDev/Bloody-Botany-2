@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class HealthComponent : MonoBehaviour, IHealth
 {
     public int maxHealth = 15;
+    public bool callHealthLostEventOnDeplete = true;
 
     private int m_HealthBuffer;
     public int health
@@ -14,16 +14,20 @@ public class HealthComponent : MonoBehaviour, IHealth
         get { return m_HealthBuffer; }
         set
         {
-            //Lost health
-            if (m_HealthBuffer > value)
-            {
-                OnHealthLost?.Invoke();
-            }
+            float lastHealth = m_HealthBuffer;
+
             m_HealthBuffer = Mathf.Clamp(value, 0, maxHealth);
 
             if (m_HealthBuffer <= 0)
             {
                 OnHealthDepleted?.Invoke();
+
+                if (callHealthLostEventOnDeplete)
+                    OnHealthLost?.Invoke();
+            }
+            else if (lastHealth > value)
+            {
+                OnHealthLost?.Invoke();
             }
 
             OnHealthChanged?.Invoke();
@@ -42,8 +46,10 @@ public class HealthComponent : MonoBehaviour, IHealth
     {
         health = maxHealth;
     }
-    public void ChangeHealth(int amount)
+    public void ChangeHealth(int amount, ref bool died)
     {
+        died = health + amount <= 0;
+
         health += amount;
     }
 }

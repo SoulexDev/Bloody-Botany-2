@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CircleRadius: 0.04802058
+    - _CircleRadius: 0.17909999
     - _CircleThickness: 0.02
     - _InnerCircleRadius: 0.025
     - _OutlineThickness: 0

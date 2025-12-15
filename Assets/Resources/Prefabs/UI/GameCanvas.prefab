@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 714666492518296472}
   - component: {fileID: 5211809002822588658}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: InteractionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -100}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &714666492518296472
@@ -201,8 +201,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 306b527ba4556c74f90cd23e993d7a3e, type: 2}
-  m_sharedMaterial: {fileID: -3334711615855863858, guid: 306b527ba4556c74f90cd23e993d7a3e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c8914e3d69f962a4d9bee5023b69cff9, type: 2}
+  m_sharedMaterial: {fileID: -5194715778681820792, guid: c8914e3d69f962a4d9bee5023b69cff9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -226,8 +226,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4289,8 +4289,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: $100
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0e98c5ae5503511409cef839fcaa358e, type: 2}
-  m_sharedMaterial: {fileID: -7728804201494401470, guid: 0e98c5ae5503511409cef839fcaa358e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c8914e3d69f962a4d9bee5023b69cff9, type: 2}
+  m_sharedMaterial: {fileID: -5194715778681820792, guid: c8914e3d69f962a4d9bee5023b69cff9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

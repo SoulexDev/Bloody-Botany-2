@@ -13,6 +13,7 @@ public enum PlayerState
 public class PlayerController : StateMachine<PlayerController>
 {
     public CharacterController characterController;
+    public Transform visual;
     public float gravity = 20;
     public float moveSpeed = 4;
     public float airSpeed = 2.5f;
@@ -53,8 +54,6 @@ public class PlayerController : StateMachine<PlayerController>
         if (!IsOwner)
             return;
 
-        print(Owner);
-
         CameraController.Instance.camTarget = cameraTarget;
         stateDictionary.Add(PlayerState.Idle, new PlayerIdle());
         stateDictionary.Add(PlayerState.Run, new PlayerRun());
@@ -68,6 +67,12 @@ public class PlayerController : StateMachine<PlayerController>
         if (!IsOwner)
             return;
 
+        if (GameProfile.Instance.playerHealth.dead)
+        {
+            inputVector = Vector2.zero;
+            return;
+        }
+
         GroundCheck();
 
         inputVector.x = Input.GetAxisRaw("Horizontal");
@@ -75,6 +80,8 @@ public class PlayerController : StateMachine<PlayerController>
 
         moveVector = Vector3.Cross(CameraController.Instance.GetCamRight(), groundNormal) * inputVector.y - 
             Vector3.Cross(CameraController.Instance.GetCamForward(), groundNormal) * inputVector.x;
+
+        visual.forward = CameraController.Instance.GetCamForward();
 
         moveVector = Vector3.ClampMagnitude(moveVector, 1);
 

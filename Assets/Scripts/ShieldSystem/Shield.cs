@@ -1,27 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using FishNet.CodeGenerating;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
 public enum ShieldState { Inactive, Active, Broken, Locked }
 public class Shield : Interactable, IHealth
 {
-    private ShieldState m_ShieldStateBuffer;
-    public ShieldState shieldState
-    {
-        get { return m_ShieldStateBuffer; }
-        set
-        {
-            if (m_ShieldStateBuffer != value)
-            {
-                m_ShieldStateBuffer = value;
-
-                UpdateInteractionText();
-
-                OnShieldStateChanged?.Invoke();
-                m_ShieldVolume.SetActive(m_ShieldStateBuffer == ShieldState.Active);
-            }
-        }
-    }
+    [SerializeField] private ShieldState m_StartStatus;
+    [AllowMutableSyncType] public SyncVar<ShieldState> shieldState = new SyncVar<ShieldState>();
     public delegate void ShieldStateChanged();
     public event ShieldStateChanged OnShieldStateChanged;
 
@@ -34,13 +20,36 @@ public class Shield : Interactable, IHealth
     {
         base.Awake();
 
-        shieldState = ShieldState.Inactive;
+        shieldState.OnChange += ShieldState_OnChange;
 
         UpdateInteractionText();
     }
-    public void ChangeHealth(int amount)
+    public override void OnStartServer()
     {
-        if (shieldState != ShieldState.Active)
+        base.OnStartServer();
+
+        shieldState.Value = m_StartStatus;
+    }
+    private void OnDestroy()
+    {
+        shieldState.OnChange -= ShieldState_OnChange;
+    }
+    private void ShieldState_OnChange(ShieldState prev, ShieldState next, bool asServer)
+    {
+        if (prev != next)
+        {
+            UpdateInteractionText();
+
+            OnShieldStateChanged?.Invoke();
+            m_ShieldVolume.SetActive(next == ShieldState.Active);
+        }
+    }
+    public void ChangeHealth(int amount, ref bool died)
+    {
+        if (!IsServerInitialized)
+            return;
+
+        if (shieldState.Value != ShieldState.Active)
             return;
 
         m_Health += amount;
@@ -49,48 +58,70 @@ public class Shield : Interactable, IHealth
 
         if (m_Health <= 0)
         {
-            shieldState = ShieldState.Broken;
+            shieldState.Value = ShieldState.Broken;
         }
     }
+    //TODO: Make the player interaction send RPCs instead of sending RPCs per object
+    //TODO: Stop being a tard and make this more server authoritative with client callbacks you FUCKING TROGLYTARD
     public override void OnInteract()
     {
         base.OnInteract();
 
-        switch (shieldState)
+        switch (shieldState.Value)
         {
             case ShieldState.Inactive:
-                if (ShieldManager.Instance.TrySetCurrentShield(this))
-                    shieldState = ShieldState.Active;
-                else
-                    print("Cant set shield");
+                HandleInactiveServer();
                 break;
             case ShieldState.Active:
-                shieldState = ShieldState.Locked;
+                HandleActiveServer();
                 break;
             case ShieldState.Broken:
                 if (GameProfile.Instance.currencySystem.SpendCurrency(m_RepairCost))
                 {
-                    if (ShieldManager.Instance.TrySetCurrentShield(this))
-                        shieldState = ShieldState.Active;
-                    else
-                        shieldState = ShieldState.Inactive;
-
-                    m_Health = m_MaxHealth;
+                    HandleBrokenServer();
                 }
                 break;
             case ShieldState.Locked:
-                if (ShieldManager.Instance.TrySetCurrentShield(this))
-                    shieldState = ShieldState.Active;
-                else
-                    print("Cant set shield");
+                HandleLockedServer();
                 break;
             default:
                 break;
         }
     }
+    [ServerRpc(RequireOwnership = false)]
+    private void HandleInactiveServer()
+    {
+        if (ShieldManager.Instance.TrySetCurrentShield(this))
+            shieldState.Value = ShieldState.Active;
+        else
+            print("Cant set shield");
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void HandleActiveServer()
+    {
+        shieldState.Value = ShieldState.Locked;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void HandleBrokenServer()
+    {
+        if (ShieldManager.Instance.TrySetCurrentShield(this))
+            shieldState.Value = ShieldState.Active;
+        else
+            shieldState.Value = ShieldState.Inactive;
+
+        m_Health = m_MaxHealth;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void HandleLockedServer()
+    {
+        if (ShieldManager.Instance.TrySetCurrentShield(this))
+            shieldState.Value = ShieldState.Active;
+        else
+            print("Cant set shield");
+    }
     private void UpdateInteractionText()
     {
-        m_ViewInfo.infoString = shieldState switch
+        m_ViewInfo.infoString = shieldState.Value switch
         {
             ShieldState.Inactive => "Activate Shield",
             ShieldState.Active => "Lockdown Shield",

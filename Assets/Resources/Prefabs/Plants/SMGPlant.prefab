@@ -897,18 +897,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30ad536b595ff2488c1c972789d6cff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   m_ViewInfo: {fileID: 3788087720308058037}
   interactEvent:
     m_PersistentCalls:
       m_Calls: []
   isInteractable: 1
   item: {fileID: 11400000, guid: 8f32b7c4866fe5b488260b7c5ba20abc, type: 2}
-  itemCount: 1
+  itemCount:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 1
   m_PlantModels:
   - {fileID: 4170291448855562235}
   - {fileID: 5104518317537523615}
   - {fileID: 3438871402916422361}
   - {fileID: 6718086177197706835}
+  m_GrowthStage:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 0
 --- !u!65 &5066648785335965792
 BoxCollider:
   m_ObjectHideFlags: 0

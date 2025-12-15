@@ -4,12 +4,13 @@ using UnityEngine;
 public class Gun : MonoBehaviour, IUsable
 {
     public GunData gunData;
+    [SerializeField] private GunType m_GunType;
     [SerializeField] private AudioSource m_Source;
 
     private bool m_Firing = false;
     private bool m_OnCooldown = false;
 
-    public int ammoCount;
+    [HideInInspector] public int ammoCount;
 
     private float m_Spread;
 
@@ -64,19 +65,7 @@ public class Gun : MonoBehaviour, IUsable
     }
     private void Fire()
     {
-        for (int i = 0; i < gunData.bulletsPerShot; i++)
-        {
-            Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f + Vector2.one * Random.insideUnitCircle * (gunData.spread + m_Spread));
-
-            if (Physics.Raycast(ray, out RaycastHit hit, 999, GameManager.Instance.playerIgnoreMask))
-            {
-                if (hit.transform.CompareTag("Enemy") && hit.transform.TryGetComponent(out IHealth health))
-                {
-                    int finalDamage = Mathf.RoundToInt(gunData.damage * gunData.damageFalloff.Evaluate(hit.distance));
-                    health.ChangeHealth(-finalDamage);
-                }  
-            }
-        }
+        StaticGun.Instance.FireClient(m_GunType, m_Spread);
 
         m_Source.pitch = 1 + (Random.value - 0.5f) * 2 * 0.2f;
         m_Source.PlayOneShot(gunData.fireSound);

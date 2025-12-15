@@ -151,8 +151,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47259670c80d60847ae1f39dbd6e3115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   plantSpawnPoint: {fileID: 1319743462089719371}
-  inUse: 0
+  inUse:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 0
 --- !u!1 &7122393177171325399
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using FishNet;
 using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ public class InventorySystem : NetworkBehaviour
     }
     private void Update()
     {
-        if (!IsOwner)
+        if (!IsOwner || GameProfile.Instance.playerHealth.dead)
             return;
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -234,6 +235,15 @@ public class InventorySystem : NetworkBehaviour
                 m_SpawnedItems.Remove(index);
             }
         }
+
+        return true;
+    }
+    public bool HasItem(InventoryItem item, int count = 1)
+    {
+        InventorySlot slot = m_InventorySlots.FirstOrDefault(s => s.item == item);
+
+        if (slot == null || slot.itemCount - count < 0)
+            return false;
 
         return true;
     }
