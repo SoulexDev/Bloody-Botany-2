@@ -1055,9 +1055,9 @@ RectTransform:
   m_Children:
   - {fileID: 3033685107985121207}
   - {fileID: 1479838251629992821}
-  - {fileID: 8788459346455621624}
   - {fileID: 4561692987964804216}
   - {fileID: 4110404221452684446}
+  - {fileID: 8788459346455621624}
   m_Father: {fileID: 7997647598915509474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -2753,7 +2753,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0e98c5ae5503511409cef839fcaa358e, type: 2}
   m_sharedMaterial: {fileID: -7728804201494401470, guid: 0e98c5ae5503511409cef839fcaa358e, type: 2}
@@ -3056,7 +3056,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0e98c5ae5503511409cef839fcaa358e, type: 2}
   m_sharedMaterial: {fileID: -7728804201494401470, guid: 0e98c5ae5503511409cef839fcaa358e, type: 2}
@@ -7994,6 +7994,7 @@ MonoBehaviour:
   healthText: {fileID: 916087777754267561}
   statusText: {fileID: 6425088053740685101}
   statusImage: {fileID: 2821532019763477573}
+  painImage: {fileID: 8920050916067386434}
   inventorySlots:
   - {fileID: 1716795199098937598}
   - {fileID: 8048990143309812940}

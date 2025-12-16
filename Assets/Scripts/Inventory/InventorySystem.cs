@@ -42,12 +42,28 @@ public class InventorySystem : NetworkBehaviour
         }
         else if (Input.mouseScrollDelta.y != 0)
         {
-            int nextIndex = m_LastIndex + (Input.mouseScrollDelta.y > 0 ? 1 : -1);
+            int direction = (Input.mouseScrollDelta.y > 0 ? -1 : 1);
+            int nextIndex = m_LastIndex + direction;
 
             if (nextIndex < 0)
                 nextIndex = 4;
             if (nextIndex > 4)
                 nextIndex = 0;
+
+            bool foundNext = false;
+            while (!foundNext)
+            {
+                if (m_InventorySlots[nextIndex].item == null || m_InventorySlots[nextIndex].exclusiveItemType == ItemType.Throwable)
+                {
+                    nextIndex += direction;
+                    if (nextIndex < 0)
+                        nextIndex = 4;
+                    if (nextIndex > 4)
+                        nextIndex = 0;
+                }
+                else
+                    foundNext = true;
+            }
 
             SwitchItem(nextIndex);
         }

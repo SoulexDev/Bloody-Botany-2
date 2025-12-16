@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunData: {fileID: 11400000, guid: bd2c33bc759e44424be0636059540317, type: 2}
-  m_GunType: 1
+  m_GunType: 2
   m_Source: {fileID: 4542920054532978282}
   ammoCount: 0
 --- !u!82 &4542920054532978282
