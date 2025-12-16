@@ -12,6 +12,7 @@ public class CanvasFinder : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI statusText;
     public Image statusImage;
+    public Image painImage;
 
     public List<InventorySlot> inventorySlots;
 

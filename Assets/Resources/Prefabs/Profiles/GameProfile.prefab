@@ -409,6 +409,8 @@ MonoBehaviour:
     gunData: {fileID: 11400000, guid: 71b87cc0b6ea3d542b93cd6fbd6d4ea8, type: 2}
   - gunType: 1
     gunData: {fileID: 11400000, guid: 2ca6d16d030dfbd45a25c2de28824586, type: 2}
+  - gunType: 2
+    gunData: {fileID: 11400000, guid: bd2c33bc759e44424be0636059540317, type: 2}
   m_Source: {fileID: 8713349601480174801}
   m_NutrientGrenade: {fileID: 11400000, guid: 64805e72f17495a44b7686cdbfcc2fdf, type: 2}
 --- !u!82 &8713349601480174801
@@ -641,6 +643,9 @@ MonoBehaviour:
   - seedType: 1
     spawnPlant: {fileID: 7728708460269067236, guid: 592f044a52e43444587968efa6146496, type: 3}
     seedItem: {fileID: 11400000, guid: 8af1cabb7c6f2e14facfe607c35c2fc0, type: 2}
+  - seedType: 2
+    spawnPlant: {fileID: 7648531372057691117, guid: a0af882b4a3fc9b3089a81780f55e6a1, type: 3}
+    seedItem: {fileID: 11400000, guid: 088622f08127b3deb9fc95e71fcd75ef, type: 2}
 --- !u!1 &8627642662261520234
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,6 +664,7 @@ GameObject:
   - component: {fileID: 5413539972543100265}
   - component: {fileID: 7934133904806874848}
   - component: {fileID: 6729453345303536728}
+  - component: {fileID: 7770545099407083548}
   m_Layer: 6
   m_Name: GameProfile
   m_TagString: Player
@@ -868,6 +874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   callHealthLostEventOnDeplete: 1
+  clampHealth: 1
 --- !u!114 &5413539972543100265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -917,7 +924,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 11
+  <PrefabId>k__BackingField: 12
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 15897323952804222068
   SceneId: 0
@@ -954,7 +961,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584357794140839628
+  _initializedTimestamp: -8584357100887696558
 --- !u!114 &6729453345303536728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,6 +1008,23 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &7770545099407083548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8627642662261520234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aff7a36790e9ba858bfa3ee1ec90c663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeSpeed: 2
+  startAlpha: 0.2
+  damageColor: {r: 0.50980395, g: 0, b: 0, a: 0}
+  reviveColor: {r: 0.37254903, g: 1, b: 0.6627451, a: 0}
+  healthComponent: {fileID: 4017702134905344188}
 --- !u!1001 &1451417840268698973
 PrefabInstance:
   m_ObjectHideFlags: 0
