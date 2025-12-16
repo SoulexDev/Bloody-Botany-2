@@ -1,8 +1,11 @@
 using FishNet.Object;
 using TMPro;
+using UnityEngine;
 
 public class CurrencySystem : NetworkBehaviour
 {
+    [SerializeField] private AudioClip m_MoneyAcquiredSound;
+    [SerializeField] private AudioSource m_Source;
     private TextMeshProUGUI m_CurrencyText => CanvasFinder.Instance.currencyText;
 
     private int m_CurrencyAmountBuffer = 250;
@@ -51,6 +54,7 @@ public class CurrencySystem : NetworkBehaviour
     }
     public void AddCurrency(int amount)
     {
+        m_Source.PlayOneShot(m_MoneyAcquiredSound);
         m_CurrencyAmount += amount;
     }
 }

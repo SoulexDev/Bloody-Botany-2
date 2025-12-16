@@ -9,6 +9,8 @@ public class NutrientGrenade : Throwable
     [SerializeField] private InventoryItem m_Item;
     [SerializeField] private GameObject m_SplashEffect;
     [SerializeField] private float m_EffectRadius = 2;
+
+    [Server]
     public override void OnImpact(Collision collision)
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, m_EffectRadius);

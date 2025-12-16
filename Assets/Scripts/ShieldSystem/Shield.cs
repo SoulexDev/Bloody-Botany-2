@@ -59,7 +59,7 @@ public class Shield : Interactable, IHealth
 
         m_Health += amount;
 
-        print(m_Health);
+        //print(m_Health);
 
         if (m_Health <= 0)
         {

@@ -32,7 +32,7 @@ public class StaticMeleeWeapon : NetworkBehaviour
         MeleeData data = m_MeleeTypeDataPairs.First(d=>d.meleeWeaponType == meleeWeaponType).meleeData;
 
         Ray ray = new Ray(origin, direction);
-        if (Physics.Raycast(ray, out RaycastHit hit, 2, GameManager.Instance.playerIgnoreMask))
+        if (Physics.SphereCast(ray, 0.5f, out RaycastHit hit, 2, GameManager.Instance.playerIgnoreMask))
         {
             Collider[] cols = Physics.OverlapSphere(hit.point, 2, GameManager.Instance.playerIgnoreMask);
 

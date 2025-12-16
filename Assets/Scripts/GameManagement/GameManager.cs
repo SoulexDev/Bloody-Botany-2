@@ -23,8 +23,18 @@ public class GameManager : MonoBehaviour
         enemyIgnoreMask = ~LayerMask.GetMask("Enemy", "Ignore Enemy", "Ignore Raycast");
         seedThrowMask = ~LayerMask.GetMask("Player", "Enemy", "Ignore Player", "Ignore Enemy", "Ignore Raycast");
     }
-    public float GetEnemyHealthMultiplier()
+    public int GetEnemyHealth(int baseNum, float buff)
     {
-        return 1f + difficultySettings.enemyWaveHealthMultiplicationRate * WaveManager.Instance.wave;
+        float mult = 1f + difficultySettings.enemyHealthBuffMultiplicationRate * WaveManager.Instance.wave * buff;
+        return Mathf.RoundToInt(baseNum + mult);
+    }
+    public float GetEnemySpeed(float baseNum, float buff)
+    {
+        float mult = 1f + difficultySettings.enemySpeedBuffMultiplicationRate * WaveManager.Instance.wave * buff;
+        return baseNum * mult;
+    }
+    public int GetEnemyDamage(int baseNum, float buff)
+    {
+        return Mathf.RoundToInt(baseNum + difficultySettings.enemyDamageBuffMultiplicationRate * WaveManager.Instance.wave * buff);
     }
 }

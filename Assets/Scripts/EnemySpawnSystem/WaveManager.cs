@@ -47,6 +47,10 @@ public class WaveManager : NetworkBehaviour
                     SpawnOnClients();
                 yield return new WaitForSeconds(GameManager.Instance.difficultySettings.enemySpawnRate);
             }
+            while (m_CurrentEnemyCount > 0)
+            {
+                yield return null;
+            }
 
             wave++;
             SetWaveText(wave);
@@ -74,11 +78,11 @@ public class WaveManager : NetworkBehaviour
 
         InstanceFinder.ServerManager.Spawn(nob);
 
+        m_WaveEnemyCountTotal--;
         m_CurrentEnemyCount++;
     }
     public void RemoveEnemy()
     {
         m_CurrentEnemyCount--;
-        m_WaveEnemyCountTotal--;
     }
 }

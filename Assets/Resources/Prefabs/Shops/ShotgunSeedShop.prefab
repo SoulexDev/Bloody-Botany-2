@@ -90,8 +90,8 @@ MonoBehaviour:
       m_Calls: []
   isInteractable: 1
   m_SeedItem: {fileID: 11400000, guid: eb3abbc4a935ac5468c7213a1410e354, type: 2}
-  m_ItemAmount: 4
-  m_Cost: 150
+  m_ItemAmount: 2
+  m_Cost: 250
 --- !u!1 &5659588645762173701
 GameObject:
   m_ObjectHideFlags: 0
