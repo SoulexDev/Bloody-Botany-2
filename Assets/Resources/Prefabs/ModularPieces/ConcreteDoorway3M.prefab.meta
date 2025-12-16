@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 1a016ed382a956949a24643cc26c4dbb
+labels:
+- Actor
 PrefabImporter:
   externalObjects: {}
   userData: 

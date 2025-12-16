@@ -32,6 +32,7 @@ public class Pain : MonoBehaviour
 
     /*-----[ Reference Variables ]------------------------------------------------------------------------------------*/
     private Image image;
+    private Tweener tweener;
     [SerializeField] private HealthComponent healthComponent;
 
 
@@ -61,7 +62,7 @@ public class Pain : MonoBehaviour
     private IEnumerator FadeInColor(Color color)
     {
         isInPain = true;
-        DOVirtual.Color(
+        tweener = DOVirtual.Color(
             new Color(color.r, color.g, color.b, startAlpha), 
             new Color(color.r, color.g, color.b, 0),
             fadeSpeed,
@@ -69,10 +70,22 @@ public class Pain : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         isInPain = false;
     }
+    private IEnumerator FadeInDeath()
+    {
+        isInPain = true;
+        tweener = DOVirtual.Color(
+            new Color(damageColor.r, damageColor.g, damageColor.b, 0), 
+            new Color(damageColor.r, damageColor.g, damageColor.b, startAlpha*2),
+            fadeSpeed,
+            (value) => { image.color = value; });
+        yield return new WaitForSeconds(0.25f);
+        isInPain = false;
+        wasDead = true;
+    }
 
     private void OnHurt()
     {
-        if (!isInPain)
+        if (!isInPain && !wasDead)
         {
             StartCoroutine(FadeInColor(damageColor));
         }
@@ -80,8 +93,9 @@ public class Pain : MonoBehaviour
 
     private void OnDown()
     {
-        image.color = new Color(damageColor.r, damageColor.g, damageColor.b, startAlpha);
-        wasDead = true;
+        StopAllCoroutines();
+        tweener?.Kill();
+        StartCoroutine(FadeInDeath());
     }
     
     private void OnRevived()

@@ -889,7 +889,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584357208900368778
+  _initializedTimestamp: -8584357100887696558
 --- !u!1 &5913598383831571072
 GameObject:
   m_ObjectHideFlags: 0
