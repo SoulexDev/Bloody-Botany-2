@@ -336,12 +336,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_renderer: {fileID: 7187124597779839842}
-  m_maskType: 0
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
+  m_hasFontAssetChanged: 0
+  m_renderer: {fileID: 7187124597779839842}
+  m_maskType: 0
 --- !u!114 &4460209763203115090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,8 +409,6 @@ MonoBehaviour:
     gunData: {fileID: 11400000, guid: 71b87cc0b6ea3d542b93cd6fbd6d4ea8, type: 2}
   - gunType: 1
     gunData: {fileID: 11400000, guid: 2ca6d16d030dfbd45a25c2de28824586, type: 2}
-  - gunType: 2
-    gunData: {fileID: 11400000, guid: bd2c33bc759e44424be0636059540317, type: 2}
   m_Source: {fileID: 8713349601480174801}
   m_NutrientGrenade: {fileID: 11400000, guid: 64805e72f17495a44b7686cdbfcc2fdf, type: 2}
 --- !u!82 &8713349601480174801
@@ -643,9 +641,6 @@ MonoBehaviour:
   - seedType: 1
     spawnPlant: {fileID: 7728708460269067236, guid: 592f044a52e43444587968efa6146496, type: 3}
     seedItem: {fileID: 11400000, guid: 8af1cabb7c6f2e14facfe607c35c2fc0, type: 2}
-  - seedType: 2
-    spawnPlant: {fileID: 7648531372057691117, guid: a0af882b4a3fc9b3089a81780f55e6a1, type: 3}
-    seedItem: {fileID: 11400000, guid: 088622f08127b3deb9fc95e71fcd75ef, type: 2}
 --- !u!1 &8627642662261520234
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,7 +659,6 @@ GameObject:
   - component: {fileID: 5413539972543100265}
   - component: {fileID: 7934133904806874848}
   - component: {fileID: 6729453345303536728}
-  - component: {fileID: 7770545099407083548}
   m_Layer: 6
   m_Name: GameProfile
   m_TagString: Player
@@ -690,6 +684,7 @@ Transform:
   - {fileID: 2196265617542056166}
   - {fileID: 3848616483892486898}
   - {fileID: 879121585602386010}
+  - {fileID: 84167890482767362}
   - {fileID: 2155398245790555863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -910,29 +905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkObserver: {fileID: 0}
-  _enablePrediction: 0
-  _predictionType: 0
-  _graphicalObject: {fileID: 0}
-  _detachGraphicalObject: 0
-  _enableStateForwarding: 1
-  _networkTransform: {fileID: 0}
-  _ownerInterpolation: 1
-  _ownerSmoothedProperties: 255
-  _adaptiveInterpolation: 3
-  _spectatorSmoothedProperties: 255
-  _spectatorInterpolation: 2
-  _enableTeleport: 0
-  _teleportThreshold: 1
-  <PrefabId>k__BackingField: 12
-  <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 15897323952804222068
-  SceneId: 0
-  SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 1, y: 1, z: 1}
-    IsValid: 1
   <IsNested>k__BackingField: 0
   WasActiveDuringEdit: 0
   WasActiveDuringEdit_Set1: 1
@@ -961,7 +933,30 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584357100887696558
+  _initializedTimestamp: -8584357794140839628
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 11
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 15897323952804222068
+  SceneId: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!114 &6729453345303536728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1008,23 +1003,59 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
---- !u!114 &7770545099407083548
+--- !u!1 &9001711201312819383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 84167890482767362}
+  - component: {fileID: 380955154295930591}
+  m_Layer: 6
+  m_Name: StaticMeleeWeapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &84167890482767362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9001711201312819383}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 796776259472616115}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &380955154295930591
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8627642662261520234}
+  m_GameObject: {fileID: 9001711201312819383}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff7a36790e9ba858bfa3ee1ec90c663, type: 3}
+  m_Script: {fileID: 11500000, guid: efcc1b0db0a73e54fb270af67acbb999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeSpeed: 2
-  startAlpha: 0.2
-  damageColor: {r: 0.50980395, g: 0, b: 0, a: 0}
-  reviveColor: {r: 0.37254903, g: 1, b: 0.6627451, a: 0}
-  healthComponent: {fileID: 4017702134905344188}
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7934133904806874848}
+  _networkObjectCache: {fileID: 0}
+  m_MeleeTypeDataPairs:
+  - meleeWeaponType: 0
+    meleeData: {fileID: 11400000, guid: 2f7884ad3a5a3f646b73a6865dbec1f3, type: 2}
+  - meleeWeaponType: 1
+    meleeData: {fileID: 11400000, guid: 2f42931bfdda94b4d8689c76db6af1a6, type: 2}
+  m_NutrientGrenade: {fileID: 11400000, guid: 64805e72f17495a44b7686cdbfcc2fdf, type: 2}
 --- !u!1001 &1451417840268698973
 PrefabInstance:
   m_ObjectHideFlags: 0

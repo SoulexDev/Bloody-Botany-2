@@ -12,6 +12,9 @@ Shader "Bloody Botany/SS Standard"
         [NoScaleOffset][SingleLineTexture] _RoughnessMap ("Roughness Map", 2D) ="white" {}
         _Roughness ("Roughness", Range(0.1, 1.0)) = 0.5
         [NoScaleOffset][SingleLineTexture] _EmissionMap ("Emission Map", 2D) = "black" {}
+
+        _FlashBaseColor ("Flash Base Color", Color) = (0, 0, 0, 0)
+        _Flash ("Flash", Range(0.0, 1.0)) = 0
     }
     SubShader
     {
@@ -32,6 +35,9 @@ Shader "Bloody Botany/SS Standard"
         sampler2D _RoughnessMap;
         half _Roughness;
         sampler2D _EmissionMap;
+
+        half3 _FlashBaseColor;
+        half _Flash;
 
         struct Input
         {
@@ -59,9 +65,11 @@ Shader "Bloody Botany/SS Standard"
             half fresnel = saturate(pow(1 + dot(viewDir, worldNormal), 3));
             half NdotL = saturate(dot(worldNormal, -lightDir) * 0.5 + 0.5);
 
+            half3 flashColor = lerp(lerp(0, _FlashBaseColor, 1 - pow(_Flash - 1, 4)), 1, _Flash);
+
             o.Emission = tex2D(_EmissionMap, IN.uv_MainTex) + 
             step(1 - fresnel, 0.5) * half3(1, 0, 0) + 
-            thickness * fresnel * NdotL * _LightColor0.rgb;
+            thickness * fresnel * NdotL * _LightColor0.rgb + flashColor;
         }
         ENDCG
     }

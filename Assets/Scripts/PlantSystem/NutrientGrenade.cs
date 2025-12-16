@@ -22,7 +22,7 @@ public class NutrientGrenade : Throwable
             if (col.TryGetComponent(out IHealth health) && col.CompareTag("Enemy"))
             {
                 bool died = false;
-                health.ChangeHealth(-2, ref died);
+                health.ChangeHealth(-3, ref died);
 
                 //TODO: Rename all these client callback functions
                 if (died)

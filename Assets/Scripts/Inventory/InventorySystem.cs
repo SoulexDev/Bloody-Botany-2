@@ -11,46 +11,14 @@ public class InventorySystem : NetworkBehaviour
     private List<InventorySlot> m_InventorySlots => CanvasFinder.Instance.inventorySlots;
     private Transform m_ItemSpawnTransform => CameraController.Instance.itemSpawnTransform;
 
-    private GameObject m_GrayoutTop => CanvasFinder.Instance.grayoutTop;
-    private GameObject m_GrayoutBottom => CanvasFinder.Instance.grayoutBottom;
-    private Transform m_SelectAnchor1 => CanvasFinder.Instance.selectAnchor1;
-    private Transform m_SelectAnchor2 => CanvasFinder.Instance.selectAnchor2;
-    private Transform m_TopSelectBar => CanvasFinder.Instance.topSelectBar;
-
-    private TextMeshProUGUI m_TopSelectText1 => CanvasFinder.Instance.topSelectText1;
-    private TextMeshProUGUI m_TopSelectText2 => CanvasFinder.Instance.topSelectText2;
+    private AmmoText m_AmmoText => CanvasFinder.Instance.ammoText;
+    private SelectBar m_SelectBar => CanvasFinder.Instance.selectBar;
 
     private IUsable m_CurrentUsable;
     private Dictionary<int, GameObject> m_SpawnedItems;
     private GameObject m_LastItem;
     private int m_LastIndex = -1;
-    private int m_ColumnIndex = 0;
 
-    private bool m_BotanyModeBuffer = false;
-    private bool m_BotanyMode
-    {
-        get { return m_BotanyModeBuffer; }
-        set
-        {
-            if (m_BotanyModeBuffer != value)
-            {
-                m_BotanyModeBuffer = value;
-
-                //for (int i = 0; i < m_InventorySlots.Count; i++)
-                //{
-                //    print($"{m_InventorySlots[i].item} : {i}");
-                //}
-                
-            }
-            m_TopSelectText1.text = "1 " + m_InventorySlots[value ? 2 : 0].item?.name;
-            m_TopSelectText2.text = "2 " + m_InventorySlots[value ? 3 : 1].item?.name;
-        }
-    }
-
-    //private void Awake()
-    //{
-        
-    //}
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -59,6 +27,9 @@ public class InventorySystem : NetworkBehaviour
             return;
 
         m_SpawnedItems = new Dictionary<int, GameObject>();
+        m_InventorySlots.ForEach(s=>s.InitializeItems());
+
+        SwitchItem(0);
     }
     private void Update()
     {
@@ -67,37 +38,41 @@ public class InventorySystem : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            m_BotanyMode = !m_BotanyMode;
-            m_GrayoutTop.SetActive(m_BotanyMode);
-            m_GrayoutBottom.SetActive(!m_BotanyMode);
-
-            SwitchItem(m_BotanyMode ? m_ColumnIndex + 2 : m_ColumnIndex);
-            m_TopSelectBar.position = m_ColumnIndex == 0 ? m_SelectAnchor1.position : m_SelectAnchor2.position;
+            SwitchItem(0);
         }
-        switch (Input.inputString)
+        else if (Input.mouseScrollDelta.y != 0)
         {
-            case "1":
-                m_ColumnIndex = 0;
-                SwitchItem(m_BotanyMode ? 2 : 0);
-                m_TopSelectBar.position = m_SelectAnchor1.position;
-                break;
-            case "2":
-                m_ColumnIndex = 1;
-                SwitchItem(m_BotanyMode ? 3 : 1);
-                m_TopSelectBar.position = m_SelectAnchor2.position;
-                break;
-            default:
-                break;
+            int nextIndex = m_LastIndex + (Input.mouseScrollDelta.y > 0 ? 1 : -1);
+
+            if (nextIndex < 0)
+                nextIndex = 4;
+            if (nextIndex > 4)
+                nextIndex = 0;
+
+            SwitchItem(nextIndex);
+        }
+        else
+        {
+            int itemIndex = Input.inputString switch
+            {
+                "1" => 1,
+                "2" => 2,
+                "3" => 3,
+                "4" => 4,
+                _ => -1
+            };
+            SwitchItem(itemIndex);
         }
         if (m_CurrentUsable != null)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
+                ItemType type = m_CurrentUsable.slot.item.itemType;
                 m_CurrentUsable.Use();
 
                 if (m_InventorySlots[m_LastIndex].item == null)
                 {
-                    UnequipAll();
+                    Unequip(type);
                 }
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -114,57 +89,85 @@ public class InventorySystem : NetworkBehaviour
             }
         }
     }
-    public void UnequipAll()
+    //TODO: melee fallback
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="toNextItem">Switches to next item instead of switching to melee</param>
+    public void Unequip(ItemType itemType)
     {
-        m_LastIndex = -1;
+        InventorySlot slot = m_InventorySlots.LastOrDefault(s => s.item != null && s.exclusiveItemType == itemType);
 
-        if (m_LastItem)
+        //print($"{slot}, {slot.exclusiveItemType}, {slot.exclusiveItemType != ItemType.Throwable}");
+        if (slot != null)
+            SwitchItem(m_InventorySlots.IndexOf(slot));
+        else
         {
-            m_LastItem.SetActive(false);
-            m_LastItem = null;
+            slot = m_InventorySlots.LastOrDefault(s => s.item != null && s.exclusiveItemType != ItemType.Throwable);
+            if (slot != null)
+                SwitchItem(m_InventorySlots.IndexOf(slot));
         }
+        //m_LastIndex = 0;
 
-        m_CurrentUsable = null;
+        //if (m_LastItem)
+        //{
+        //    m_LastItem.SetActive(false);
+        //    m_LastItem = null;
+        //}
 
-        m_TopSelectBar.gameObject.SetActive(false);
+        //m_CurrentUsable = null;
 
-        SideSelectBar.Instance.DeInitialize();
-        m_InventorySlots.ForEach(s => s.SetCountTextEnabledState(true));
+        //m_SelectBar.SetEnabledState(false);
+
+        //AmmoText.Instance.DeInitialize();
+        //m_InventorySlots.ForEach(s => s.SetSelectedState(true));
     }
-    public void UnequipSlot(InventorySlot slot)
-    {
-        int slotIndex = m_InventorySlots.IndexOf(slot);
-        if (slotIndex == m_LastIndex)
-        {
-            UnequipAll();
-        }
-    }
+    //public void UnequipSlot(InventorySlot slot)
+    //{
+    //    int slotIndex = m_InventorySlots.IndexOf(slot);
+    //    if (slotIndex == m_LastIndex)
+    //    {
+    //        Unequip();
+    //    }
+    //}
+    //TODO: Change select bar logic for item 0
     private void SwitchItem(int itemIndex)
     {
-        if (itemIndex >= m_InventorySlots.Count || m_LastIndex == itemIndex)
+        //Check that item index is in bounds or itemIndex isnt the last switched index
+        if (itemIndex < 0 || itemIndex >= m_InventorySlots.Count || m_LastIndex == itemIndex)
             return;
 
+        //Get the slot and item
         InventorySlot slot = m_InventorySlots[itemIndex];
-
         InventoryItem item = slot.item;
 
+        //Return if item is null
         if (item == null)
         {
-            UnequipAll();
+            //SwitchItem(0);
             return;
         }
 
-        m_TopSelectBar.gameObject.SetActive(true);
+        //Initialize the select bar and set the slot selection states
+        string index = itemIndex switch
+        {
+            0 => "Q",
+            1 => "1",
+            2 => "2",
+            3 => "3",
+            4 => "4",
+            _ => ""
+        };
+        m_SelectBar.SetData(itemIndex == 0, slot.selectBarAnchor.position, item.name, index);
+        //m_InventorySlots.ForEach(s => s.SetSelectedState(false));
+        //slot.SetSelectedState(true);
 
-        m_InventorySlots.ForEach(s => s.SetCountTextEnabledState(true));
-
-        slot.SetCountTextEnabledState(false);
-
+        //'Remove' the last item
         if (m_LastItem)
             m_LastItem.SetActive(false);
 
+        //Get the item object
         GameObject obj;
-
         if (m_SpawnedItems.ContainsKey(itemIndex))
         {
             obj = m_SpawnedItems[itemIndex];
@@ -176,21 +179,22 @@ public class InventorySystem : NetworkBehaviour
             m_SpawnedItems.Add(itemIndex, obj);
         }
 
+        //Initialize ammo text
         if (item.itemType == ItemType.Gun && obj.TryGetComponent(out Gun gun))
-            SideSelectBar.Instance.InitializeValues(slot.selectBarAnchor.position, gun.gunData.magazineSize, gun.ammoCount);
+            AmmoText.Instance.InitializeValues(gun.gunData.magazineSize, gun.ammoCount);
+        else if (itemIndex != 0)
+            AmmoText.Instance.InitializeValues(item.maxStack, slot.itemCount);
         else
-            SideSelectBar.Instance.InitializeValues(slot.selectBarAnchor.position, item.maxStack, slot.itemCount);
+            AmmoText.Instance.DeInitialize();
 
+        //Get usable from item object
         if (obj.TryGetComponent(out IUsable usable))
         {
             usable.slot = slot;
             m_CurrentUsable = usable;
         }
 
-        //TODO: This is a bandaid fix. come back later. also fuck this inventory system.. i gotta fix it up
-        m_TopSelectText1.text = "1 " + m_InventorySlots[m_BotanyMode ? 2 : 0].item?.name;
-        m_TopSelectText2.text = "2 " + m_InventorySlots[m_BotanyMode ? 3 : 1].item?.name;
-
+        //Set last obj and last index
         m_LastItem = obj;
         m_LastIndex = itemIndex;
     }
@@ -237,6 +241,15 @@ public class InventorySystem : NetworkBehaviour
         (s.item == item && s.itemCount + count <= s.item.maxStack) || 
         (s.item == null && (s.exclusiveItemType == item.itemType || s.exclusiveItemType == ItemType.None)));
     }
+    public bool HasItem(InventoryItem item, int count = 1)
+    {
+        InventorySlot slot = m_InventorySlots.FirstOrDefault(s => s.item == item);
+
+        if (slot == null || slot.itemCount - count < 0)
+            return false;
+
+        return true;
+    }
     public bool RemoveItem(InventoryItem item, int count = 1)
     {
         InventorySlot slot = m_InventorySlots.FirstOrDefault(s => s.item == item);
@@ -255,24 +268,21 @@ public class InventorySystem : NetworkBehaviour
                 Destroy(m_SpawnedItems[index]);
                 m_SpawnedItems.Remove(index);
             }
+            if (m_LastIndex == index)
+            {
+                Unequip(item.itemType);
+            }
         }
 
         return true;
     }
-    public bool HasItem(InventoryItem item, int count = 1)
-    {
-        InventorySlot slot = m_InventorySlots.FirstOrDefault(s => s.item == item);
 
-        if (slot == null || slot.itemCount - count < 0)
-            return false;
-
-        return true;
-    }
     public bool RemoveItemFromSlot(InventorySlot slot, int count = 1)
     {
         if (slot == null || slot.itemCount - count < 0)
             return false;
 
+        ItemType type = slot.item.itemType;
         slot.itemCount -= count;
 
         if (slot.item == null)
@@ -284,8 +294,21 @@ public class InventorySystem : NetworkBehaviour
                 Destroy(m_SpawnedItems[index]);
                 m_SpawnedItems.Remove(index);
             }
+            //print($"{m_LastIndex}, {index}");
+            if (m_LastIndex == index)
+            {
+                Unequip(type);
+            }
         }
 
         return true;
+    }
+    public InventorySlot GetSlotFromIndex(int index)
+    {
+        return m_InventorySlots[index];
+    }
+    public int GetIndexFromSlot(InventorySlot slot)
+    {
+        return m_InventorySlots.IndexOf(slot);
     }
 }

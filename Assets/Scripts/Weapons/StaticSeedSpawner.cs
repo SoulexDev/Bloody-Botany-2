@@ -22,17 +22,17 @@ public class StaticSeedSpawner : NetworkBehaviour
             Instance = this;
         }
     }
-    public void TryThrowClient(SeedType seedType)
+    public void TryThrowClient(SeedType seedType, int slotIndex)
     {
         Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f);
         //Check if the player has the seed item and send a throw call to the server
         if (GameProfile.Instance.inventorySystem.HasItem(m_SeedData.First(d=>d.seedType == seedType).seedItem))
         {
-            TryThrowServer(seedType, ray.origin, ray.direction, LocalConnection);
+            TryThrowServer(seedType, ray.origin, ray.direction, slotIndex, LocalConnection);
         }
     }
     [ServerRpc]
-    private void TryThrowServer(SeedType seedType, Vector3 origin, Vector3 direction, NetworkConnection conn)
+    private void TryThrowServer(SeedType seedType, Vector3 origin, Vector3 direction, int slotIndex, NetworkConnection conn)
     {
         //Try to throw on the server
         Ray ray = new Ray(origin, direction);
@@ -53,26 +53,21 @@ public class StaticSeedSpawner : NetworkBehaviour
 
                 InstanceFinder.ServerManager.Spawn(nob);
 
-                SeedPlantCallback(conn, seedType, true);
+                SeedPlantCallback(conn, seedType, slotIndex);
             }
-            else
-                SeedPlantCallback(conn, seedType, false);
         }
-        else
-            SeedPlantCallback(conn, seedType, false);
     }
     //Confirm on the client that a seed was planted and remove the seed item
     //TODO: Handle either throw animation or no throw animation
     [TargetRpc]
-    private void SeedPlantCallback(NetworkConnection conn, SeedType seedType, bool value)
+    private void SeedPlantCallback(NetworkConnection conn, SeedType seedType, int slotIndex)
     {
-        if (!value)
-            return;
-
         if (!GameProfile.Instance.inventorySystem.RemoveItem(m_SeedData.First(d => d.seedType == seedType).seedItem))
         {
             Debug.LogError("Failed to plant seed after confirmation. Client desync");
         }
+        else
+            AmmoText.Instance.UpdateValue(GameProfile.Instance.inventorySystem.GetSlotFromIndex(slotIndex).itemCount);
     }
 }
 [System.Serializable]

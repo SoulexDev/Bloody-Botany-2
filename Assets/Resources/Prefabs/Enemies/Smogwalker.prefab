@@ -82,26 +82,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.16850545
-      outSlope: -0.16850545
+      inSlope: 0.3435254
+      outSlope: 0.3435254
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.43066555
-      value: 0.9274305
+      time: 0.5819343
+      value: 1.1999092
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6707152
-      value: 1.134094
-      inSlope: 0.89947367
-      outSlope: 0.89947367
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -124,15 +115,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.299019
-      outSlope: -0.299019
+      inSlope: -0.7647401
+      outSlope: -0.7647401
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.2206037
-      value: 0.9340353
+      time: 0.24627313
+      value: 0.81166506
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -140,17 +131,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.49330834
-      value: 1.0780209
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.7549411
-      value: 0.9698984
+      time: 0.87325215
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -169,6 +151,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_Renderer: {fileID: 7858863371963164625}
 --- !u!195 &5501940557690022087
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -226,6 +209,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
+  - {fileID: 2858791899941378571}
+  - {fileID: -7237764966898275374}
+  - {fileID: 2049011796896343087}
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedTimestamp: -8584356942296045279
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -249,27 +253,6 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
-  <IsNested>k__BackingField: 0
-  WasActiveDuringEdit: 0
-  WasActiveDuringEdit_Set1: 1
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours:
-  - {fileID: 2858791899941378571}
-  - {fileID: -7237764966898275374}
-  - {fileID: 2049011796896343087}
-  InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
-  RuntimeParentNetworkBehaviour: {fileID: 0}
-  RuntimeChildNetworkBehaviours: []
-  _isNetworked: 1
-  _isSpawnable: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _preventDespawnOnDisconnect: 0
-  _defaultDespawnType: 0
-  _initializedTimestamp: -8584357100887696558
 --- !u!114 &-7237764966898275374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,3 +547,8 @@ MonoBehaviour:
   _interpolation: 2
   _clientAuthoritative: 1
   _sendToOwner: 0
+--- !u!137 &7858863371963164625 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4845512115279114820, guid: 969860c90ee96a64f92c2c54dfc0139b, type: 3}
+  m_PrefabInstance: {fileID: 5895496677516552813}
+  m_PrefabAsset: {fileID: 0}

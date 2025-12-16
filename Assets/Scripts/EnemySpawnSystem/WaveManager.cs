@@ -20,6 +20,10 @@ public class WaveManager : NetworkBehaviour
     {
         Instance = this;
     }
+    private void Start()
+    {
+        CanvasFinder.Instance.roundText.text = $"Round {1}";
+    }
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -27,8 +31,6 @@ public class WaveManager : NetworkBehaviour
         StartCoroutine(HandleWaves());
 
         m_MobCap = GameManager.Instance.difficultySettings.mobCap * InstanceFinder.ClientManager.Clients.Count;
-
-        SetWaveText(1);
     }
     private IEnumerator HandleWaves()
     {
@@ -53,7 +55,7 @@ public class WaveManager : NetworkBehaviour
     [ObserversRpc]
     public void SetWaveText(int wave)
     {
-        CanvasFinder.Instance.roundText.text = $"Round: {wave + 1}";
+        CanvasFinder.Instance.roundText.text = $"Round {wave + 1}";
     }
     [ObserversRpc]
     public void SpawnOnClients()
@@ -73,10 +75,10 @@ public class WaveManager : NetworkBehaviour
         InstanceFinder.ServerManager.Spawn(nob);
 
         m_CurrentEnemyCount++;
-        m_WaveEnemyCountTotal--;
     }
     public void RemoveEnemy()
     {
         m_CurrentEnemyCount--;
+        m_WaveEnemyCountTotal--;
     }
 }
