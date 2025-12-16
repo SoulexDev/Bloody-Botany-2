@@ -409,6 +409,8 @@ MonoBehaviour:
     gunData: {fileID: 11400000, guid: 71b87cc0b6ea3d542b93cd6fbd6d4ea8, type: 2}
   - gunType: 1
     gunData: {fileID: 11400000, guid: 2ca6d16d030dfbd45a25c2de28824586, type: 2}
+  - gunType: 2
+    gunData: {fileID: 11400000, guid: bd2c33bc759e44424be0636059540317, type: 2}
   m_Source: {fileID: 8713349601480174801}
   m_NutrientGrenade: {fileID: 11400000, guid: 64805e72f17495a44b7686cdbfcc2fdf, type: 2}
 --- !u!82 &8713349601480174801
@@ -641,6 +643,9 @@ MonoBehaviour:
   - seedType: 1
     spawnPlant: {fileID: 7728708460269067236, guid: 592f044a52e43444587968efa6146496, type: 3}
     seedItem: {fileID: 11400000, guid: 8af1cabb7c6f2e14facfe607c35c2fc0, type: 2}
+  - seedType: 2
+    spawnPlant: {fileID: 7648531372057691117, guid: a0af882b4a3fc9b3089a81780f55e6a1, type: 3}
+    seedItem: {fileID: 11400000, guid: 088622f08127b3deb9fc95e71fcd75ef, type: 2}
 --- !u!1 &8627642662261520234
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,6 +873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   callHealthLostEventOnDeplete: 1
+  clampHealth: 1
 --- !u!114 &5413539972543100265
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum GunType { Shotgun, SMG }
+public enum GunType { Shotgun, SMG, Pistol }
 public class StaticGun : NetworkBehaviour
 {
     public static StaticGun Instance;

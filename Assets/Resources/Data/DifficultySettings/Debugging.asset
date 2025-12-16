@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Debugging
   m_EditorClassIdentifier: 
   prepTimeSeconds: 5
-  maxGuns: 15
-  plantGrowthRate: 0
+  plantGrowthRate: 0.1
+  enemyWaveHealthMultiplicationRate: 1.25
+  baseWaveEnemyCount: 2
+  addEnemyCountPerWaveMultiplier: 1
+  mobCap: 16
+  enemySpawnRate: 4
