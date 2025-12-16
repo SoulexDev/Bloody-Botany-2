@@ -7,6 +7,7 @@ public class HealthComponent : MonoBehaviour, IHealth
 {
     public int maxHealth = 15;
     public bool callHealthLostEventOnDeplete = true;
+    public bool clampHealth = true;
 
     private int m_HealthBuffer;
     public int health
@@ -16,7 +17,10 @@ public class HealthComponent : MonoBehaviour, IHealth
         {
             float lastHealth = m_HealthBuffer;
 
-            m_HealthBuffer = Mathf.Max(value, 0);
+            if (clampHealth)
+                m_HealthBuffer = Mathf.Clamp(value, 0, maxHealth);
+            else
+                m_HealthBuffer = Mathf.Max(value, 0);
 
             if (m_HealthBuffer <= 0)
             {

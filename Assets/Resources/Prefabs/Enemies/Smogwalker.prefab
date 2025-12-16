@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 4
   callHealthLostEventOnDeplete: 0
-  setHealthAtAwake: 0
+  clampHealth: 0
 --- !u!114 &2858791899941378571
 MonoBehaviour:
   m_ObjectHideFlags: 0

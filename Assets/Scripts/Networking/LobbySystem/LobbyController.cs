@@ -61,7 +61,7 @@ public class LobbyController : NetworkBehaviour
                 {
                     NetworkObject nob = NetworkManager.GetPooledInstantiated(m_GameProfile, 
                         SpawnFinder.Instance.m_Spawns[i].position, Quaternion.identity, true);
-                    NetworkManager.ServerManager.Spawn(nob, NetProfileManager.Instance.netProfiles[i].Owner);
+                    InstanceFinder.ServerManager.Spawn(nob, NetProfileManager.Instance.netProfiles[i].Owner);
                     print(NetProfileManager.Instance.netProfiles[i].Owner);
                 }
 

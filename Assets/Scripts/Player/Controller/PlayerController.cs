@@ -67,6 +67,10 @@ public class PlayerController : StateMachine<PlayerController>
         if (!IsOwner)
             return;
 
+        if (transform.position.y <= -100)
+        {
+            transform.position = Vector3.up * 100;
+        }
         if (GameProfile.Instance.playerHealth.dead.Value)
         {
             inputVector = Vector2.zero;
