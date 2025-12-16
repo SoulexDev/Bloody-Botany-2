@@ -19,13 +19,15 @@ public class Pain : MonoBehaviour
     /*-----[ Inspector Variables ]------------------------------------------------------------------------------------*/
     public float fadeSpeed=1;
     public float startAlpha=1;
-
+    public Color damageColor, reviveColor;
+    
 
     /*-----[ External Variables ]-------------------------------------------------------------------------------------*/
 
 
     /*-----[ Internal Variables ]-------------------------------------------------------------------------------------*/
     private bool isInPain; // Used to keep track of if we are currently fading the image in or out (Fadeout: Underground reference?)
+    private bool wasDead;
     
 
     /*-----[ Reference Variables ]------------------------------------------------------------------------------------*/
@@ -42,27 +44,28 @@ public class Pain : MonoBehaviour
     {
         image = CanvasFinder.Instance.painImage;
         healthComponent.OnHealthLost += OnHurt;
+        healthComponent.OnHealthDepleted += OnDown;
+        healthComponent.OnHealthChanged += OnRevived;
     }
 
     private void OnDestroy()
     {
         healthComponent.OnHealthLost -= OnHurt;
+        healthComponent.OnHealthDepleted -= OnDown;
+        healthComponent.OnHealthChanged -= OnRevived;
     }
 
 
     /*-----[ Internal Functions ]-------------------------------------------------------------------------------------*/
 
-    private IEnumerator FadeInPain()
+    private IEnumerator FadeInColor(Color color)
     {
         isInPain = true;
         DOVirtual.Color(
-            new Color(image.color.r, image.color.g, image.color.b, startAlpha), 
-            new Color(image.color.r, image.color.g, image.color.b, 0),
+            new Color(color.r, color.g, color.b, startAlpha), 
+            new Color(color.r, color.g, color.b, 0),
             fadeSpeed,
-            (value) =>
-            {
-                image.color = value;
-            });
+            (value) => { image.color = value; });
         yield return new WaitForSeconds(0.25f);
         isInPain = false;
     }
@@ -71,8 +74,22 @@ public class Pain : MonoBehaviour
     {
         if (!isInPain)
         {
-            StartCoroutine(FadeInPain());
+            StartCoroutine(FadeInColor(damageColor));
         }
+    }
+
+    private void OnDown()
+    {
+        image.color = new Color(damageColor.r, damageColor.g, damageColor.b, startAlpha);
+        wasDead = true;
+    }
+    
+    private void OnRevived()
+    {
+        if (healthComponent.health <= 0) return;
+        if (!wasDead) return;
+        wasDead = false;
+        StartCoroutine(FadeInColor(reviveColor));
     }
 
 

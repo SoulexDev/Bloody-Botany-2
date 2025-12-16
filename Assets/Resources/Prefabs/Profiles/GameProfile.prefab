@@ -1022,6 +1022,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeSpeed: 2
   startAlpha: 0.2
+  damageColor: {r: 0.50980395, g: 0, b: 0, a: 0}
+  reviveColor: {r: 0.37254903, g: 1, b: 0.6627451, a: 0}
   healthComponent: {fileID: 4017702134905344188}
 --- !u!1001 &1451417840268698973
 PrefabInstance:
