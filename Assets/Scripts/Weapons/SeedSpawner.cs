@@ -24,6 +24,6 @@ public class SeedSpawner : MonoBehaviour, IUsable
     }
     public void Use()
     {
-        StaticSeedSpawner.Instance.TryThrowClient(m_SeedType);
+        StaticSeedSpawner.Instance.TryThrowClient(m_SeedType, GameProfile.Instance.inventorySystem.GetIndexFromSlot(slot));
     }
 }

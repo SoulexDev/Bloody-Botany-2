@@ -19,7 +19,19 @@ public class Smogwalker : StateMachine<Smogwalker>
 
     [SerializeField] private AnimationCurve m_ImpactXZCurve;
     [SerializeField] private AnimationCurve m_ImpactYCurve;
+    [SerializeField] private Renderer m_Renderer;
+    private Material m_RendMat;
 
+    private void Awake()
+    {
+        Material[] mats = m_Renderer.sharedMaterials;
+        mats[0] = new Material(mats[0]);
+
+        m_RendMat = mats[0];
+        m_Renderer.sharedMaterials = mats;
+
+        m_RendMat.SetFloat("_Flash", 0);
+    }
     private void OnDestroy()
     {
         if (!IsServerInitialized)
@@ -117,9 +129,13 @@ public class Smogwalker : StateMachine<Smogwalker>
 
             visual.localScale = new Vector3(xz, y, xz);
 
+            m_RendMat.SetFloat("_Flash", 1 - 4 * (timer - 0.5f) * (timer - 0.5f));
+
             timer += Time.deltaTime * 5;
             yield return null;
         }
+
+        m_RendMat.SetFloat("_Flash", 0);
 
         visual.localScale = Vector3.one;
     }

@@ -74,7 +74,7 @@ public class Gun : MonoBehaviour, IUsable
 
         ammoCount -= 1;
 
-        SideSelectBar.Instance.UpdateValue(ammoCount);
+        AmmoText.Instance.UpdateValue(ammoCount);
 
         if (ammoCount <= 0)
         {
@@ -105,7 +105,7 @@ public class Gun : MonoBehaviour, IUsable
 
         if (GameProfile.Instance.inventorySystem.RemoveItemFromSlot(slot))
         {
-            GameProfile.Instance.inventorySystem.UnequipSlot(slot);
+            //GameProfile.Instance.inventorySystem.UnequipSlot(slot);
         }
         else
         {

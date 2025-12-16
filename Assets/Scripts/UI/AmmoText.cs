@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SideSelectBar : MonoBehaviour
+public class AmmoText : MonoBehaviour
 {
-    public static SideSelectBar Instance;
+    public static AmmoText Instance;
 
-    [SerializeField] private GameObject m_Display;
     [SerializeField] private TextMeshProUGUI m_DisplayText;
 
     private int m_MaxValue;
@@ -16,13 +15,12 @@ public class SideSelectBar : MonoBehaviour
     {
         Instance = this;
     }
-    public void InitializeValues(Vector3 position, int maxValue, int currentValue)
+    public void InitializeValues(int maxValue, int currentValue)
     {
-        transform.position = position;
         m_MaxValue = maxValue;
 
         m_DisplayText.text = currentValue.ToString("D2") + "/" + m_MaxValue.ToString("D2");
-        m_Display.SetActive(true);
+        m_DisplayText.enabled = true;
     }
     public void UpdateValue(int value)
     {
@@ -30,6 +28,6 @@ public class SideSelectBar : MonoBehaviour
     }
     public void DeInitialize()
     {
-        m_Display.SetActive(false);
+        m_DisplayText.enabled = false;
     }
 }
