@@ -19,7 +19,7 @@ TagManager:
   - Enemy
   - Ignore Player
   - Ignore Enemy
-  - Trigger
+  - NoCollision
   - Terrain
   - InvisibleWalls
   - NoNav

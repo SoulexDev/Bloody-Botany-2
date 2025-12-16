@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class InventorySystem : NetworkBehaviour
 {
@@ -25,6 +24,7 @@ public class InventorySystem : NetworkBehaviour
     private Dictionary<int, GameObject> m_SpawnedItems;
     private GameObject m_LastItem;
     private int m_LastIndex = -1;
+    private int m_ColumnIndex = 0;
 
     private bool m_BotanyModeBuffer = false;
     private bool m_BotanyMode
@@ -70,16 +70,19 @@ public class InventorySystem : NetworkBehaviour
             m_BotanyMode = !m_BotanyMode;
             m_GrayoutTop.SetActive(m_BotanyMode);
             m_GrayoutBottom.SetActive(!m_BotanyMode);
-            SwitchItem(m_BotanyMode ? 2 : 0);
-            m_TopSelectBar.position = m_SelectAnchor1.position;
+
+            SwitchItem(m_BotanyMode ? m_ColumnIndex + 2 : m_ColumnIndex);
+            m_TopSelectBar.position = m_ColumnIndex == 0 ? m_SelectAnchor1.position : m_SelectAnchor2.position;
         }
         switch (Input.inputString)
         {
             case "1":
+                m_ColumnIndex = 0;
                 SwitchItem(m_BotanyMode ? 2 : 0);
                 m_TopSelectBar.position = m_SelectAnchor1.position;
                 break;
             case "2":
+                m_ColumnIndex = 1;
                 SwitchItem(m_BotanyMode ? 3 : 1);
                 m_TopSelectBar.position = m_SelectAnchor2.position;
                 break;

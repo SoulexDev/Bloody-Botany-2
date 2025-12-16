@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Rb: {fileID: 2514371797713992113}
   m_Col: {fileID: 6356635307246165787}
   m_ThrowForce: 16
+  m_Item: {fileID: 11400000, guid: 64805e72f17495a44b7686cdbfcc2fdf, type: 2}
   m_SplashEffect: {fileID: 1874256831651898077, guid: 5130d5f004d5b4b4fb8725a8915157ea, type: 3}
   m_EffectRadius: 2
 --- !u!114 &-1555870956254080410

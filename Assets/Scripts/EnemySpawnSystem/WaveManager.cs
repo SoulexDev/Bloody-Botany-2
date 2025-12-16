@@ -53,7 +53,7 @@ public class WaveManager : NetworkBehaviour
     [ObserversRpc]
     public void SetWaveText(int wave)
     {
-        CanvasFinder.Instance.roundText.text = $"Round: {wave}";
+        CanvasFinder.Instance.roundText.text = $"Round: {wave + 1}";
     }
     [ObserversRpc]
     public void SpawnOnClients()

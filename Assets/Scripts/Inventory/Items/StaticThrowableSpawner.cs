@@ -1,4 +1,5 @@
 using FishNet;
+using FishNet.Connection;
 using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,17 +30,17 @@ public class StaticThrowableSpawner : NetworkBehaviour
         {
             Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f);
 
-            ThrowServer(throwableType, ray.origin, ray.direction);
+            ThrowServer(throwableType, ray.origin, ray.direction, Owner);
         }
     }
     [ServerRpc]
-    private void ThrowServer(ThrowableType throwableType, Vector3 origin, Vector3 direction)
+    private void ThrowServer(ThrowableType throwableType, Vector3 origin, Vector3 direction, NetworkConnection conn)
     {
         ThrowableData data = m_ThrowableData.First(t => t.throwableType == throwableType);
 
         NetworkObject nob = InstanceFinder.NetworkManager.GetPooledInstantiated(data.throwable, origin, Quaternion.identity, true);
 
-        InstanceFinder.ServerManager.Spawn(nob);
+        InstanceFinder.ServerManager.Spawn(nob, conn);
 
         if (nob.TryGetComponent(out Throwable throwable))
         {

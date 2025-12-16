@@ -40,7 +40,11 @@ public class Smogwalker : StateMachine<Smogwalker>
         healthComponent.OnHealthDepleted += Die;
         healthComponent.OnHealthLost += DoImpactEffect;
 
-        healthComponent.health = Mathf.RoundToInt(healthComponent.health * GameManager.Instance.GetEnemyHealthMultiplier());
+        healthComponent.health = Mathf.RoundToInt(healthComponent.maxHealth * GameManager.Instance.GetEnemyHealthMultiplier());
+
+        print($"Float value:{healthComponent.maxHealth * GameManager.Instance.GetEnemyHealthMultiplier()}, " +
+            $"Int value:{Mathf.RoundToInt(healthComponent.maxHealth * GameManager.Instance.GetEnemyHealthMultiplier())}, " +
+            $"Final value:{healthComponent.health}");
     }
     [Server]
     public Vector3 GetNearestTarget(out SmogwalkerTarget targetType)

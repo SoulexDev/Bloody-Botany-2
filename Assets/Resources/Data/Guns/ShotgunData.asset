@@ -16,7 +16,7 @@ MonoBehaviour:
   gunItem: {fileID: 11400000, guid: 3899e094a6f71154d9abde890a8fc098, type: 2}
   fireRate: 0.8
   spread: 0.05
-  damage: 1
+  damage: 2
   damageFalloff:
     serializedVersion: 2
     m_Curve:

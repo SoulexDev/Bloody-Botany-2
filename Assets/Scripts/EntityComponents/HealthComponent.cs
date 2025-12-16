@@ -16,7 +16,7 @@ public class HealthComponent : MonoBehaviour, IHealth
         {
             float lastHealth = m_HealthBuffer;
 
-            m_HealthBuffer = Mathf.Clamp(value, 0, maxHealth);
+            m_HealthBuffer = Mathf.Max(value, 0);
 
             if (m_HealthBuffer <= 0)
             {
