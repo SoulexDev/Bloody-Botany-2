@@ -1,4 +1,6 @@
+using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using TMPro;
 using UnityEngine;
 

@@ -1,7 +1,6 @@
 using FishNet;
 using FishNet.Object;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -50,14 +49,12 @@ public class Smogwalker : StateMachine<Smogwalker>
         healthComponent.OnHealthDepleted += Die;
         healthComponent.OnHealthLost += DoImpactEffect;
 
-        float buff = Random.Range(0, 5) switch
+        float buff = Random.Range(0, 3) switch
         {
-            0 => 0f,
-            1 => 0.25f,
-            2 => 0.5f,
-            3 => 0.75f,
-            4 => 1f,
-            _ => 0
+            0 => 0.5f,
+            1 => 1f,
+            2 => 2f,
+            _ => 0.5f
         };
 
         healthComponent.health = GameManager.Instance.GetEnemyHealth(healthComponent.maxHealth, buff);

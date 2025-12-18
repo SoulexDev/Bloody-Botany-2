@@ -24,6 +24,9 @@ public class Throwable : NetworkBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if (!IsServerInitialized)
+            return;
+
         OnImpact(collision);
     }
     [Server]

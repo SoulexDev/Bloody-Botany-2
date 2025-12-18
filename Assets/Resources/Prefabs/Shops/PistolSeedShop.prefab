@@ -91,8 +91,8 @@ MonoBehaviour:
       m_Calls: []
   isInteractable: 1
   m_SeedItem: {fileID: 11400000, guid: 088622f08127b3deb9fc95e71fcd75ef, type: 2}
-  m_ItemAmount: 4
-  m_Cost: 100
+  m_ItemAmount: 2
+  m_Cost: 50
 --- !u!114 &3046575612360134224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584356832653012349
+  _initializedTimestamp: -8584356127365306925
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0

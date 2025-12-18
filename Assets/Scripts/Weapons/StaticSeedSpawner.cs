@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public enum SeedType : byte { Shotgun, SMG, Pistol }
+public enum SeedType : byte { Shotgun, SMG, Pistol, Revolver }
 public class StaticSeedSpawner : NetworkBehaviour
 {
     public static StaticSeedSpawner Instance;

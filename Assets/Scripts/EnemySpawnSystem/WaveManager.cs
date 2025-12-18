@@ -31,6 +31,8 @@ public class WaveManager : NetworkBehaviour
         StartCoroutine(HandleWaves());
 
         m_MobCap = GameManager.Instance.difficultySettings.mobCap * InstanceFinder.ClientManager.Clients.Count;
+
+        print(m_MobCap);
     }
     private IEnumerator HandleWaves()
     {

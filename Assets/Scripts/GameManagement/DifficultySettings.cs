@@ -12,4 +12,6 @@ public class DifficultySettings : ScriptableObject
     [Tooltip("Enemy health growth multipler per wave")] public float enemySpeedBuffMultiplicationRate = 1.25f;
     [Tooltip("Enemy speed growth multipler per wave")] public float enemyHealthBuffMultiplicationRate = 1.05f;
     [Tooltip("Enemy damage growth multipler per wave")] public float enemyDamageBuffMultiplicationRate = 1.025f;
+    public int onKillPaymentLowerBound = 25;
+    public int onKillPaymentUpperBound = 100;
 }

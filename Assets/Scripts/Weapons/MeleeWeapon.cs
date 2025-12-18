@@ -40,6 +40,9 @@ public class MeleeWeapon : MonoBehaviour, IUsable
     }
     private void Update()
     {
+        if (GameProfile.Instance.playerHealth.dead.Value)
+            return;
+
         if (m_Swinging)
         {
             if (m_OnCooldown)

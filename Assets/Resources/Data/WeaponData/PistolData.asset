@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54d2d325a66b5148ad252c38a63541e, type: 3}
   m_Name: PistolData
   m_EditorClassIdentifier: 
-  automatic: 0
+  automatic: 1
   gunItem: {fileID: 11400000, guid: c38ffd57f15b71cef97ea0813a02590e, type: 2}
-  fireRate: 0.45
+  fireRate: 0.2
   spread: 0.005
-  damage: 4
+  damage: 2
   damageFalloff:
     serializedVersion: 2
     m_Curve:
@@ -42,5 +42,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   bulletsPerShot: 1
-  magazineSize: 6
-  fireSound: {fileID: 8300000, guid: b83baf38c46467f45b0c1752f04a2b32, type: 3}
+  magazineSize: 16
+  fireSound: {fileID: 8300000, guid: 8b17e8eb03578e445bc2af6ae4965d15, type: 3}

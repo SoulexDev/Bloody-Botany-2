@@ -15,9 +15,11 @@ MonoBehaviour:
   prepTimeSeconds: 6
   plantGrowthRate: 2
   baseWaveEnemyCount: 2
-  addEnemyCountPerWaveMultiplier: 2
-  mobCap: 16
+  addEnemyCountPerWaveMultiplier: 1.25
+  mobCap: 24
   enemySpawnRate: 2
-  enemySpeedBuffMultiplicationRate: 0.05
-  enemyHealthBuffMultiplicationRate: 0.025
-  enemyDamageBuffMultiplicationRate: 0.1
+  enemySpeedBuffMultiplicationRate: 0.15
+  enemyHealthBuffMultiplicationRate: 0.075
+  enemyDamageBuffMultiplicationRate: 0.2
+  onKillPaymentLowerBound: 50
+  onKillPaymentUpperBound: 100

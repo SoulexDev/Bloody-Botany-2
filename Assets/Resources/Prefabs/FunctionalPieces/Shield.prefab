@@ -263,7 +263,7 @@ MonoBehaviour:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
     _value: 0
-  m_MaxHealth: 100
+  m_MaxHealth: 200
   m_RepairCost: 500
   m_ShieldVolume: {fileID: 6726170742145142708}
 --- !u!114 &1609375739007594702
@@ -296,7 +296,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584356843339688645
+  _initializedTimestamp: -8584355318777149063
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -311,7 +311,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 10
+  <PrefabId>k__BackingField: 11
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 12729536000686963334
   SceneId: 0

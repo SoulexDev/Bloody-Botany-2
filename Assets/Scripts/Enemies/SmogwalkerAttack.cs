@@ -20,6 +20,11 @@ public class SmogwalkerAttack : State<Smogwalker>
     {
         Vector3 targetPos = ctx.GetNearestTarget(out SmogwalkerTarget targetType);
 
+        Vector3 lookDir = targetPos - ctx.transform.position;
+        lookDir.y = 0;
+
+        ctx.transform.forward = lookDir;
+
         if (ctx.SwitchByCondition(SmogwalkerState.Chase, Vector3.Distance(ctx.transform.position, targetPos) > 2f))
             return;
     }

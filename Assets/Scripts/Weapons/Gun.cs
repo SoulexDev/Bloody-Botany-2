@@ -78,6 +78,7 @@ public class Gun : MonoBehaviour, IUsable
 
         if (ammoCount <= 0)
         {
+            Crosshair.Instance.SetCrosshairOuterState(false);
             GameProfile.Instance.StartCoroutine(Wilt());
         }
     }

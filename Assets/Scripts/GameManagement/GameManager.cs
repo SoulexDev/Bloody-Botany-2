@@ -25,8 +25,7 @@ public class GameManager : MonoBehaviour
     }
     public int GetEnemyHealth(int baseNum, float buff)
     {
-        float mult = 1f + difficultySettings.enemyHealthBuffMultiplicationRate * WaveManager.Instance.wave * buff;
-        return Mathf.RoundToInt(baseNum + mult);
+        return Mathf.RoundToInt(baseNum + difficultySettings.enemyHealthBuffMultiplicationRate * WaveManager.Instance.wave * buff);
     }
     public float GetEnemySpeed(float baseNum, float buff)
     {

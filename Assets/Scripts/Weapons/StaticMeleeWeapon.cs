@@ -30,21 +30,23 @@ public class StaticMeleeWeapon : NetworkBehaviour
     public void MeleeServer(MeleeWeaponType meleeWeaponType, Vector3 origin, Vector3 direction, NetworkConnection conn)
     {
         MeleeData data = m_MeleeTypeDataPairs.First(d=>d.meleeWeaponType == meleeWeaponType).meleeData;
+        Collider[] cols = Physics.OverlapSphere(origin + direction * 1.5f, 2, GameManager.Instance.playerIgnoreMask);
 
-        Ray ray = new Ray(origin, direction);
-        if (Physics.SphereCast(ray, 0.5f, out RaycastHit hit, 2, GameManager.Instance.playerIgnoreMask))
+        int sweepTotal = 0;
+
+        foreach (Collider col in cols)
         {
-            Collider[] cols = Physics.OverlapSphere(hit.point, 2, GameManager.Instance.playerIgnoreMask);
+            if (sweepTotal >= data.sweepCount)
+                break;
 
-            foreach (Collider col in cols)
+            if (col.CompareTag("Enemy") && col.TryGetComponent(out IHealth health))
             {
-                if (col.CompareTag("Enemy") && col.TryGetComponent(out IHealth health))
-                {
-                    bool died = false;
-                    health.ChangeHealth(-data.damage, ref died);
+                sweepTotal++;
 
-                    ClientCallback(conn, died);
-                }
+                bool died = false;
+                health.ChangeHealth(-data.damage, ref died);
+
+                ClientCallback(conn, died);
             }
         }
     }
@@ -53,7 +55,10 @@ public class StaticMeleeWeapon : NetworkBehaviour
     {
         if (died)
         {
-            GameProfile.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
+            GameProfile.Instance.currencySystem.AddCurrency(Random.Range(
+            GameManager.Instance.difficultySettings.onKillPaymentLowerBound,
+            GameManager.Instance.difficultySettings.onKillPaymentUpperBound));
+
             GameProfile.Instance.inventorySystem.AddItem(m_NutrientGrenade, 1);
         }
     }

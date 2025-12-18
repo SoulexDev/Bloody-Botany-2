@@ -7,4 +7,5 @@ public class MeleeData : ScriptableObject
 {
     public int damage;
     public float hitRate = 0.75f;
+    public int sweepCount = 2;
 }

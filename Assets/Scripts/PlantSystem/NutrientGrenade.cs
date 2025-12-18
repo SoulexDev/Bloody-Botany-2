@@ -1,7 +1,5 @@
 using FishNet.Connection;
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NutrientGrenade : Throwable
@@ -9,8 +7,8 @@ public class NutrientGrenade : Throwable
     [SerializeField] private InventoryItem m_Item;
     [SerializeField] private GameObject m_SplashEffect;
     [SerializeField] private float m_EffectRadius = 2;
+    [SerializeField] private int m_Damage = 2;
 
-    [Server]
     public override void OnImpact(Collision collision)
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, m_EffectRadius);
@@ -24,7 +22,7 @@ public class NutrientGrenade : Throwable
             if (col.TryGetComponent(out IHealth health) && col.CompareTag("Enemy"))
             {
                 bool died = false;
-                health.ChangeHealth(-3, ref died);
+                health.ChangeHealth(-m_Damage, ref died);
 
                 //TODO: Rename all these client callback functions
                 if (died)
@@ -45,7 +43,7 @@ public class NutrientGrenade : Throwable
     [TargetRpc]
     private void ImpactClientCallback(NetworkConnection conn)
     {
-        GameProfile.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
-        GameProfile.Instance.inventorySystem.AddItem(m_Item, 1);
+        GameProfile.Instance.currencySystem.AddCurrency(Random.Range(10, 50));
+        //GameProfile.Instance.inventorySystem.AddItem(m_Item, 1);
     }
 }

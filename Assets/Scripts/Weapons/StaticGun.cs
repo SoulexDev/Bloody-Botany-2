@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum GunType { Shotgun, SMG, Pistol }
+public enum GunType { Shotgun, SMG, Pistol, Revolver }
 public class StaticGun : NetworkBehaviour
 {
     public static StaticGun Instance;
@@ -60,7 +60,11 @@ public class StaticGun : NetworkBehaviour
     {
         if (died)
         {
-            GameProfile.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
+            //TODO: Move on kill logic elsewhere
+            GameProfile.Instance.currencySystem.AddCurrency(Random.Range(
+            GameManager.Instance.difficultySettings.onKillPaymentLowerBound,
+            GameManager.Instance.difficultySettings.onKillPaymentUpperBound));
+
             GameProfile.Instance.inventorySystem.AddItem(m_NutrientGrenade, 1);
         }
     }
