@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,7 @@ public class BlockageShop : Interactable
         }
     }
     [ServerRpc(RequireOwnership = false)]
-    private void TryDisableServer(NetworkConnection conn)
+    private void TryDisableServer(NetworkConnection conn, Channel channel = Channel.Unreliable)
     {
         if (m_Bought)
             return;
@@ -39,12 +40,12 @@ public class BlockageShop : Interactable
         DisableObservers();
     }
     [ObserversRpc]
-    private void DisableObservers()
+    private void DisableObservers(Channel channel = Channel.Unreliable)
     {
         gameObject.SetActive(false);
     }
     [TargetRpc]
-    private void BoughtClientCallback(NetworkConnection conn)
+    private void BoughtClientCallback(NetworkConnection conn, Channel channel = Channel.Unreliable)
     {
         if (!GameProfile.Instance.currencySystem.SpendCurrency(m_Cost))
             Debug.LogError("Player somehow doesn't have enough currency, even with the client checking");

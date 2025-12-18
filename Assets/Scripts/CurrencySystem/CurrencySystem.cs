@@ -43,7 +43,7 @@ public class CurrencySystem : NetworkBehaviour
     }
     public bool SpendCurrency(int amount)
     {
-        print(m_CurrencyAmount - amount);
+        //print(m_CurrencyAmount - amount);
         if (m_CurrencyAmount - amount < 0)
             return false;
 

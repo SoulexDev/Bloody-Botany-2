@@ -19,6 +19,8 @@ public class Smogwalker : StateMachine<Smogwalker>
     [SerializeField] private Renderer m_Renderer;
     private Material m_RendMat;
 
+    [HideInInspector] public float animsSpeed;
+
     private void Awake()
     {
         Material[] mats = m_Renderer.sharedMaterials;
@@ -62,6 +64,8 @@ public class Smogwalker : StateMachine<Smogwalker>
         float speed = GameManager.Instance.GetEnemySpeed(agent.speed, buff);
         anims.speed = speed / agent.speed;
         agent.speed = speed;
+
+        animsSpeed = anims.speed;
 
         m_DamageVolume.damage = GameManager.Instance.GetEnemyDamage(m_DamageVolume.damage, buff);
     }

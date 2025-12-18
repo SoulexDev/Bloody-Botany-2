@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -27,7 +28,7 @@ public class StaticMeleeWeapon : NetworkBehaviour
         MeleeServer(meleeWeaponType, ray.origin, ray.direction, Owner);
     }
     [ServerRpc]
-    public void MeleeServer(MeleeWeaponType meleeWeaponType, Vector3 origin, Vector3 direction, NetworkConnection conn)
+    public void MeleeServer(MeleeWeaponType meleeWeaponType, Vector3 origin, Vector3 direction, NetworkConnection conn, Channel channel = Channel.Unreliable)
     {
         MeleeData data = m_MeleeTypeDataPairs.First(d=>d.meleeWeaponType == meleeWeaponType).meleeData;
         Collider[] cols = Physics.OverlapSphere(origin + direction * 1.5f, 2, GameManager.Instance.playerIgnoreMask);
@@ -51,7 +52,7 @@ public class StaticMeleeWeapon : NetworkBehaviour
         }
     }
     [TargetRpc]
-    private void ClientCallback(NetworkConnection conn, bool died)
+    private void ClientCallback(NetworkConnection conn, bool died, Channel channel = Channel.Unreliable)
     {
         if (died)
         {

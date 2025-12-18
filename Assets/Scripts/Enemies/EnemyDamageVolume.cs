@@ -13,7 +13,7 @@ public class EnemyDamageVolume : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        print(other);
+        //print(other);
         if (m_CanDamage && !other.CompareTag("Enemy") && other.transform.TryGetComponent(out IHealth health))
         {
             bool died = false;

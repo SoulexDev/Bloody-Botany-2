@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using FishNet.Transporting;
 
 public enum SeedType : byte { Shotgun, SMG, Pistol, Revolver }
 public class StaticSeedSpawner : NetworkBehaviour
@@ -32,7 +33,7 @@ public class StaticSeedSpawner : NetworkBehaviour
         }
     }
     [ServerRpc]
-    private void TryThrowServer(SeedType seedType, Vector3 origin, Vector3 direction, int slotIndex, NetworkConnection conn)
+    private void TryThrowServer(SeedType seedType, Vector3 origin, Vector3 direction, int slotIndex, NetworkConnection conn, Channel channel = Channel.Unreliable)
     {
         //Try to throw on the server
         Ray ray = new Ray(origin, direction);
@@ -60,9 +61,9 @@ public class StaticSeedSpawner : NetworkBehaviour
     //Confirm on the client that a seed was planted and remove the seed item
     //TODO: Handle either throw animation or no throw animation
     [TargetRpc]
-    private void SeedPlantCallback(NetworkConnection conn, SeedType seedType, int slotIndex)
+    private void SeedPlantCallback(NetworkConnection conn, SeedType seedType, int slotIndex, Channel channel = Channel.Unreliable)
     {
-        if (!GameProfile.Instance.inventorySystem.RemoveItem(m_SeedData.First(d => d.seedType == seedType).seedItem))
+        if (!GameProfile.Instance.inventorySystem.RemoveItemFromSlot(GameProfile.Instance.inventorySystem.GetSlotFromIndex(slotIndex)))
         {
             Debug.LogError("Failed to plant seed after confirmation. Client desync");
         }

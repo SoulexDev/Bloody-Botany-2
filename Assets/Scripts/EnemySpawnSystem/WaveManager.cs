@@ -1,5 +1,6 @@
 using FishNet;
 using FishNet.Object;
+using FishNet.Transporting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,12 +60,12 @@ public class WaveManager : NetworkBehaviour
         }
     }
     [ObserversRpc]
-    public void SetWaveText(int wave)
+    public void SetWaveText(int wave, Channel channel = Channel.Unreliable)
     {
         CanvasFinder.Instance.roundText.text = $"Round {wave + 1}";
     }
     [ObserversRpc]
-    public void SpawnOnClients()
+    public void SpawnOnClients(Channel channel = Channel.Unreliable)
     {
         if (spawnZones.Count == 0)
             return;
@@ -73,7 +74,7 @@ public class WaveManager : NetworkBehaviour
         SpawnOnServer(zone.enemySpawns[Random.Range(0, zone.enemySpawns.Count)].position);
     }
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnOnServer(Vector3 position)
+    public void SpawnOnServer(Vector3 position, Channel channel = Channel.Unreliable)
     {
         NetworkObject nob = InstanceFinder.NetworkManager.GetPooledInstantiated(m_SmogwalkerPrefab, 
             position, Quaternion.identity, true);

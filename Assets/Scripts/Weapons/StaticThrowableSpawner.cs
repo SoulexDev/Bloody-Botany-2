@@ -1,6 +1,7 @@
 using FishNet;
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ public class StaticThrowableSpawner : NetworkBehaviour
         }
     }
     [ServerRpc]
-    private void ThrowServer(ThrowableType throwableType, Vector3 origin, Vector3 direction, NetworkConnection conn)
+    private void ThrowServer(ThrowableType throwableType, Vector3 origin, Vector3 direction, NetworkConnection conn, Channel channel = Channel.Unreliable)
     {
         ThrowableData data = m_ThrowableData.First(t => t.throwableType == throwableType);
 

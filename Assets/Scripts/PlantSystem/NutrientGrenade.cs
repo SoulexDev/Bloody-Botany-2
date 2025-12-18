@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using UnityEngine;
 
 public class NutrientGrenade : Throwable
@@ -34,16 +35,20 @@ public class NutrientGrenade : Throwable
 
         base.OnImpact(collision);
     }
+    //TODO: Investigate why "Unreliable" fails to even send the RPC at all
     [ObserversRpc]
     private void SpawnEffectsClient(Vector3 position)
     {
+        print("uhh.. wut?");
         Instantiate(m_SplashEffect, position, Quaternion.identity);
     }
     //TODO: Still.. an item database
     [TargetRpc]
-    private void ImpactClientCallback(NetworkConnection conn)
+    private void ImpactClientCallback(NetworkConnection conn, Channel channel = Channel.Unreliable)
     {
-        GameProfile.Instance.currencySystem.AddCurrency(Random.Range(10, 50));
+        GameProfile.Instance.currencySystem.AddCurrency(Random.Range(
+            GameManager.Instance.difficultySettings.onKillPaymentLowerBound, 
+            GameManager.Instance.difficultySettings.onKillPaymentUpperBound));
         //GameProfile.Instance.inventorySystem.AddItem(m_Item, 1);
     }
 }

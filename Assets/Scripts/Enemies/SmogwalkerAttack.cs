@@ -7,10 +7,11 @@ public class SmogwalkerAttack : State<Smogwalker>
     public override void EnterState(Smogwalker ctx)
     {
         ctx.anims.SetBool("Attacking", true);
+        ctx.anims.speed = 1;
     }
     public override void ExitState(Smogwalker ctx)
     {
-        
+        ctx.anims.speed = ctx.animsSpeed;
     }
     public override void FixedUpdateState(Smogwalker ctx)
     {

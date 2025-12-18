@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ public class StaticGun : NetworkBehaviour
         }
     }
     [ServerRpc]
-    public void FireServer(NetworkConnection conn, GunType gunType, Vector3 origin, Vector3 direction, float spread)
+    public void FireServer(NetworkConnection conn, GunType gunType, Vector3 origin, Vector3 direction, float spread, Channel channel = Channel.Unreliable)
     {
         GunData data = m_GunTypeDataPairs.First(g=>g.gunType == gunType).gunData;
 
@@ -56,7 +57,7 @@ public class StaticGun : NetworkBehaviour
         PlayGunAudio(gunType);
     }
     [TargetRpc]
-    private void FireClientCallback(NetworkConnection conn, bool died)
+    private void FireClientCallback(NetworkConnection conn, bool died, Channel channel = Channel.Unreliable)
     {
         if (died)
         {
@@ -69,7 +70,7 @@ public class StaticGun : NetworkBehaviour
         }
     }
     [ObserversRpc(ExcludeOwner = true)]
-    public void PlayGunAudio(GunType gunType)
+    public void PlayGunAudio(GunType gunType, Channel channel = Channel.Unreliable)
     {
         GunData data = m_GunTypeDataPairs.First(g => g.gunType == gunType).gunData;
 

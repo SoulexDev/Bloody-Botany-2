@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 7187124597779839842}
   - component: {fileID: 3805397498547990182}
   - component: {fileID: 4460209763203115090}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: NameTag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +356,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3334711615855863858, guid: 306b527ba4556c74f90cd23e993d7a3e, type: 2}
+  - {fileID: 2100000, guid: f1addd5c130df9e4d80e69337d04cfbe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -400,8 +400,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Player
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 306b527ba4556c74f90cd23e993d7a3e, type: 2}
-  m_sharedMaterial: {fileID: -3334711615855863858, guid: 306b527ba4556c74f90cd23e993d7a3e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c8914e3d69f962a4d9bee5023b69cff9, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: f1addd5c130df9e4d80e69337d04cfbe, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
