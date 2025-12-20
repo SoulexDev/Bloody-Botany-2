@@ -20,6 +20,8 @@ public class PlayerController : StateMachine<PlayerController>
     public float maxAirSpeed = 4;
     public float jumpForce = 4;
 
+    [HideInInspector] public float moveSpeedPerkValue;
+
     [Header("Movement Curves")]
     public AnimationCurve groundAccelerationCurve;
     public AnimationCurve landCurve;
@@ -43,9 +45,17 @@ public class PlayerController : StateMachine<PlayerController>
 
     private float m_FOVMagTarget;
 
-    private void Awake()
+    private void Start()
     {
-        
+        PerksManager.OnPerksChanged += PerksManager_OnPerksChanged;
+    }
+    private void OnDestroy()
+    {
+        PerksManager.OnPerksChanged -= PerksManager_OnPerksChanged;
+    }
+    private void PerksManager_OnPerksChanged()
+    {
+        moveSpeedPerkValue = PerksManager.Instance.GetPerkValue(PerkType.Speed_Healing, 1);
     }
     public override void OnStartClient()
     {
@@ -61,6 +71,8 @@ public class PlayerController : StateMachine<PlayerController>
         stateDictionary.Add(PlayerState.Airborne, new PlayerAirborne());
 
         SwitchState(PlayerState.Idle);
+
+        moveSpeedPerkValue = 1;
     }
     public override void Update()
     {

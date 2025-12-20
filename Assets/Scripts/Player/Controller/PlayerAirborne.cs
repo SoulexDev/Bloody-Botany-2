@@ -9,7 +9,7 @@ public class PlayerAirborne : State<PlayerController>
         m_MoveVelocity.x = ctx.lastVelocity.x;
         m_MoveVelocity.z = ctx.lastVelocity.z;
 
-        m_EnterMagnitude = Mathf.Max(ctx.airSpeed, Mathf.Min(m_MoveVelocity.magnitude, ctx.maxAirSpeed));
+        m_EnterMagnitude = Mathf.Max(ctx.airSpeed * ctx.moveSpeedPerkValue, Mathf.Min(m_MoveVelocity.magnitude, ctx.maxAirSpeed * ctx.moveSpeedPerkValue));
     }
     public override void ExitState(PlayerController ctx)
     {
@@ -24,7 +24,7 @@ public class PlayerAirborne : State<PlayerController>
     }
     public override void UpdateState(PlayerController ctx)
     {
-        m_MoveVelocity += ctx.moveVector * ctx.airSpeed * Time.deltaTime;
+        m_MoveVelocity += ctx.moveVector * ctx.airSpeed * ctx.moveSpeedPerkValue * Time.deltaTime;
         m_MoveVelocity = Vector3.ClampMagnitude(m_MoveVelocity, m_EnterMagnitude);
 
         ctx.characterController.Move((m_MoveVelocity + ctx.gravityVector) * Time.deltaTime);

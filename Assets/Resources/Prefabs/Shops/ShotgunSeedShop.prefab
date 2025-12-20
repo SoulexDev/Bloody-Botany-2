@@ -85,6 +85,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
   m_ViewInfo: {fileID: 4067268812109683660}
+  m_PowerSource: {fileID: 0}
   interactEvent:
     m_PersistentCalls:
       m_Calls: []

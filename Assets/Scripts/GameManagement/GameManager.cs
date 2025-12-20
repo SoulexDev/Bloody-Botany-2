@@ -25,15 +25,17 @@ public class GameManager : MonoBehaviour
     }
     public int GetEnemyHealth(int baseNum, float buff)
     {
-        return Mathf.RoundToInt(baseNum + difficultySettings.enemyHealthBuffMultiplicationRate * WaveManager.Instance.wave * buff);
+        return Mathf.RoundToInt(MathFunctions.GetFromFunction(baseNum, 
+            difficultySettings.enemyHealthBuffMultiplicationRate * buff, WaveManager.Instance.wave, MathFunction.Additive));
     }
     public float GetEnemySpeed(float baseNum, float buff)
     {
-        float mult = 1f + difficultySettings.enemySpeedBuffMultiplicationRate * WaveManager.Instance.wave * buff;
-        return baseNum * mult;
+        return Mathf.RoundToInt(MathFunctions.GetFromFunction(baseNum,
+            difficultySettings.enemySpeedBuffMultiplicationRate * buff, WaveManager.Instance.wave, MathFunction.Multiplicative));
     }
     public int GetEnemyDamage(int baseNum, float buff)
     {
-        return Mathf.RoundToInt(baseNum + difficultySettings.enemyDamageBuffMultiplicationRate * WaveManager.Instance.wave * buff);
+        return Mathf.RoundToInt(MathFunctions.GetFromFunction(baseNum,
+            difficultySettings.enemyDamageBuffMultiplicationRate * buff, WaveManager.Instance.wave, MathFunction.Additive));
     }
 }

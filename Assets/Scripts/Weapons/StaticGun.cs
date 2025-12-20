@@ -1,12 +1,20 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Serializing;
 using FishNet.Transporting;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum GunType { Shotgun, SMG, Pistol, Revolver }
+public enum GunType : byte { Shotgun, SMG, Pistol, Revolver }
+public struct ServerGunData
+{
+    public GunType gunType;
+    public Vector3 origin;
+    public Vector3 direction;
+    public float damage;
+}
 public class StaticGun : NetworkBehaviour
 {
     public static StaticGun Instance;
@@ -24,28 +32,38 @@ public class StaticGun : NetworkBehaviour
             Instance = this;
         }
     }
-    public void FireClient(GunType gunType, float spread)
+    public void FireClient(GunType gunType, float spread, float damage)
     {
+        //Get gun data
         GunData data = m_GunTypeDataPairs.First(g => g.gunType == gunType).gunData;
+
+        //Create server data
+        ServerGunData sGunData = new ServerGunData();
+        sGunData.gunType = gunType;
+        sGunData.damage = damage;
 
         for (int i = 0; i < data.bulletsPerShot; i++)
         {
-            Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f + Vector2.one * Random.insideUnitCircle * (data.spread + spread));
+            //Create rays and assign values to server data before sending off to server
+            Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f + Vector2.one * Random.insideUnitCircle * spread);
+            sGunData.origin = ray.origin;
+            sGunData.direction = ray.direction;
 
-            FireServer(Owner, gunType, ray.origin, ray.direction, spread);
+            FireServer(Owner, sGunData);
         }
     }
     [ServerRpc]
-    public void FireServer(NetworkConnection conn, GunType gunType, Vector3 origin, Vector3 direction, float spread, Channel channel = Channel.Unreliable)
+    public void FireServer(NetworkConnection conn, ServerGunData sGunData, Channel channel = Channel.Unreliable)
     {
-        GunData data = m_GunTypeDataPairs.First(g=>g.gunType == gunType).gunData;
+        //Reconstruct gun data on server
+        GunData data = m_GunTypeDataPairs.First(g=>g.gunType == sGunData.gunType).gunData;
 
-        Ray ray = new Ray(origin, direction);
-        if (Physics.Raycast(ray, out RaycastHit hit, 999, GameManager.Instance.playerIgnoreMask))
+        if (Physics.Raycast(sGunData.origin, sGunData.direction, out RaycastHit hit, 999, GameManager.Instance.playerIgnoreMask))
         {
             if (hit.transform.CompareTag("Enemy") && hit.transform.TryGetComponent(out IHealth health))
             {
-                int finalDamage = Mathf.RoundToInt(data.damage * data.damageFalloff.Evaluate(hit.distance));
+                //Get final damage by evaluating falloff
+                int finalDamage = Mathf.RoundToInt(sGunData.damage * data.damageFalloff.Evaluate(hit.distance));
 
                 bool died = false;
                 health.ChangeHealth(-finalDamage, ref died);
@@ -54,7 +72,7 @@ public class StaticGun : NetworkBehaviour
             }
         }
 
-        PlayGunAudio(gunType);
+        PlayGunAudio(sGunData.gunType);
     }
     [TargetRpc]
     private void FireClientCallback(NetworkConnection conn, bool died, Channel channel = Channel.Unreliable)
@@ -77,6 +95,12 @@ public class StaticGun : NetworkBehaviour
         m_Source.pitch = 1 + (Random.value - 0.5f) * 2 * 0.2f;
         m_Source.PlayOneShot(data.fireSound);
     }
+
+    
+    //public static void WriteServerGunData(this Writer writer, ServerGunData value)
+    //{
+    //    writer.WriteByte((byte)value.gunType);
+    //}
 }
 [System.Serializable]
 public class GunTypeDataPair

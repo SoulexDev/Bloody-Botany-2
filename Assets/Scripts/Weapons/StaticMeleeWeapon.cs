@@ -5,6 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public struct ServerMeleeData
+{
+    public MeleeWeaponType meleeWeaponType;
+    public Vector3 origin;
+    public Vector3 direction;
+    public float damage;
+}
 public class StaticMeleeWeapon : NetworkBehaviour
 {
     public static StaticMeleeWeapon Instance;
@@ -23,15 +30,26 @@ public class StaticMeleeWeapon : NetworkBehaviour
     }
     public void MeleeClient(MeleeWeaponType meleeWeaponType)
     {
+        MeleeData data = m_MeleeTypeDataPairs.First(d => d.meleeWeaponType == meleeWeaponType).meleeData;
+
         Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f);
 
-        MeleeServer(meleeWeaponType, ray.origin, ray.direction, Owner);
+        ServerMeleeData sMeleeData = new ServerMeleeData();
+        sMeleeData.meleeWeaponType = meleeWeaponType;
+
+        //TODO: Move into normal melee and call onyl on change
+        //TODO: Increase melee speed too
+        sMeleeData.damage = PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, data.damage);
+        sMeleeData.origin = ray.origin;
+        sMeleeData.direction = ray.direction;
+
+        MeleeServer(Owner, sMeleeData);
     }
     [ServerRpc]
-    public void MeleeServer(MeleeWeaponType meleeWeaponType, Vector3 origin, Vector3 direction, NetworkConnection conn, Channel channel = Channel.Unreliable)
+    public void MeleeServer(NetworkConnection conn, ServerMeleeData sMeleeData, Channel channel = Channel.Unreliable)
     {
-        MeleeData data = m_MeleeTypeDataPairs.First(d=>d.meleeWeaponType == meleeWeaponType).meleeData;
-        Collider[] cols = Physics.OverlapSphere(origin + direction * 1.5f, 2, GameManager.Instance.playerIgnoreMask);
+        MeleeData data = m_MeleeTypeDataPairs.First(d=>d.meleeWeaponType == sMeleeData.meleeWeaponType).meleeData;
+        Collider[] cols = Physics.OverlapSphere(sMeleeData.origin + sMeleeData.direction * 1.5f, 2, GameManager.Instance.playerIgnoreMask);
 
         int sweepTotal = 0;
 
@@ -45,7 +63,7 @@ public class StaticMeleeWeapon : NetworkBehaviour
                 sweepTotal++;
 
                 bool died = false;
-                health.ChangeHealth(-data.damage, ref died);
+                health.ChangeHealth(-Mathf.RoundToInt(sMeleeData.damage), ref died);
 
                 ClientCallback(conn, died);
             }

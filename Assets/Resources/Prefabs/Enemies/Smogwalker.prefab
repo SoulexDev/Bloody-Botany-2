@@ -151,6 +151,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_Renderer: {fileID: 7858863371963164625}
+  animsSpeed: 0
 --- !u!195 &5501940557690022087
 NavMeshAgent:
   m_ObjectHideFlags: 0

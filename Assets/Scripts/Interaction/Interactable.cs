@@ -1,7 +1,4 @@
-using FishNet.Connection;
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +6,7 @@ using UnityEngine.Events;
 public class Interactable : NetworkBehaviour
 {
     [SerializeField] protected ViewInfo m_ViewInfo;
+    [SerializeField] protected PowerGenerator m_PowerSource;
 
     public UnityEvent interactEvent;
     public bool isInteractable = true;
@@ -19,6 +17,9 @@ public class Interactable : NetworkBehaviour
     }
     public void Interact()
     {
+        if (m_PowerSource != null && !m_PowerSource.activated.Value)
+            return;
+
         if (isInteractable)
             OnInteract();
     }

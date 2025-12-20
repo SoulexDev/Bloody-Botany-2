@@ -10,6 +10,7 @@ public class NutrientGrenade : Throwable
     [SerializeField] private float m_EffectRadius = 2;
     [SerializeField] private int m_Damage = 2;
 
+    //TODO: simulate on client
     public override void OnImpact(Collision collision)
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, m_EffectRadius);
