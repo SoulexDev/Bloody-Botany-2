@@ -27,7 +27,11 @@ Material:
     m_Floats:
     - _FaceToggle: 1
     - _GridAlpha: 0.3
+<<<<<<< HEAD
     - _GridSize: 1
+=======
+    - _GridSize: 0.25
+>>>>>>> 52bf097 (Added basic perk icons (WIP), Added well house to farm blockout)
     - _GridToggle: 0
     m_Colors:
     - _Color: {r: 0.9411765, g: 0.9019608, b: 0.54901963, a: 1}
