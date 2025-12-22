@@ -15,5 +15,5 @@ MonoBehaviour:
   itemType: 1
   itemSprite: {fileID: 21300000, guid: 9ea5d3912e990e7458bf48157a1dedb4, type: 3}
   itemPrefab: {fileID: 970723436449783549, guid: 8bd5c6d60b85d2c4a8cb44fbb68e990d, type: 3}
-  maxStack: 16
+  maxStack: 8
   equipAnimationTrigger: 
