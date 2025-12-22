@@ -32,7 +32,7 @@ public class StateMachine<T> : NetworkBehaviour where T : StateMachine<T>
         if (m_switchingState || currentState == null)
             return;
 
-        print(currentState);
+        //print(currentState);
         currentState.UpdateState((T)this);
         currentState.stateTime += Time.deltaTime;
     }

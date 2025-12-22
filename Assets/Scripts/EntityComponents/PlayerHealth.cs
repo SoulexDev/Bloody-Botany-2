@@ -34,17 +34,30 @@ public class PlayerHealth : NetworkBehaviour
     private float m_DamageTimer;
     private float m_HealTimer;
 
+    private float m_HealingPerkValue;
+    private float m_DamagePerkValue;
+
     //private float m_OxygenValue;
 
-    private void Awake()
+    private void Start()
     {
+        //TODO: place perks manager as a reference or place in game profile
         m_HealthComponent.OnHealthChanged += HealthComponent_OnHealthChanged;
         m_HealthComponent.OnHealthDepleted += HealthComponent_OnHealthDepleted;
+
+        PerksManager.OnPerksChanged += PerksManager_OnPerksChanged;
     }
     private void OnDestroy()
     {
         m_HealthComponent.OnHealthChanged -= HealthComponent_OnHealthChanged;
         m_HealthComponent.OnHealthDepleted -= HealthComponent_OnHealthDepleted;
+
+        PerksManager.OnPerksChanged -= PerksManager_OnPerksChanged;
+    }
+    private void PerksManager_OnPerksChanged()
+    {
+        m_HealingPerkValue = 1.5f / PerksManager.Instance.GetPerkValue(PerkType.Speed_Healing, 1);
+        m_DamagePerkValue = PerksManager.Instance.GetPerkValue(PerkType.LungCapacity, 1);
     }
     public override void OnStartClient()
     {
@@ -53,8 +66,11 @@ public class PlayerHealth : NetworkBehaviour
         if (!IsOwner)
             return;
 
-        m_DamageTimer = 0.5f;
+        m_DamageTimer = 1;
         m_HealTimer = 1.5f;
+
+        m_HealingPerkValue = 1.5f;
+        m_DamagePerkValue = 1;
 
         m_Shielded = false;
     }
@@ -84,7 +100,7 @@ public class PlayerHealth : NetworkBehaviour
         {
             if (m_DamageTimer <= 0)
             {
-                m_DamageTimer += 1f;
+                m_DamageTimer += m_DamagePerkValue;
                 m_HealthComponent.ChangeHealth(-1, ref died);
             }
 
@@ -94,7 +110,7 @@ public class PlayerHealth : NetworkBehaviour
         {
             if (m_HealTimer <= 0)
             {
-                m_HealTimer += 1.5f;
+                m_HealTimer += m_HealingPerkValue;
                 m_HealthComponent.ChangeHealth(1, ref died);
             }
 

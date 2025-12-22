@@ -22,11 +22,14 @@ public class Throwable : NetworkBehaviour
     {
         m_Rb.AddForce(direction * m_ThrowForce, ForceMode.Impulse);
     }
-    [Server]
     private void OnCollisionEnter(Collision collision)
     {
+        if (!IsServerInitialized)
+            return;
+
         OnImpact(collision);
     }
+    [Server]
     public virtual void OnImpact(Collision collision)
     {
         InstanceFinder.ServerManager.Despawn(gameObject);

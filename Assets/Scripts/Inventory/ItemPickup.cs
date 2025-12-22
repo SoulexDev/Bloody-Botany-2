@@ -1,6 +1,7 @@
 using FishNet.CodeGenerating;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using FishNet.Transporting;
 
 public class ItemPickup : Interactable
 {
@@ -34,12 +35,12 @@ public class ItemPickup : Interactable
 
     }
     [ServerRpc(RequireOwnership = false)]
-    private void SetItemCount(int itemCount)
+    private void SetItemCount(int itemCount, Channel channel = Channel.Unreliable)
     {
         this.itemCount.Value = itemCount;
     }
     [ServerRpc(RequireOwnership = false)]
-    private void RemoveObject()
+    private void RemoveObject(Channel channel = Channel.Unreliable)
     {
         Despawn(DespawnType.Destroy);
     }

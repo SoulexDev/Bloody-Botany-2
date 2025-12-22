@@ -1,7 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
+using FishNet.Transporting;
 using UnityEngine;
 
 public class NutrientGrenade : Throwable
@@ -9,6 +8,9 @@ public class NutrientGrenade : Throwable
     [SerializeField] private InventoryItem m_Item;
     [SerializeField] private GameObject m_SplashEffect;
     [SerializeField] private float m_EffectRadius = 2;
+    [SerializeField] private int m_Damage = 2;
+
+    //TODO: simulate on client
     public override void OnImpact(Collision collision)
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, m_EffectRadius);
@@ -22,7 +24,7 @@ public class NutrientGrenade : Throwable
             if (col.TryGetComponent(out IHealth health) && col.CompareTag("Enemy"))
             {
                 bool died = false;
-                health.ChangeHealth(-3, ref died);
+                health.ChangeHealth(-m_Damage, ref died);
 
                 //TODO: Rename all these client callback functions
                 if (died)
@@ -34,16 +36,20 @@ public class NutrientGrenade : Throwable
 
         base.OnImpact(collision);
     }
+    //TODO: Investigate why "Unreliable" fails to even send the RPC at all
     [ObserversRpc]
     private void SpawnEffectsClient(Vector3 position)
     {
+        print("uhh.. wut?");
         Instantiate(m_SplashEffect, position, Quaternion.identity);
     }
     //TODO: Still.. an item database
     [TargetRpc]
-    private void ImpactClientCallback(NetworkConnection conn)
+    private void ImpactClientCallback(NetworkConnection conn, Channel channel = Channel.Unreliable)
     {
-        GameProfile.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
-        GameProfile.Instance.inventorySystem.AddItem(m_Item, 1);
+        GameProfile.Instance.currencySystem.AddCurrency(Random.Range(
+            GameManager.Instance.difficultySettings.onKillPaymentLowerBound, 
+            GameManager.Instance.difficultySettings.onKillPaymentUpperBound));
+        //GameProfile.Instance.inventorySystem.AddItem(m_Item, 1);
     }
 }

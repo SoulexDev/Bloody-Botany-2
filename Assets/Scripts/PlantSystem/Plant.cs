@@ -1,6 +1,7 @@
 using FishNet.CodeGenerating;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using FishNet.Transporting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,19 +39,16 @@ public class Plant : ItemPickup
     }
     private void GrowthStage_OnChange(GrowthStage prev, GrowthStage next, bool asServer)
     {
-        if (prev != next)
-        {
-            UpdateModel(next);
+        UpdateModel(next);
 
-            if (next == GrowthStage.Mature)
-            {
-                isInteractable = true;
-                m_ViewInfo.infoString = $"Harvest {item.name}";
-            }
-            else
-            {
-                m_ViewInfo.infoString = m_GrowthStage.Value.ToString();
-            }
+        if (next == GrowthStage.Mature)
+        {
+            isInteractable = true;
+            m_ViewInfo.infoString = $"Harvest {item.name}";
+        }
+        else
+        {
+            m_ViewInfo.infoString = m_GrowthStage.Value.ToString();
         }
     }
     private void Update()
@@ -80,7 +78,7 @@ public class Plant : ItemPickup
         OnPickupServer();
     }
     [ServerRpc(RequireOwnership = false)]
-    private void OnPickupServer()
+    private void OnPickupServer(Channel channel = Channel.Unreliable)
     {
         m_Planter.SetInUseState(false);
     }

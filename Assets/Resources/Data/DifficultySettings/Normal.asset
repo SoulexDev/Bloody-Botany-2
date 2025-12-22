@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8230302ec0df9b6488978433f29eeef7, type: 3}
   m_Name: Normal
   m_EditorClassIdentifier: 
-  prepTimeSeconds: 12
+  prepTimeSeconds: 6
   plantGrowthRate: 2
-  enemyWaveHealthMultiplicationRate: 0.05
   baseWaveEnemyCount: 2
-  addEnemyCountPerWaveMultiplier: 1
-  mobCap: 16
-  enemySpawnRate: 4
+  addEnemyCountPerWaveMultiplier: 1.25
+  mobCap: 24
+  enemySpawnRate: 2
+  enemySpeedBuffMultiplicationRate: 0.15
+  enemyHealthBuffMultiplicationRate: 0.075
+  enemyDamageBuffMultiplicationRate: 0.2
+  onKillPaymentLowerBound: 50
+  onKillPaymentUpperBound: 100

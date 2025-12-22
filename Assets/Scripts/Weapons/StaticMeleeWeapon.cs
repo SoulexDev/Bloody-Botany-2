@@ -1,9 +1,17 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Transporting;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public struct ServerMeleeData
+{
+    public MeleeWeaponType meleeWeaponType;
+    public Vector3 origin;
+    public Vector3 direction;
+    public float damage;
+}
 public class StaticMeleeWeapon : NetworkBehaviour
 {
     public static StaticMeleeWeapon Instance;
@@ -22,38 +30,54 @@ public class StaticMeleeWeapon : NetworkBehaviour
     }
     public void MeleeClient(MeleeWeaponType meleeWeaponType)
     {
+        MeleeData data = m_MeleeTypeDataPairs.First(d => d.meleeWeaponType == meleeWeaponType).meleeData;
+
         Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f);
 
-        MeleeServer(meleeWeaponType, ray.origin, ray.direction, Owner);
+        ServerMeleeData sMeleeData = new ServerMeleeData();
+        sMeleeData.meleeWeaponType = meleeWeaponType;
+
+        //TODO: Move into normal melee and call onyl on change
+        //TODO: Increase melee speed too
+        sMeleeData.damage = PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, data.damage);
+        sMeleeData.origin = ray.origin;
+        sMeleeData.direction = ray.direction;
+
+        MeleeServer(Owner, sMeleeData);
     }
     [ServerRpc]
-    public void MeleeServer(MeleeWeaponType meleeWeaponType, Vector3 origin, Vector3 direction, NetworkConnection conn)
+    public void MeleeServer(NetworkConnection conn, ServerMeleeData sMeleeData, Channel channel = Channel.Unreliable)
     {
-        MeleeData data = m_MeleeTypeDataPairs.First(d=>d.meleeWeaponType == meleeWeaponType).meleeData;
+        MeleeData data = m_MeleeTypeDataPairs.First(d=>d.meleeWeaponType == sMeleeData.meleeWeaponType).meleeData;
+        Collider[] cols = Physics.OverlapSphere(sMeleeData.origin + sMeleeData.direction * 1.5f, 2, GameManager.Instance.playerIgnoreMask);
 
-        Ray ray = new Ray(origin, direction);
-        if (Physics.Raycast(ray, out RaycastHit hit, 2, GameManager.Instance.playerIgnoreMask))
+        int sweepTotal = 0;
+
+        foreach (Collider col in cols)
         {
-            Collider[] cols = Physics.OverlapSphere(hit.point, 2, GameManager.Instance.playerIgnoreMask);
+            if (sweepTotal >= data.sweepCount)
+                break;
 
-            foreach (Collider col in cols)
+            if (col.CompareTag("Enemy") && col.TryGetComponent(out IHealth health))
             {
-                if (col.CompareTag("Enemy") && col.TryGetComponent(out IHealth health))
-                {
-                    bool died = false;
-                    health.ChangeHealth(-data.damage, ref died);
+                sweepTotal++;
 
-                    ClientCallback(conn, died);
-                }
+                bool died = false;
+                health.ChangeHealth(-Mathf.RoundToInt(sMeleeData.damage), ref died);
+
+                ClientCallback(conn, died);
             }
         }
     }
     [TargetRpc]
-    private void ClientCallback(NetworkConnection conn, bool died)
+    private void ClientCallback(NetworkConnection conn, bool died, Channel channel = Channel.Unreliable)
     {
         if (died)
         {
-            GameProfile.Instance.currencySystem.AddCurrency(Random.Range(20, 100));
+            GameProfile.Instance.currencySystem.AddCurrency(Random.Range(
+            GameManager.Instance.difficultySettings.onKillPaymentLowerBound,
+            GameManager.Instance.difficultySettings.onKillPaymentUpperBound));
+
             GameProfile.Instance.inventorySystem.AddItem(m_NutrientGrenade, 1);
         }
     }

@@ -6,11 +6,14 @@ public class Gun : MonoBehaviour, IUsable
     public GunData gunData;
     [SerializeField] private GunType m_GunType;
     [SerializeField] private AudioSource m_Source;
+    [HideInInspector] public int ammoCount;
+
+    private float m_SpreadPerkValue;
+    private float m_DamagePerkValue;
+    private float m_FiringPerkValue;
 
     private bool m_Firing = false;
     private bool m_OnCooldown = false;
-
-    [HideInInspector] public int ammoCount;
 
     private float m_Spread;
 
@@ -21,9 +24,21 @@ public class Gun : MonoBehaviour, IUsable
         set { m_SlotBuffer = value; }
     }
 
-    private void Awake()
+    private void Start()
     {
-        ammoCount = gunData.magazineSize;
+        float magSize = PerksManager.Instance.GetPerkValue(PerkType.Accuracy_Magsize, gunData.magazineSize);
+
+        m_SpreadPerkValue = PerksManager.Instance.GetPerkValue(PerkType.Accuracy_Magsize, 1);
+        m_DamagePerkValue = PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, gunData.damage);
+        m_FiringPerkValue = gunData.fireRate / PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, 1);
+
+        ammoCount = Mathf.RoundToInt(magSize);
+
+        PerksManager.OnPerksChanged += PerksManager_OnPerksChanged;
+    }
+    private void OnDestroy()
+    {
+        PerksManager.OnPerksChanged -= PerksManager_OnPerksChanged;
     }
     private void OnEnable()
     {
@@ -34,18 +49,23 @@ public class Gun : MonoBehaviour, IUsable
     {
         Crosshair.Instance.SetCrosshairOuterState(false);
     }
-    public virtual void Use()
+    private void PerksManager_OnPerksChanged()
     {
-        m_Firing = true;
+        m_SpreadPerkValue = PerksManager.Instance.GetPerkValue(PerkType.Accuracy_Magsize, 1);
+        m_DamagePerkValue = PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, gunData.damage);
+        m_FiringPerkValue = gunData.fireRate / PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, 1);
     }
     private void Update()
     {
         if (ammoCount == 0)
             return;
 
-        m_Spread = Mathf.Lerp(m_Spread, GameProfile.Instance.playerController.isMoving ? 0.05f : 0, Time.deltaTime * 10);
+        float spreadUpper = (0.05f + gunData.spread) / m_SpreadPerkValue;
+        float spreadLower = gunData.spread / m_SpreadPerkValue;
 
-        Crosshair.Instance.SetCrosshairRadius(m_Spread + gunData.spread);
+        m_Spread = Mathf.Lerp(m_Spread, GameProfile.Instance.playerController.isMoving ? spreadUpper : spreadLower, Time.deltaTime * 10);
+
+        Crosshair.Instance.SetCrosshairRadius(m_Spread);
 
         if (m_Firing)
         {
@@ -63,9 +83,25 @@ public class Gun : MonoBehaviour, IUsable
             }
         }
     }
+    public virtual void Use()
+    {
+        m_Firing = true;
+    }
+    public virtual void UnUse()
+    {
+        m_Firing = false;
+    }
+    public virtual void AltUse()
+    {
+
+    }
+    public virtual void AltUnUse()
+    {
+
+    }
     private void Fire()
     {
-        StaticGun.Instance.FireClient(m_GunType, m_Spread);
+        StaticGun.Instance.FireClient(m_GunType, m_Spread, m_DamagePerkValue);
 
         m_Source.pitch = 1 + (Random.value - 0.5f) * 2 * 0.2f;
         m_Source.PlayOneShot(gunData.fireSound);
@@ -78,25 +114,14 @@ public class Gun : MonoBehaviour, IUsable
 
         if (ammoCount <= 0)
         {
+            Crosshair.Instance.SetCrosshairOuterState(false);
             GameProfile.Instance.StartCoroutine(Wilt());
         }
-    }
-    public virtual void UnUse()
-    {
-        m_Firing = false;
-    }
-    public virtual void AltUse()
-    {
-        
-    }
-    public virtual void AltUnUse()
-    {
-        
     }
     private IEnumerator Cooldown()
     {
         m_OnCooldown = true;
-        yield return new WaitForSeconds(gunData.fireRate);
+        yield return new WaitForSeconds(m_FiringPerkValue);
         m_OnCooldown = false;
     }
     private IEnumerator Wilt()

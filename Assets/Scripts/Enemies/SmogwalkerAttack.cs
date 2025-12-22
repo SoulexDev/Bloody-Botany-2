@@ -7,10 +7,11 @@ public class SmogwalkerAttack : State<Smogwalker>
     public override void EnterState(Smogwalker ctx)
     {
         ctx.anims.SetBool("Attacking", true);
+        ctx.anims.speed = 1;
     }
     public override void ExitState(Smogwalker ctx)
     {
-        
+        ctx.anims.speed = ctx.animsSpeed;
     }
     public override void FixedUpdateState(Smogwalker ctx)
     {
@@ -19,6 +20,11 @@ public class SmogwalkerAttack : State<Smogwalker>
     public override void UpdateState(Smogwalker ctx)
     {
         Vector3 targetPos = ctx.GetNearestTarget(out SmogwalkerTarget targetType);
+
+        Vector3 lookDir = targetPos - ctx.transform.position;
+        lookDir.y = 0;
+
+        ctx.transform.forward = lookDir;
 
         if (ctx.SwitchByCondition(SmogwalkerState.Chase, Vector3.Distance(ctx.transform.position, targetPos) > 2f))
             return;

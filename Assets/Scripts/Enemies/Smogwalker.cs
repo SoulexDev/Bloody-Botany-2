@@ -1,7 +1,6 @@
 using FishNet;
 using FishNet.Object;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,13 +13,13 @@ public class Smogwalker : StateMachine<Smogwalker>
     public Animator anims;
     public Transform visual;
 
-    [SerializeField] private InventoryItem m_NutrientGrenade;
-    [SerializeField] private GameObject m_DamageVolume;
-
+    [SerializeField] private EnemyDamageVolume m_DamageVolume;
     [SerializeField] private AnimationCurve m_ImpactXZCurve;
     [SerializeField] private AnimationCurve m_ImpactYCurve;
     [SerializeField] private Renderer m_Renderer;
     private Material m_RendMat;
+
+    [HideInInspector] public float animsSpeed;
 
     private void Awake()
     {
@@ -52,11 +51,23 @@ public class Smogwalker : StateMachine<Smogwalker>
         healthComponent.OnHealthDepleted += Die;
         healthComponent.OnHealthLost += DoImpactEffect;
 
-        healthComponent.health = Mathf.RoundToInt(healthComponent.maxHealth * GameManager.Instance.GetEnemyHealthMultiplier());
+        float buff = Random.Range(0, 3) switch
+        {
+            0 => 0.5f,
+            1 => 1f,
+            2 => 2f,
+            _ => 0.5f
+        };
 
-        print($"Float value:{healthComponent.maxHealth * GameManager.Instance.GetEnemyHealthMultiplier()}, " +
-            $"Int value:{Mathf.RoundToInt(healthComponent.maxHealth * GameManager.Instance.GetEnemyHealthMultiplier())}, " +
-            $"Final value:{healthComponent.health}");
+        healthComponent.health = GameManager.Instance.GetEnemyHealth(healthComponent.maxHealth, buff);
+
+        float speed = GameManager.Instance.GetEnemySpeed(agent.speed, buff);
+        anims.speed = speed / agent.speed;
+        agent.speed = speed;
+
+        animsSpeed = anims.speed;
+
+        m_DamageVolume.damage = GameManager.Instance.GetEnemyDamage(m_DamageVolume.damage, buff);
     }
     [Server]
     public Vector3 GetNearestTarget(out SmogwalkerTarget targetType)
@@ -141,6 +152,6 @@ public class Smogwalker : StateMachine<Smogwalker>
     }
     public void SetDamageTriggerActiveState(bool state)
     {
-        m_DamageVolume.SetActive(state);
+        m_DamageVolume.gameObject.SetActive(state);
     }
 }

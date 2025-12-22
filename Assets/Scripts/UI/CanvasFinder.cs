@@ -15,6 +15,7 @@ public class CanvasFinder : MonoBehaviour
     public Image painImage;
 
     public List<InventorySlot> inventorySlots;
+    public List<PerkSlot> perkSlots;
     public AmmoText ammoText;
     public SelectBar selectBar;
     //public GameObject grayoutTop;

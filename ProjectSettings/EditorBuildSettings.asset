@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LizTestMaps/DesertCamp.unity
     guid: 03a281e00c9b9da1b84ba33374523824
+  - enabled: 1
+    path: Assets/Scenes/SoulexTestMaps/DesertCamp-SRebalance.unity
+    guid: 4c17ab399645265469bd89acdcc9b6bf
   m_configObjects: {}

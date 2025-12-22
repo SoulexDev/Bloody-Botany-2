@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyDamageVolume : MonoBehaviour
 {
-    [SerializeField] private int m_Damage = 5;
+    public int damage = 5;
 
     private bool m_CanDamage = true;
     private void OnEnable()
@@ -13,11 +13,11 @@ public class EnemyDamageVolume : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        print(other);
+        //print(other);
         if (m_CanDamage && !other.CompareTag("Enemy") && other.transform.TryGetComponent(out IHealth health))
         {
             bool died = false;
-            health.ChangeHealth(-m_Damage, ref died);
+            health.ChangeHealth(-damage, ref died);
 
             m_CanDamage = false;
         }

@@ -1,5 +1,6 @@
 using FishNet;
 using FishNet.Object;
+using FishNet.Transporting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,8 @@ public class WaveManager : NetworkBehaviour
         StartCoroutine(HandleWaves());
 
         m_MobCap = GameManager.Instance.difficultySettings.mobCap * InstanceFinder.ClientManager.Clients.Count;
+
+        print(m_MobCap);
     }
     private IEnumerator HandleWaves()
     {
@@ -47,18 +50,22 @@ public class WaveManager : NetworkBehaviour
                     SpawnOnClients();
                 yield return new WaitForSeconds(GameManager.Instance.difficultySettings.enemySpawnRate);
             }
+            while (m_CurrentEnemyCount > 0)
+            {
+                yield return null;
+            }
 
             wave++;
             SetWaveText(wave);
         }
     }
     [ObserversRpc]
-    public void SetWaveText(int wave)
+    public void SetWaveText(int wave, Channel channel = Channel.Unreliable)
     {
         CanvasFinder.Instance.roundText.text = $"Round {wave + 1}";
     }
     [ObserversRpc]
-    public void SpawnOnClients()
+    public void SpawnOnClients(Channel channel = Channel.Unreliable)
     {
         if (spawnZones.Count == 0)
             return;
@@ -67,18 +74,18 @@ public class WaveManager : NetworkBehaviour
         SpawnOnServer(zone.enemySpawns[Random.Range(0, zone.enemySpawns.Count)].position);
     }
     [ServerRpc(RequireOwnership = false)]
-    public void SpawnOnServer(Vector3 position)
+    public void SpawnOnServer(Vector3 position, Channel channel = Channel.Unreliable)
     {
         NetworkObject nob = InstanceFinder.NetworkManager.GetPooledInstantiated(m_SmogwalkerPrefab, 
             position, Quaternion.identity, true);
 
         InstanceFinder.ServerManager.Spawn(nob);
 
+        m_WaveEnemyCountTotal--;
         m_CurrentEnemyCount++;
     }
     public void RemoveEnemy()
     {
         m_CurrentEnemyCount--;
-        m_WaveEnemyCountTotal--;
     }
 }

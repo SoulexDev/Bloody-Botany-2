@@ -85,13 +85,14 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
   m_ViewInfo: {fileID: 4067268812109683660}
+  m_PowerSource: {fileID: 0}
   interactEvent:
     m_PersistentCalls:
       m_Calls: []
   isInteractable: 1
   m_SeedItem: {fileID: 11400000, guid: eb3abbc4a935ac5468c7213a1410e354, type: 2}
-  m_ItemAmount: 4
-  m_Cost: 150
+  m_ItemAmount: 2
+  m_Cost: 250
 --- !u!1 &5659588645762173701
 GameObject:
   m_ObjectHideFlags: 0
