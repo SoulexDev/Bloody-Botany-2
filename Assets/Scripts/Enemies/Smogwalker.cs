@@ -92,7 +92,7 @@ public class Smogwalker : StateMachine<Smogwalker>
 
         if (closestIndex == -1)
         {
-            Debug.LogError("Closest index is -1. FIX THIS BTICH!");
+            //Debug.LogError("Closest index is -1. FIX THIS BTICH!");
             targetType = SmogwalkerTarget.Player;
             return Vector3.zero;
         }

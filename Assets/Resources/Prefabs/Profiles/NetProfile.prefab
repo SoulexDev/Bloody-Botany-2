@@ -48,7 +48,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 3814704363287091118}
   _networkObjectCache: {fileID: 3814704363287091118}
-  m_LobbyVisualPrefab: {fileID: 1689611382339113854, guid: 2df093560afb36a4789ae5676be09465, type: 3}
+  m_LobbyVisualPrefab: {fileID: 892406543171796631, guid: 2df093560afb36a4789ae5676be09465, type: 3}
 --- !u!114 &3814704363287091118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584356843339688645
+  _initializedTimestamp: -8584349778616529486
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0

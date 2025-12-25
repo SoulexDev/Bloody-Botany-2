@@ -45,7 +45,7 @@ public class NetProfileManager : NetworkBehaviour
     }
     public NetProfile GetNetProfileByConnection(NetworkConnection conn)
     {
-        netProfiles.ToList().ForEach(g => print($"Owner: {g.Owner}, Connection: {conn}"));
-        return netProfiles.First(g => g.Owner == conn);
+        //netProfiles.ToList().ForEach(g => print($"Owner: {g.Owner}, Connection: {conn}"));
+        return netProfiles.FirstOrDefault(g => g.Owner == conn);
     }
 }

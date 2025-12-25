@@ -8,7 +8,7 @@ public class LobbyVisual : MonoBehaviour
     private NetProfile m_NetProfile;
 
     [SerializeField] private RawImage m_ProfileImage;
-    [SerializeField] private TextMeshProUGUI m_NameText;
+    //[SerializeField] private TextMeshProUGUI m_NameText;
 
     public LobbyVisual Initialize(NetProfile profile = default)
     {
@@ -35,10 +35,14 @@ public class LobbyVisual : MonoBehaviour
     }
     private void PlayerName_OnChange(string prev, string next, bool asServer)
     {
-        m_NameText.text = next;
+        //m_NameText.text = next;
     }
     private void ProfileImage_OnChange(NetProfile.SteamProfileImage prev, NetProfile.SteamProfileImage next, bool asServer)
     {
         m_ProfileImage.texture = NetProfile.GetTexture2DFromSteamProfileImage(next);
+    }
+    public void SetPFP(NetProfile.SteamProfileImage img)
+    {
+        m_ProfileImage.texture = NetProfile.GetTexture2DFromSteamProfileImage(img);
     }
 }

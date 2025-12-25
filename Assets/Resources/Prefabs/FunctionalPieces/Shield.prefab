@@ -331,6 +331,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1609375739007594702}
   _networkObjectCache: {fileID: 1609375739007594702}
   m_ViewInfo: {fileID: 8299896381250882474}
+  m_PowerSource: {fileID: 0}
   interactEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -378,7 +379,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584355318777149063
+  _initializedTimestamp: -8584349778616529486
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -393,7 +394,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 11
+  <PrefabId>k__BackingField: 12
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 12729536000686963334
   SceneId: 0

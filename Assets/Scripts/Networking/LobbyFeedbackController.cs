@@ -17,17 +17,22 @@ public class LobbyFeedbackController : MonoBehaviour
     }
     private void OnDestroy()
     {
-        InstanceFinder.ClientManager.OnClientConnectionState -= ClientManager_OnClientConnectionState;
+        if (InstanceFinder.ClientManager)
+            InstanceFinder.ClientManager.OnClientConnectionState -= ClientManager_OnClientConnectionState;
     }
     public void RetrySteamworks()
     {
         if (SteamAPI.Init())
         {
             m_SteamNotInitPanel.SetActive(false);
+
+            SteamLobby.Instance.Init();
         }
     }
     private void ClientManager_OnClientConnectionState(FishNet.Transporting.ClientConnectionStateArgs obj)
     {
+        //TODO: DO something here soon
+        return;
         switch (obj.ConnectionState)
         {
             case FishNet.Transporting.LocalConnectionState.Stopped:

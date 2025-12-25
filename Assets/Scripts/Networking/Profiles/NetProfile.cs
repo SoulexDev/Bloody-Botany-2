@@ -1,3 +1,4 @@
+using FishNet;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Steamworks;
@@ -48,6 +49,14 @@ public class NetProfile : NetworkBehaviour
         if (IsOwner)
             RemoveProfile();
     }
+    [ObserversRpc]
+    public void SpawnLobbyVisual()
+    {
+        print("SEXXXX");
+        m_LobbyVisualInstance = Instantiate(m_LobbyVisualPrefab).Initialize(this);
+
+        m_LobbyVisualInstance.SetPFP(profileImage.Value);
+    }
     [ServerRpc]
     private void AddProfile()
     {
@@ -73,7 +82,7 @@ public class NetProfile : NetworkBehaviour
         if (!image.IsValid())
             return null;
 
-        Texture2D tex = new Texture2D(image.imageWidth, image.imageHeight, TextureFormat.RGBA32, false, true);
+        Texture2D tex = new Texture2D(image.imageWidth, image.imageHeight, TextureFormat.RGBA32, false, false);
         tex.LoadRawTextureData(image.imgBytes);
         tex.Apply();
         return tex;

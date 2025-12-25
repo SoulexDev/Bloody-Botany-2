@@ -28,12 +28,14 @@ public class GameProfileManager : NetworkBehaviour
         switch (op)
         {
             case SyncListOperation.Add:
+                newItem.playerHealth.dead.OnChange += Dead_OnChange;
                 break;
             case SyncListOperation.Insert:
                 break;
             case SyncListOperation.Set:
                 break;
             case SyncListOperation.RemoveAt:
+                newItem.playerHealth.dead.OnChange -= Dead_OnChange;
                 break;
             case SyncListOperation.Clear:
                 break;
@@ -47,5 +49,13 @@ public class GameProfileManager : NetworkBehaviour
     {
         gameProfiles.ToList().ForEach(g=>print($"Owner: {g.Owner}, Connection: {conn}"));
         return gameProfiles.First(g=>g.Owner == conn);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void Dead_OnChange(bool prev, bool next, bool asServer)
+    {
+        if (gameProfiles.All(g => g.playerHealth.dead.Value))
+        {
+            LobbyController.Instance.ReturnToLobby();
+        }
     }
 }

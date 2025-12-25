@@ -19,34 +19,42 @@ public class SteamLobby : MonoBehaviour
     public ulong currentLobbyID;
     private const string HostAddressKey = "HostAddress";
 
+    private CSteamID m_LobbyCSteamID;
+
     //public GameObject hostButton;
     //public TextMeshProUGUI lobbyNameText;
     //public int maxClients = 8;
 
     private void Start()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            Init();
+        }
+    }
+    public void Init()
+    {
+        Debug.LogWarning("INITIALIZING");
         if (!SteamManager.Initialized)
             return;
-
-        if (Instance == null)
-            Instance = this;
 
         lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         joinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
 
-        //lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbyList);
-        //lobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyData);
-
-        //GetLobbiesList();
+        HostLobby(4);
     }
     public void HostLobby(int maxClients)
     {
         Debug.Log("Attempting To Host Lobby...");
-        //startButton.SetActive(true);
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePublic, maxClients);
-
-        //canvas.SetActive(false);
     }
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
@@ -58,10 +66,10 @@ public class SteamLobby : MonoBehaviour
         Debug.Log("Lobby Created Succesfully");
         InstanceFinder.ServerManager.StartConnection();
         InstanceFinder.ClientManager.StartConnection();
-        //SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey, SteamUser.GetSteamID().ToString());
-        SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "name", SteamFriends.GetPersonaName().ToString() + "'s Lobby");
 
-        GUIUtility.systemCopyBuffer = $"{callback.m_ulSteamIDLobby}";
+        m_LobbyCSteamID = new CSteamID(callback.m_ulSteamIDLobby);
+
+        SteamMatchmaking.SetLobbyData(m_LobbyCSteamID, "name", SteamFriends.GetPersonaName().ToString() + "'s Lobby");
     }
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
     {
@@ -71,17 +79,16 @@ public class SteamLobby : MonoBehaviour
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
         currentLobbyID = callback.m_ulSteamIDLobby;
+        m_LobbyCSteamID = new CSteamID(callback.m_ulSteamIDLobby);
 
         if (InstanceFinder.IsServerStarted)
             return;
 
-        //m_FishySteamworks.SetClientAddress(SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey));
         InstanceFinder.ClientManager.StartConnection(SteamMatchmaking.GetLobbyOwner(new CSteamID(currentLobbyID)).ToString());
     }
     public void JoinLobby(CSteamID lobbyID)
     {
         SteamMatchmaking.JoinLobby(lobbyID);
-        //startButton.SetActive(false);
     }
     public void JoinFromLobbyID()
     {
@@ -91,26 +98,10 @@ public class SteamLobby : MonoBehaviour
         CSteamID joinID = new CSteamID(ulong.Parse(GUIUtility.systemCopyBuffer));
         SteamMatchmaking.JoinLobby(joinID);
     }
-    //public void GetLobbiesList()
-    //{
-    //    if (lobbyIDs.Count > 0)
-    //        lobbyIDs.Clear();
-    //    SteamMatchmaking.AddRequestLobbyListResultCountFilter(60);
-    //    SteamMatchmaking.RequestLobbyList();
-    //}
-    //void OnGetLobbyList(LobbyMatchList_t result)
-    //{
-    //    if (ServerList.instance.listOfLobbies.Count > 0)
-    //        ServerList.instance.DestroyLobbies();
-    //    for (int i = 0; i < result.m_nLobbiesMatching; i++)
-    //    {
-    //        CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
-    //        lobbyIDs.Add(lobbyID);
-    //        SteamMatchmaking.RequestLobbyData(lobbyID);
-    //    }
-    //}
-    //void OnGetLobbyData(LobbyDataUpdate_t result)
-    //{
-    //    ServerList.instance.DisplayLobbies(lobbyIDs, result);
-    //}
+    public void AddFriend()
+    {
+        GUIUtility.systemCopyBuffer = $"{currentLobbyID}";
+
+        SteamFriends.ActivateGameOverlayInviteDialog(m_LobbyCSteamID);
+    }
 }

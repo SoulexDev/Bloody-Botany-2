@@ -797,6 +797,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 7728708460269067236}
   _networkObjectCache: {fileID: 7728708460269067236}
   m_ViewInfo: {fileID: 3788087720308058037}
+  m_PowerSource: {fileID: 0}
   interactEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -866,7 +867,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584356843339688645
+  _initializedTimestamp: -8584349778616529486
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
