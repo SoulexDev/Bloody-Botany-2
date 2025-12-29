@@ -41,6 +41,8 @@ public class GameProfile : NetworkBehaviour
             Instance = this;
             visual.SetActive(false);
             playerRevive.isInteractable = false;
+
+            print(Owner);
             //car.tag = "Player";
 
             AddProfile();

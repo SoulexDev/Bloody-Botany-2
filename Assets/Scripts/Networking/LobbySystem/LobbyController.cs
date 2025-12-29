@@ -2,6 +2,7 @@ using FishNet;
 using FishNet.Managing.Scened;
 using FishNet.Object;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,21 +36,24 @@ public class LobbyController : NetworkBehaviour
         m_LoadedClientsCount = 0;
 
         SceneLoadData sld = new SceneLoadData(m_SceneToLoad);
-
+        //sld.MovedNetworkObjects = NetProfileManager.Instance.netProfiles.Select(s=>s.NetworkObject).ToArray();
         sld.ReplaceScenes = ReplaceOption.All;
-        SceneManager.LoadGlobalScenes(sld);
-        //sld.MovedNetworkObjects = NetProfileManager.Instance.netProfiles.Select(n=>n.GetComponent<NetworkObject>()).ToArray();
 
-        //SceneManager.LoadConnectionScenes(sld);
+        SceneManager.LoadGlobalScenes(sld);
+        //SceneManager.LoadConnectionScenes(InstanceFinder.ClientManager.Clients.Values.ToArray(), sld);
     }
+    [Server]
     public void ReturnToLobby()
     {
         m_LoadedClientsCount = 0;
 
         SceneLoadData sld = new SceneLoadData("MainMenu");
-
+        //sld.MovedNetworkObjects = NetProfileManager.Instance.netProfiles.Select(s => s.NetworkObject).ToArray();
         sld.ReplaceScenes = ReplaceOption.All;
+
+        SceneManager.RemoveAllConnectionsFromScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         SceneManager.LoadGlobalScenes(sld);
+        //SceneManager.LoadConnectionScenes(InstanceFinder.ClientManager.Clients.Values.ToArray(), sld);
     }
     [Server]
     private void SceneManager_OnClientPresenceChangeEnd(ClientPresenceChangeEventArgs obj)

@@ -3,6 +3,7 @@ using FishNet.Managing;
 using FishNet.Object;
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace FishNet.Component.Spawning
 {
@@ -106,7 +107,6 @@ namespace FishNet.Component.Spawning
             NetworkObject nob = _networkManager.GetPooledInstantiated(_playerPrefab, position, rotation, true);
             _networkManager.ServerManager.Spawn(nob, conn);
 
-            Debug.LogWarning("SPAWNED NEW GUY");
             // If there are no global scenes 
             if (_addToDefaultScene)
                 _networkManager.SceneManager.AddOwnerToDefaultScene(nob);

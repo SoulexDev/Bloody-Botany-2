@@ -74,6 +74,9 @@ public class SteamLobby : MonoBehaviour
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
     {
         Debug.Log("Request To Join Lobby");
+
+        LeaveLobby();
+
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
     }
     private void OnLobbyEntered(LobbyEnter_t callback)
@@ -88,6 +91,8 @@ public class SteamLobby : MonoBehaviour
     }
     public void JoinLobby(CSteamID lobbyID)
     {
+        LeaveLobby();
+
         SteamMatchmaking.JoinLobby(lobbyID);
     }
     public void JoinFromLobbyID()
@@ -96,7 +101,16 @@ public class SteamLobby : MonoBehaviour
             return;
 
         CSteamID joinID = new CSteamID(ulong.Parse(GUIUtility.systemCopyBuffer));
+
+        LeaveLobby();
+
         SteamMatchmaking.JoinLobby(joinID);
+    }
+    private void LeaveLobby()
+    {
+        SteamMatchmaking.LeaveLobby(m_LobbyCSteamID);
+        InstanceFinder.ServerManager.StopConnection(false);
+        InstanceFinder.ClientManager.StopConnection();
     }
     public void AddFriend()
     {
