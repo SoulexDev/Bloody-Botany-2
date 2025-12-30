@@ -15,6 +15,7 @@ Shader "Custom/DevTriplanar"
         #pragma target 4.0
 
         sampler2D _MainTex;
+        half4 _Color;
 
         struct Input
         {
@@ -34,7 +35,7 @@ Shader "Custom/DevTriplanar"
             tex2D(_MainTex, IN.worldPos.yz) * weights.x + 
             tex2D(_MainTex, IN.worldPos.xz) * weights.y + 
             tex2D(_MainTex, IN.worldPos.xy) * weights.z;
-            o.Albedo = color;
+            o.Albedo = color * _Color;
         }
         ENDCG
     }
