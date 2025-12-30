@@ -1,0 +1,2 @@
+Assets/Scenes/LizTestMaps/DesertCamp-Extradata.unity filter=lfs diff=lfs merge=lfs -text
+Assets/Scenes/LizTestMaps/DesertCamp.unity filter=lfs diff=lfs merge=lfs -text
