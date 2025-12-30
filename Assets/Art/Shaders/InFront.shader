@@ -1,4 +1,4 @@
-Shader "Bloody Botany/UI_InFront"
+Shader "Bloody Botany/UI/InFront"
 {
     Properties
     {
