@@ -3,7 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Bloody Botany/Difficulty Settings")]
 public class DifficultySettings : ScriptableObject
 {
-    //TODO: Make enemy stuff use new math things.. like allowing us to pick the math func and coefficients
     [Tooltip("Seconds of downtime between each wave")] public float prepTimeSeconds = 90;
     [Tooltip("Growth rate in seconds per stage")] public float plantGrowthRate = 1;
     [Tooltip("Starting amount of enemies at wave 1, per player")] public int baseWaveEnemyCount = 2;
