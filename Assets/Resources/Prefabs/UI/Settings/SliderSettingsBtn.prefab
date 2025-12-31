@@ -251,7 +251,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 512, y: 48}
+  m_SizeDelta: {x: 768, y: 48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8684788528231256696
 CanvasRenderer:
@@ -360,8 +360,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9639789de9da64249a153ae679c0e59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Slider: {fileID: 5017406258780908562}
+  m_SettingName: 
   m_InitialValue: 0
+  m_Slider: {fileID: 5017406258780908562}
   m_SliderText: {fileID: 850273166837288525}
 --- !u!1 &2955896091396385002
 GameObject:
@@ -794,11 +795,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8559164449056999368}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -15, y: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -230, y: 0}
   m_SizeDelta: {x: 75, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &1866182657284406459
 CanvasRenderer:
   m_ObjectHideFlags: 0
