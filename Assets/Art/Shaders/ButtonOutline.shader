@@ -7,6 +7,12 @@ Shader "Bloody Botany/UI/Gradient Scroll"
         [SingleLineTexture] _GradientTex ("Gradient", 2D) = "white" {}
         _ScrollSpeed ("Scroll Speed", Range(0, 5)) = 4
         _Rotation ("Rotation", Float) = 0
+        [HideInInspector][Toggle] _Stencil ("Stencil", Float) = 0
+        [HideInInspector][Toggle] _StencilOp ("StencilOp", Float) = 0
+        [HideInInspector][Toggle] _StencilComp ("StencilComp", Float) = 0
+        [HideInInspector][Toggle] _StencilReadMask ("StencilReadMask", Float) = 0
+        [HideInInspector][Toggle] _StencilWriteMask ("StencilWriteMask", Float) = 0
+        [HideInInspector][Toggle] _ColorMask ("ColorMask", Float) = 0
     }
     SubShader
     {
