@@ -11,6 +11,14 @@ public class TickSetting : MonoBehaviour
 
     public string[] options;
     private int optionIndex = 0;
+    private void OnEnable()
+    {
+        if (m_SettingName == string.Empty)
+            return;
+
+        optionIndex = PlayerPrefs.GetInt(m_SettingName, m_DefaultOptionIndex);
+        UpdateText();
+    }
     public void TickLeft()
     {
         optionIndex--;
@@ -18,7 +26,8 @@ public class TickSetting : MonoBehaviour
         if (optionIndex < 0)
             optionIndex = options.Length - 1;
 
-        m_OptionText.text = options[optionIndex];
+        PlayerPrefs.SetInt(m_SettingName, optionIndex);
+        UpdateText();
     }
     public void TickRight()
     {
@@ -27,6 +36,16 @@ public class TickSetting : MonoBehaviour
         if (optionIndex >= options.Length)
             optionIndex = 0;
 
+        PlayerPrefs.SetInt(m_SettingName, optionIndex);
+        UpdateText();
+    }
+    private void UpdateText()
+    {
         m_OptionText.text = options[optionIndex];
+    }
+    [ContextMenu("Delete setting using setting name")]
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteKey(m_SettingName);
     }
 }
