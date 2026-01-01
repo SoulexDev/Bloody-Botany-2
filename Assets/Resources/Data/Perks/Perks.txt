@@ -1,0 +1,5 @@
+[Rock recover lemon tea] - Increases max health and healing (green)
+[Winter shock blue raspberry tea] - Increases move speed and interaction speed (blue)
+[Passion Fire pomegranate tea] - Increases gun damage and firing speed (red)
+[Power Line lime tea] - Increases gun accuracy and mag size (purple)
+[Oxyplus unsweetened iced tea] - Increases lung capacity (white)

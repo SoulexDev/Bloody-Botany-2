@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoString: 
+  interactable: {fileID: 0}
 --- !u!114 &7071866304335351613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +86,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
   m_ViewInfo: {fileID: 4067268812109683660}
-  m_PowerSource: {fileID: 0}
+  powerSource: {fileID: 0}
   interactEvent:
     m_PersistentCalls:
       m_Calls: []

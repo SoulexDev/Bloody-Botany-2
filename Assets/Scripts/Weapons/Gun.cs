@@ -27,18 +27,14 @@ public class Gun : MonoBehaviour, IUsable
     private void Start()
     {
         float magSize = PerksManager.Instance.GetPerkValue(PerkType.Accuracy_Magsize, gunData.magazineSize);
-
-        m_SpreadPerkValue = PerksManager.Instance.GetPerkValue(PerkType.Accuracy_Magsize, 1);
-        m_DamagePerkValue = PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, gunData.damage);
-        m_FiringPerkValue = gunData.fireRate / PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, 1);
-
         ammoCount = Mathf.RoundToInt(magSize);
 
-        PerksManager.OnPerksChanged += PerksManager_OnPerksChanged;
+        OnPerksChanged();
+        PerksManager.OnPerksChanged += OnPerksChanged;
     }
     private void OnDestroy()
     {
-        PerksManager.OnPerksChanged -= PerksManager_OnPerksChanged;
+        PerksManager.OnPerksChanged -= OnPerksChanged;
     }
     private void OnEnable()
     {
@@ -49,7 +45,7 @@ public class Gun : MonoBehaviour, IUsable
     {
         Crosshair.Instance.SetCrosshairOuterState(false);
     }
-    private void PerksManager_OnPerksChanged()
+    private void OnPerksChanged()
     {
         m_SpreadPerkValue = PerksManager.Instance.GetPerkValue(PerkType.Accuracy_Magsize, 1);
         m_DamagePerkValue = PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, gunData.damage);
