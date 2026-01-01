@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Interactable : NetworkBehaviour
 {
     [SerializeField] protected ViewInfo m_ViewInfo;
-    [SerializeField] protected PowerGenerator m_PowerSource;
+    public PowerGenerator powerSource;
 
     public UnityEvent interactEvent;
     public bool isInteractable = true;
@@ -14,10 +14,12 @@ public class Interactable : NetworkBehaviour
     public virtual void Awake()
     {
         m_ViewInfo = GetComponent<ViewInfo>();
+
+        m_ViewInfo.interactable = this;
     }
     public void Interact()
     {
-        if (m_PowerSource != null && !m_PowerSource.activated.Value)
+        if (powerSource != null && !powerSource.activated.Value)
             return;
 
         if (isInteractable)

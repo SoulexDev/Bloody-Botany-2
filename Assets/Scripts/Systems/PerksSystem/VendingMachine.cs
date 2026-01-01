@@ -11,7 +11,7 @@ public class VendingMachine : Interactable
     {
         base.Awake();
 
-        if (m_PowerSource && !m_PowerSource.activated.Value)
+        if (powerSource && !powerSource.activated.Value)
             m_ViewInfo.infoString = "Requires Power";
         else
             m_ViewInfo.infoString = $"Buy {m_GivenPerk.name}\n${m_Cost}";
