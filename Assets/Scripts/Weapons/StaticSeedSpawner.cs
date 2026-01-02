@@ -37,7 +37,7 @@ public class StaticSeedSpawner : NetworkBehaviour
     {
         //Try to throw on the server
         Ray ray = new Ray(origin, direction);
-        if (Physics.Raycast(ray, out RaycastHit hit, 999, GameManager.Instance.seedThrowMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, 999, GameManager.seedThrowMask))
         {
             if (hit.transform.TryGetComponent(out Planter planter) && !planter.inUse.Value)
             {

@@ -10,10 +10,11 @@ public class GameManager : MonoBehaviour
     public GameStage gameStage;
     public DifficultySettings difficultySettings;
 
-    public LayerMask playerIgnoreMask;
-    public LayerMask enemyIgnoreMask;
+    public static LayerMask playerIgnoreMask;
+    public static LayerMask enemyIgnoreMask;
 
-    public LayerMask seedThrowMask;
+    public static LayerMask seedThrowMask;
+    public static LayerMask audioIgnoreMask;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
         playerIgnoreMask = ~LayerMask.GetMask("Player", "Ignore Player", "Ignore Raycast");
         enemyIgnoreMask = ~LayerMask.GetMask("Enemy", "Ignore Enemy", "Ignore Raycast");
         seedThrowMask = ~LayerMask.GetMask("Player", "Enemy", "Ignore Player", "Ignore Enemy", "Ignore Raycast");
+        audioIgnoreMask = ~LayerMask.GetMask("Player", "Enemy", "Ignore Raycast");
     }
     public int GetEnemyHealth(int baseNum, float buff)
     {
