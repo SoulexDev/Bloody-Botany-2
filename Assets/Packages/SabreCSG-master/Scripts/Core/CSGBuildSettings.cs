@@ -84,7 +84,7 @@ namespace Sabresaurus.SabreCSG
         public ReflectionProbeUsage ReflectionProbeUsage = ReflectionProbeUsage.BlendProbes;
 
         // What default physics material to use on collision meshes
-        public PhysicMaterial DefaultPhysicsMaterial = null;
+        public PhysicsMaterial DefaultPhysicsMaterial = null;
 
         public Material DefaultVisualMaterial = null;
 
