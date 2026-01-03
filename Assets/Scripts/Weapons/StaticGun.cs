@@ -57,7 +57,7 @@ public class StaticGun : NetworkBehaviour
         //Reconstruct gun data on server
         GunData data = m_GunTypeDataPairs.First(g=>g.gunType == sGunData.gunType).gunData;
 
-        if (Physics.Raycast(sGunData.origin, sGunData.direction, out RaycastHit hit, 999, GameManager.Instance.playerIgnoreMask))
+        if (Physics.Raycast(sGunData.origin, sGunData.direction, out RaycastHit hit, 999, GameManager.playerIgnoreMask))
         {
             if (hit.transform.CompareTag("Enemy") && hit.transform.TryGetComponent(out IHealth health))
             {

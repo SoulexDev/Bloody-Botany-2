@@ -49,7 +49,7 @@ public class StaticMeleeWeapon : NetworkBehaviour
     public void MeleeServer(NetworkConnection conn, ServerMeleeData sMeleeData, Channel channel = Channel.Unreliable)
     {
         MeleeData data = m_MeleeTypeDataPairs.First(d=>d.meleeWeaponType == sMeleeData.meleeWeaponType).meleeData;
-        Collider[] cols = Physics.OverlapSphere(sMeleeData.origin + sMeleeData.direction * 1.5f, 2, GameManager.Instance.playerIgnoreMask);
+        Collider[] cols = Physics.OverlapSphere(sMeleeData.origin + sMeleeData.direction * 1.5f, 2, GameManager.playerIgnoreMask);
 
         int sweepTotal = 0;
 

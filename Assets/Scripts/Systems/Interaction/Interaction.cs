@@ -65,7 +65,7 @@ public class Interaction : MonoBehaviour
     {
         Ray ray = Camera.main.ViewportPointToRay(Vector2.one * 0.5f);
 
-        if (Physics.SphereCast(ray, 0.05f, out RaycastHit hit, 2.5f, GameManager.Instance.playerIgnoreMask))
+        if (Physics.SphereCast(ray, 0.05f, out RaycastHit hit, 2.5f, GameManager.playerIgnoreMask))
         {
             if (hit.transform.TryGetComponent(out Interactable newInteractable))
                 m_CurrentInteractable = newInteractable;

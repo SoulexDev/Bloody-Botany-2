@@ -117,7 +117,7 @@ public class PlayerController : StateMachine<PlayerController>
 
         if (Physics.SphereCast(playerCenter, characterController.radius - 0.05f, Vector3.down, out hit, 
             characterController.height * 0.5f - characterController.radius + 0.1f + characterController.skinWidth, 
-            GameManager.Instance.playerIgnoreMask))
+            GameManager.playerIgnoreMask))
         {
             isGrounded = true;
             groundNormal = hit.normal;
