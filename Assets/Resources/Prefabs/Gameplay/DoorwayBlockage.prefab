@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoString: 
+  interactable: {fileID: 0}
 --- !u!114 &406278245414516508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +205,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 7963380235744679397}
   _networkObjectCache: {fileID: 7963380235744679397}
   m_ViewInfo: {fileID: 3220139357047197064}
-  m_PowerSource: {fileID: 0}
+  powerSource: {fileID: 0}
   interactEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -241,7 +242,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedTimestamp: -8584347026549288725
+  _initializedTimestamp: -8584338596004255127
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -256,7 +257,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 6
+  <PrefabId>k__BackingField: 5
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 4025151936379853022
   SceneId: 0

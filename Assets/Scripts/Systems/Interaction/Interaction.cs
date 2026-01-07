@@ -36,7 +36,7 @@ public class Interaction : MonoBehaviour
                 m_InfoText.text = "";
             else
             {
-                if (m_CurrentViewInfoBuffer.interactable)
+                if (m_CurrentViewInfoBuffer.interactable && m_CurrentViewInfoBuffer.interactable.powerSource)
                 {
                     m_InfoText.text = m_CurrentViewInfoBuffer.interactable.powerSource.activated.Value ? 
                         m_CurrentViewInfoBuffer.infoString : "Requires Power";
