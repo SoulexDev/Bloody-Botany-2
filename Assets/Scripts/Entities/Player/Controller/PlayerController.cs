@@ -14,6 +14,7 @@ public class PlayerController : StateMachine<PlayerController>
 {
     public CharacterController characterController;
     public Transform visual;
+    public Animator anims;
     public float gravity = 20;
     public float moveSpeed = 4;
     public float airSpeed = 2.5f;
@@ -108,6 +109,16 @@ public class PlayerController : StateMachine<PlayerController>
 
         CameraController.Instance.cameraEffects.SetFOV(m_FOVMagTarget);
         CameraController.Instance.cameraEffects.SetLeanDirection(isMoving ? -inputVector.x : 0);
+
+        Vector2 vel2 = new Vector2(characterController.velocity.x, characterController.velocity.z);
+        Vector2 forward2 = new Vector2(visual.forward.x, visual.forward.z);
+        Vector2 right2 = new Vector2(visual.right.x, visual.right.z);
+
+        Vector2 relativeVel = new Vector2(Vector2.Dot(vel2, right2), Vector2.Dot(vel2, forward2));
+        relativeVel = Vector2.ClampMagnitude(relativeVel, 1);
+
+        anims.SetFloat("MoveX", Mathf.Lerp(anims.GetFloat("MoveX"), relativeVel.x, Time.deltaTime * 5));
+        anims.SetFloat("MoveY", Mathf.Lerp(anims.GetFloat("MoveY"), relativeVel.y, Time.deltaTime * 5));
 
         base.Update();
     }

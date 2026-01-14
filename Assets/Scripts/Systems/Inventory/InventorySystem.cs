@@ -19,6 +19,15 @@ public class InventorySystem : NetworkBehaviour
     private GameObject m_LastItem;
     private int m_LastIndex = -1;
 
+    private Animator m_ArmsAnim => CameraController.Instance.armsAnim;
+    private Animator m_WeaponAnim;
+
+    private string m_ArmsEquipAnimationTrigger;
+    //private string m_WeaponEquipAnimationTrigger;
+
+    private string m_ArmsFireAnimationTrigger;
+    //private string m_WeaponFireAnimationTrigger;
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -105,6 +114,14 @@ public class InventorySystem : NetworkBehaviour
             }
         }
     }
+    public void DoFireAnimation()
+    {
+        if (m_WeaponAnim != null)
+        {
+            m_ArmsAnim.SetTrigger(m_ArmsFireAnimationTrigger);
+            m_WeaponAnim.SetTrigger("Fire");
+        }
+    }
     //TODO: melee fallback
     /// <summary>
     /// 
@@ -185,9 +202,32 @@ public class InventorySystem : NetworkBehaviour
             m_CurrentUsable = usable;
         }
 
+        //Get animator from item object
+        if (obj.transform.childCount > 0 && obj.transform.GetChild(0).TryGetComponent(out Animator anims))
+        {
+            m_WeaponAnim = anims;
+        }
+        else
+            m_WeaponAnim = null;
+
+        print(m_WeaponAnim);
+
         //Set last obj and last index
         m_LastItem = obj;
         m_LastIndex = itemIndex;
+
+        //Cache animation names
+        m_ArmsEquipAnimationTrigger = $"{item.itemAnimationName}_Equip";
+        //m_WeaponEquipAnimationTrigger = $"{item.itemAnimationName}_Equip";
+        m_ArmsFireAnimationTrigger = $"{item.itemAnimationName}_Fire";
+        //m_WeaponFireAnimationTrigger = $"{item.itemAnimationName}_Fire";
+
+        //Play equip animations
+        if (m_WeaponAnim == null)
+            return;
+
+        m_ArmsAnim.SetTrigger(m_ArmsEquipAnimationTrigger);
+        m_WeaponAnim.SetTrigger("Equip");
     }
     public int AddItem(InventoryItem item, int count = 1)
     {

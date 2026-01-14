@@ -98,6 +98,7 @@ public class Gun : MonoBehaviour, IUsable
     private void Fire()
     {
         StaticGun.Instance.FireClient(m_GunType, m_Spread, m_DamagePerkValue);
+        GameProfile.Instance.inventorySystem.DoFireAnimation();
 
         m_Source.pitch = 1 + (Random.value - 0.5f) * 2 * 0.2f;
         m_Source.PlayOneShot(gunData.fireSound);

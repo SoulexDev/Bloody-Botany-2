@@ -13,5 +13,5 @@ public class InventoryItem : ScriptableObject
     public GameObject itemPrefab;
     public int maxStack = 1;
 
-    public string equipAnimationTrigger;
+    [Tooltip("Name of item used in the animation")] public string itemAnimationName;
 }
