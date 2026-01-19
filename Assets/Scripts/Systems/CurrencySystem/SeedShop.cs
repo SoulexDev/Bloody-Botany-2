@@ -12,7 +12,7 @@ public class SeedShop : Interactable
     {
         base.Awake();
 
-        m_ViewInfo.infoString = $"Purchase {m_SeedItem.name}s\n${m_Cost}";
+        m_ViewInfo.activeInfoString = $"Purchase {m_SeedItem.name}s\n${m_Cost}";
     }
     public override void OnInteract()
     {

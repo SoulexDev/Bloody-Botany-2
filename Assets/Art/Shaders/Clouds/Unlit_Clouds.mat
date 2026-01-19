@@ -47,10 +47,10 @@ Material:
     - _MaxLightSteps: 6
     - _MaxRaySteps: 100
     m_Floats:
-    - _AbsorptionCoefficient: 0.05
+    - _AbsorptionCoefficient: 0.06
     - _MaxRaySteps: 100
     - _RayStepSize: 0.16
-    - _ScatteringAniso: 0.05
+    - _ScatteringAniso: 0.1
     m_Colors:
     - _BoundsMax: {r: 5000.56, g: 2500, b: 4999.75, a: 0}
     - _BoundsMin: {r: -4999.44, g: 500, b: -5000.25, a: 0}

@@ -123,8 +123,8 @@ Shader "Bloody Botany/Clouds"
                 float totalDensity = 0;
                 float marchSize = 100;
 
-                [unroll(6)]
-                for (int i = 0; i < 6; i++){
+                [unroll(2)]
+                for (int i = 0; i < 2; i++){
                     rayPos += lightDir * marchSize;
 
                     totalDensity += max(0, sampleDensity(rayPos) * marchSize);

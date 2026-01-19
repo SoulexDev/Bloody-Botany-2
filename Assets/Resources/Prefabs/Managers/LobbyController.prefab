@@ -48,7 +48,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8634438532126650283}
   _networkObjectCache: {fileID: 8634438532126650283}
-  m_SceneToLoad: DesertCamp
+  m_SceneToLoad: DesertCamp Rebalance2
   m_Maps: []
   m_GameProfile: {fileID: 7934133904806874848, guid: a71d2fc2f9db7d04597bcf6b86c89beb, type: 3}
 --- !u!114 &8634438532126650283

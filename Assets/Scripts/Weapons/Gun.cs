@@ -8,10 +8,6 @@ public class Gun : MonoBehaviour, IUsable
     [SerializeField] private AudioSource m_Source;
     [HideInInspector] public int ammoCount;
 
-    private float m_SpreadPerkValue;
-    private float m_DamagePerkValue;
-    private float m_FiringPerkValue;
-
     private bool m_Firing = false;
     private bool m_OnCooldown = false;
 
@@ -26,15 +22,7 @@ public class Gun : MonoBehaviour, IUsable
 
     private void Start()
     {
-        float magSize = PerksManager.Instance.GetPerkValue(PerkType.Accuracy_Magsize, gunData.magazineSize);
-        ammoCount = Mathf.RoundToInt(magSize);
-
-        OnPerksChanged();
-        PerksManager.OnPerksChanged += OnPerksChanged;
-    }
-    private void OnDestroy()
-    {
-        PerksManager.OnPerksChanged -= OnPerksChanged;
+        ammoCount = Mathf.RoundToInt(gunData.magazineSize * StatsManager.Instance.accuracyMagMult);
     }
     private void OnEnable()
     {
@@ -45,19 +33,13 @@ public class Gun : MonoBehaviour, IUsable
     {
         Crosshair.Instance.SetCrosshairOuterState(false);
     }
-    private void OnPerksChanged()
-    {
-        m_SpreadPerkValue = PerksManager.Instance.GetPerkValue(PerkType.Accuracy_Magsize, 1);
-        m_DamagePerkValue = PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, gunData.damage);
-        m_FiringPerkValue = gunData.fireRate / PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, 1);
-    }
     private void Update()
     {
         if (ammoCount == 0)
             return;
 
-        float spreadUpper = (0.05f + gunData.spread) / m_SpreadPerkValue;
-        float spreadLower = gunData.spread / m_SpreadPerkValue;
+        float spreadUpper = (0.05f + gunData.spread) / StatsManager.Instance.accuracyMagMult;
+        float spreadLower = gunData.spread / StatsManager.Instance.accuracyMagMult;
 
         m_Spread = Mathf.Lerp(m_Spread, GameProfile.Instance.playerController.isMoving ? spreadUpper : spreadLower, Time.deltaTime * 10);
 
@@ -97,7 +79,7 @@ public class Gun : MonoBehaviour, IUsable
     }
     private void Fire()
     {
-        StaticGun.Instance.FireClient(m_GunType, m_Spread, m_DamagePerkValue);
+        StaticGun.Instance.FireClient(m_GunType, m_Spread, StatsManager.Instance.damageFiringMult * gunData.damage);
         GameProfile.Instance.inventorySystem.DoFireAnimation();
 
         m_Source.pitch = 1 + (Random.value - 0.5f) * 2 * 0.2f;
@@ -118,7 +100,7 @@ public class Gun : MonoBehaviour, IUsable
     private IEnumerator Cooldown()
     {
         m_OnCooldown = true;
-        yield return new WaitForSeconds(m_FiringPerkValue);
+        yield return new WaitForSeconds(gunData.fireRate / StatsManager.Instance.damageFiringMult);
         m_OnCooldown = false;
     }
     private IEnumerator Wilt()

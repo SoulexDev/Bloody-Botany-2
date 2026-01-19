@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210e74a94b59f214d9eaf70c9194fc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoString: Revive
+  activeInfoString: 
   interactable: {fileID: 0}
 --- !u!114 &7149675949625768881
 MonoBehaviour:
@@ -812,7 +812,7 @@ GameObject:
   - component: {fileID: 7934133904806874848}
   - component: {fileID: 6729453345303536728}
   - component: {fileID: 6628554256148922965}
-  - component: {fileID: 743066156854647842}
+  - component: {fileID: 8286006954585234238}
   m_Layer: 6
   m_Name: GameProfile
   m_TagString: Player
@@ -882,7 +882,6 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 7934133904806874848}
   _networkObjectCache: {fileID: 7934133904806874848}
-  m_ArmsAnim: {fileID: 1855754135097450494}
 --- !u!114 &7986076727745012183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -945,11 +944,10 @@ MonoBehaviour:
   visual: {fileID: 8987232984542412982}
   anims: {fileID: 1855754135097450494}
   gravity: 15
-  moveSpeed: 6
-  airSpeed: 8
-  maxAirSpeed: 6
+  m_MoveSpeed: 6
+  m_AirSpeed: 2.5
+  m_MaxAirSpeed: 6
   jumpForce: 4
-  moveSpeedPerkValue: 0
   groundAccelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -1079,7 +1077,7 @@ MonoBehaviour:
   - {fileID: 7955090508130015736}
   - {fileID: 5413539972543100265}
   - {fileID: 6729453345303536728}
-  - {fileID: 743066156854647842}
+  - {fileID: 0}
   - {fileID: 1643514958441651001}
   - {fileID: 7624395786779314034}
   - {fileID: 5228267211381686982}
@@ -1180,7 +1178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthComponent: {fileID: 4017702134905344188}
---- !u!114 &743066156854647842
+--- !u!114 &8286006954585234238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1189,12 +1187,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8627642662261520234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 169846fad7d7fd548ad01f0071472e2e, type: 3}
+  m_Script: {fileID: 11500000, guid: cba373f855e18d645a63c34430996510, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 6
+  m_EditorClassIdentifier: Assembly-CSharp::StatsManager
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 7934133904806874848}
-  _networkObjectCache: {fileID: 7934133904806874848}
+  _networkObjectCache: {fileID: 0}
+  healthHealingMult: 1
+  moveInteractionMult: 1
+  accuracyMagMult: 1
+  damageFiringMult: 1
+  lungCapacityMult: 1
 --- !u!1 &9001711201312819383
 GameObject:
   m_ObjectHideFlags: 0

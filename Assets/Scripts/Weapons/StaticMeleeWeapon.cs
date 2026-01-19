@@ -37,9 +37,8 @@ public class StaticMeleeWeapon : NetworkBehaviour
         ServerMeleeData sMeleeData = new ServerMeleeData();
         sMeleeData.meleeWeaponType = meleeWeaponType;
 
-        //TODO: Move into normal melee and call onyl on change
         //TODO: Increase melee speed too
-        sMeleeData.damage = PerksManager.Instance.GetPerkValue(PerkType.Damage_Firing, data.damage);
+        sMeleeData.damage = data.damage;
         sMeleeData.origin = ray.origin;
         sMeleeData.direction = ray.direction;
 

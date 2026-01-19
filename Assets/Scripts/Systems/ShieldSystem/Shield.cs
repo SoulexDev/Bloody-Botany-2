@@ -121,7 +121,7 @@ public class Shield : Interactable, IHealth
     }
     private void UpdateInteractionText()
     {
-        m_ViewInfo.infoString = shieldState.Value switch
+        m_ViewInfo.activeInfoString = shieldState.Value switch
         {
             ShieldState.Inactive => "Activate Shield",
             ShieldState.Active => "Lockdown Shield",

@@ -12,7 +12,7 @@ public class ItemPickup : Interactable
     {
         base.Awake();
 
-        m_ViewInfo.infoString = $"Pick up {item.name}";
+        m_ViewInfo.activeInfoString = $"Pick up {item.name}";
     }
     public override void OnInteract()
     {

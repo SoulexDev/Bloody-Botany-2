@@ -165,6 +165,7 @@ public class CloudsMaster : MonoBehaviour
 [CustomEditor(typeof(CloudsMaster))]
 public class CloudsMasterEditor : Editor
 {
+    private Rect m_DrawRect = new Rect(20, 400, 500, 500);
     public override void OnInspectorGUI()
     {
         var script = (CloudsMaster)target;
@@ -179,7 +180,9 @@ public class CloudsMasterEditor : Editor
         //EditorGUI.EndChangeCheck();
         DrawDefaultInspector();
 
-        GUILayout.Label(script.cloudsTex);
+        //GUI.BeginClip(m_DrawRect);
+        //Handles.DrawTexture3DSlice(script.cloudsTex, Vector3.one * 0.5f);
+        //GUI.EndClip();
     }
 }
 #endif

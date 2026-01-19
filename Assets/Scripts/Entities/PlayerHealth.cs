@@ -34,31 +34,6 @@ public class PlayerHealth : NetworkBehaviour
     private float m_DamageTimer;
     private float m_HealTimer;
 
-    private float m_HealingPerkValue;
-    private float m_DamagePerkValue;
-
-    //private float m_OxygenValue;
-
-    private void Start()
-    {
-        //TODO: place perks manager as a reference or place in game profile
-        m_HealthComponent.OnHealthChanged += HealthComponent_OnHealthChanged;
-        m_HealthComponent.OnHealthDepleted += HealthComponent_OnHealthDepleted;
-
-        PerksManager.OnPerksChanged += PerksManager_OnPerksChanged;
-    }
-    private void OnDestroy()
-    {
-        m_HealthComponent.OnHealthChanged -= HealthComponent_OnHealthChanged;
-        m_HealthComponent.OnHealthDepleted -= HealthComponent_OnHealthDepleted;
-
-        PerksManager.OnPerksChanged -= PerksManager_OnPerksChanged;
-    }
-    private void PerksManager_OnPerksChanged()
-    {
-        m_HealingPerkValue = 1.5f / PerksManager.Instance.GetPerkValue(PerkType.Speed_Healing, 1);
-        m_DamagePerkValue = PerksManager.Instance.GetPerkValue(PerkType.LungCapacity, 1);
-    }
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -69,10 +44,20 @@ public class PlayerHealth : NetworkBehaviour
         m_DamageTimer = 1;
         m_HealTimer = 1.5f;
 
-        m_HealingPerkValue = 1.5f;
-        m_DamagePerkValue = 1;
+        m_HealthComponent.OnHealthChanged += HealthComponent_OnHealthChanged;
+        m_HealthComponent.OnHealthDepleted += HealthComponent_OnHealthDepleted;
 
         m_Shielded = false;
+    }
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        if (!IsOwner)
+            return;
+
+        m_HealthComponent.OnHealthChanged -= HealthComponent_OnHealthChanged;
+        m_HealthComponent.OnHealthDepleted -= HealthComponent_OnHealthDepleted;
     }
     private void HealthComponent_OnHealthChanged()
     {
@@ -82,7 +67,11 @@ public class PlayerHealth : NetworkBehaviour
         if (m_HealthBar)
             m_HealthBar.fillAmount = (float)m_HealthComponent.health / m_HealthComponent.maxHealth;
         if (m_HealthText)
+        {
+            //print(m_HealthComponent.health);
+            //print(m_HealthComponent.maxHealth);
             m_HealthText.text = m_HealthComponent.health.ToString("D2") + "/" + m_HealthComponent.maxHealth.ToString("D2");
+        }
     }
     private void HealthComponent_OnHealthDepleted()
     {
@@ -95,26 +84,29 @@ public class PlayerHealth : NetworkBehaviour
         if (!IsOwner || dead.Value)
             return;
 
+        //TODO: just a note. this is probably okay for performance.
+        m_HealthComponent.maxHealth = Mathf.CeilToInt(50 * StatsManager.Instance.healthHealingMult);
+
         bool died = false;
         if (!m_Shielded)
         {
             if (m_DamageTimer <= 0)
             {
-                m_DamageTimer += m_DamagePerkValue;
+                m_DamageTimer += 1;
                 m_HealthComponent.ChangeHealth(-1, ref died);
             }
 
-            m_DamageTimer -= Time.deltaTime;
+            m_DamageTimer -= Time.deltaTime / StatsManager.Instance.lungCapacityMult;
         }
         else
         {
             if (m_HealTimer <= 0)
             {
-                m_HealTimer += m_HealingPerkValue;
+                m_HealTimer += 1.5f;
                 m_HealthComponent.ChangeHealth(1, ref died);
             }
 
-            m_HealTimer -= Time.deltaTime;
+            m_HealTimer -= Time.deltaTime * StatsManager.Instance.healthHealingMult;
         }
 
         //m_OxygenValue = Mathf.MoveTowards(m_OxygenValue, m_Shielded ? 100 : 10, Time.deltaTime * 50);

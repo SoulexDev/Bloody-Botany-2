@@ -16,7 +16,7 @@ public class BlockageShop : Interactable
     {
         base.Awake();
 
-        m_ViewInfo.infoString = $"Remove {m_BlockageName}\n${m_Cost}";
+        m_ViewInfo.activeInfoString = $"Remove {m_BlockageName}\n${m_Cost}";
     }
     public override void OnInteract()
     {

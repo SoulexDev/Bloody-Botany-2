@@ -55,7 +55,7 @@ public class MeleeWeapon : MonoBehaviour, IUsable
     private IEnumerator Cooldown()
     {
         m_OnCooldown = true;
-        yield return new WaitForSeconds(m_MeleeData.hitRate);
+        yield return new WaitForSeconds(m_MeleeData.hitRate / StatsManager.Instance.damageFiringMult);
         m_OnCooldown = false;
     }
 }

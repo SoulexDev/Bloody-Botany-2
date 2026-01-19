@@ -16,12 +16,17 @@ public class PlayerController : StateMachine<PlayerController>
     public Transform visual;
     public Animator anims;
     public float gravity = 20;
-    public float moveSpeed = 4;
-    public float airSpeed = 2.5f;
-    public float maxAirSpeed = 4;
-    public float jumpForce = 4;
 
-    [HideInInspector] public float moveSpeedPerkValue;
+    [SerializeField] private float m_MoveSpeed = 4;
+    [HideInInspector] public float moveSpeed => m_MoveSpeed * StatsManager.Instance.moveInteractionMult;
+
+    [SerializeField] private float m_AirSpeed = 2.5f;
+    [HideInInspector] public float airSpeed => m_AirSpeed * StatsManager.Instance.moveInteractionMult;
+
+    [SerializeField] private float m_MaxAirSpeed = 4;
+    [HideInInspector] public float maxAirSpeed => m_MaxAirSpeed * StatsManager.Instance.moveInteractionMult;
+
+    public float jumpForce = 4;
 
     [Header("Movement Curves")]
     public AnimationCurve groundAccelerationCurve;
@@ -46,18 +51,6 @@ public class PlayerController : StateMachine<PlayerController>
 
     private float m_FOVMagTarget;
 
-    private void Start()
-    {
-        PerksManager.OnPerksChanged += PerksManager_OnPerksChanged;
-    }
-    private void OnDestroy()
-    {
-        PerksManager.OnPerksChanged -= PerksManager_OnPerksChanged;
-    }
-    private void PerksManager_OnPerksChanged()
-    {
-        moveSpeedPerkValue = PerksManager.Instance.GetPerkValue(PerkType.Speed_Healing, 1);
-    }
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -72,8 +65,6 @@ public class PlayerController : StateMachine<PlayerController>
         stateDictionary.Add(PlayerState.Airborne, new PlayerAirborne());
 
         SwitchState(PlayerState.Idle);
-
-        moveSpeedPerkValue = 1;
     }
     public override void Update()
     {
