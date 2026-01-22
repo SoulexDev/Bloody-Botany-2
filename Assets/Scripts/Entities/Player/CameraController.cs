@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     public CameraEffects cameraEffects;
     public Transform camTarget;
     public Transform itemSpawnTransform;
+    public Animator armsAnim;
     [SerializeField] private Transform m_CamHolder;
     [SerializeField] private float m_Sensitivity = 2.0f;
 

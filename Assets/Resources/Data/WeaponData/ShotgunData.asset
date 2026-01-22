@@ -43,4 +43,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   bulletsPerShot: 8
   magazineSize: 8
-  fireSound: {fileID: 8300000, guid: 91a8c87071590994abc03b995047964d, type: 3}
+  fireSound: {fileID: 8300000, guid: ce3a8f597880af74db97f0d7cc7645fc, type: 3}

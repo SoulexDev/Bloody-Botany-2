@@ -24,7 +24,7 @@ public class PlayerRun : State<PlayerController>
         if (Vector2.Dot(ctx.inputVector, lastInput) < 0)
             accelerationTimer = 0;
 
-        ctx.characterController.Move((ctx.moveVector * ctx.moveSpeed * ctx.moveSpeedPerkValue *
+        ctx.characterController.Move((ctx.moveVector * ctx.moveSpeed *
             ctx.groundAccelerationCurve.Evaluate(accelerationTimer) + ctx.gravityVector) * Time.deltaTime);
 
         accelerationTimer += Time.deltaTime;

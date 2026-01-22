@@ -16,4 +16,4 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: be628e21c14596bc38759b1b45b50de0, type: 3}
   itemPrefab: {fileID: 5345824889723563859, guid: aa98ba4c1df34ab42b88108be3ebb175, type: 3}
   maxStack: 1
-  equipAnimationTrigger: 
+  itemAnimationName: Revolver

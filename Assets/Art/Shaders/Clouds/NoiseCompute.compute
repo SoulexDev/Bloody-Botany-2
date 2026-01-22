@@ -1,0 +1,85 @@
+#pragma kernel CSMain
+
+uint Resolution;
+RWTexture3D<float> Result;
+StructuredBuffer<float3> WorleyPoints;
+int CellsPerAxis;
+
+static const int3 offsets[] =
+{
+    // centre
+    int3(0,0,0),
+    // front face
+    int3(0,0,1),
+    int3(-1,1,1),
+    int3(-1,0,1),
+    int3(-1,-1,1),
+    int3(0,1,1),
+    int3(0,-1,1),
+    int3(1,1,1),
+    int3(1,0,1),
+    int3(1,-1,1),
+    // back face
+    int3(0,0,-1),
+    int3(-1,1,-1),
+    int3(-1,0,-1),
+    int3(-1,-1,-1),
+    int3(0,1,-1),
+    int3(0,-1,-1),
+    int3(1,1,-1),
+    int3(1,0,-1),
+    int3(1,-1,-1),
+    // ring around centre
+    int3(-1,1,0),
+    int3(-1,0,0),
+    int3(-1,-1,0),
+    int3(0,1,0),
+    int3(0,-1,0),
+    int3(1,1,0),
+    int3(1,0,0),
+    int3(1,-1,0)
+};
+
+float maxComponent(float3 vec) {
+    return max(vec.x, max(vec.y, vec.z));
+}
+
+float minComponent(float3 vec) {
+    return min(vec.x, min(vec.y, vec.z));
+}
+
+float worley(StructuredBuffer<float3> points, int cellCount, float3 samplePos){
+    samplePos = (samplePos * 1) % 1;
+    int3 cellID = floor(samplePos * cellCount);
+    float minSqrDst = 1;
+
+    // Loop over current cell + 26 adjacent cells to find closest point to samplePos
+    for (int cellOffsetIndex = 0; cellOffsetIndex < 27; cellOffsetIndex++) {
+        int3 adjID = cellID + offsets[cellOffsetIndex];
+        // Adjacent cell is outside map, so wrap around to other side to allow for seamless tiling
+        if (minComponent(adjID) == -1 || maxComponent(adjID) == cellCount) {
+            int3 wrappedID = (adjID + cellCount) % (uint3)cellCount;
+            int adjCellIndex = wrappedID.x + cellCount * (wrappedID.y + wrappedID.z * cellCount);
+            float3 wrappedPoint = points[adjCellIndex];
+            // Offset the wrappedPoint by all offsets to find which is closest to samplePos
+            for (int wrapOffsetIndex = 0; wrapOffsetIndex < 27; wrapOffsetIndex ++) {
+                float3 sampleOffset = (samplePos - (wrappedPoint + offsets[wrapOffsetIndex]));
+                minSqrDst = min(minSqrDst, dot(sampleOffset, sampleOffset));
+            }
+        }
+        // Adjacent cell is inside map, so calculate sqrDst from samplePos to cell point
+        else {
+            int adjCellIndex = adjID.x + cellCount * (adjID.y + adjID.z * cellCount);
+            float3 sampleOffset = samplePos - points[adjCellIndex];
+            minSqrDst = min(minSqrDst, dot(sampleOffset, sampleOffset));
+        }
+    }
+    return sqrt(minSqrDst);
+}
+[numthreads(8, 8, 8)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    float3 pos = id / (float)Resolution;
+
+    Result[id.xyz] = worley(WorleyPoints, CellsPerAxis, pos);
+}

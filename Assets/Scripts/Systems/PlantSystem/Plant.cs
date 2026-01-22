@@ -24,7 +24,7 @@ public class Plant : ItemPickup
     {
         base.Awake();
 
-        m_ViewInfo.infoString = m_GrowthStage.Value.ToString();
+        m_ViewInfo.activeInfoString = m_GrowthStage.Value.ToString();
         isInteractable = false;
 
         m_GrowthStage.OnChange += GrowthStage_OnChange;
@@ -44,11 +44,11 @@ public class Plant : ItemPickup
         if (next == GrowthStage.Mature)
         {
             isInteractable = true;
-            m_ViewInfo.infoString = $"Harvest {item.name}";
+            m_ViewInfo.activeInfoString = $"Harvest {item.name}";
         }
         else
         {
-            m_ViewInfo.infoString = m_GrowthStage.Value.ToString();
+            m_ViewInfo.activeInfoString = m_GrowthStage.Value.ToString();
         }
     }
     private void Update()

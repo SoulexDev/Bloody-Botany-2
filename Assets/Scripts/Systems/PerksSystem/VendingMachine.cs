@@ -11,10 +11,7 @@ public class VendingMachine : Interactable
     {
         base.Awake();
 
-        if (powerSource && !powerSource.activated.Value)
-            m_ViewInfo.infoString = "Requires Power";
-        else
-            m_ViewInfo.infoString = $"Buy {m_GivenPerk.name}\n${m_Cost}";
+        m_ViewInfo.activeInfoString = $"Buy {m_GivenPerk.name}\n${m_Cost}";
     }
     public override void OnInteract()
     {
@@ -26,7 +23,7 @@ public class VendingMachine : Interactable
         //}
         if (GameProfile.Instance.currencySystem.SpendCurrency(m_Cost))
         {
-            PerksManager.Instance.AddPerk(m_GivenPerk);
+            StatsManager.Instance.AddPerk(m_GivenPerk);
         }
     }
 }

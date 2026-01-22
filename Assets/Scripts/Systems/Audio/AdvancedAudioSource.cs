@@ -90,6 +90,7 @@ public class AdvancedAudioSource : MonoBehaviour
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(AdvancedAudioSource))]
 public class AdvancedAudioSourceEditor : Editor
 {
@@ -116,3 +117,4 @@ public class AdvancedAudioSourceEditor : Editor
         }
     }
 }
+#endif

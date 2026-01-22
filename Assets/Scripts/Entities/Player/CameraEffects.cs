@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class CameraEffects : MonoBehaviour
 {
-    //[SerializeField] private Transform m_CamHolder;
+    //[SerializeField] private Transform m_EffectTransform;
     [SerializeField] private CharacterController m_CharacterController;
     [SerializeField] private float m_FOVLower = 85, m_FOVUpper = 100;
 
     private Vector3 m_CamRotation;
 
+    //private Vector3 m_EndPos;
+
+    private void Awake()
+    {
+        //m_EndPos = m_OgPos + Vector3.down;
+    }
     private void Update()
     {
         transform.localRotation = Quaternion.Euler(m_CamRotation);
@@ -28,17 +34,18 @@ public class CameraEffects : MonoBehaviour
     }
     public void DoLanding()
     {
-        StartCoroutine(DoLandCurve());
+        //StartCoroutine(DoLandCurve());
     }
     private IEnumerator DoLandCurve()
     {
         float timer = 0;
 
+        Vector3 endPos = transform.InverseTransformPoint(transform.position - Vector3.up);
         while (timer < 1)
         {
             float eval = GameProfile.Instance.playerController.landCurve.Evaluate(timer);
 
-            transform.localPosition = Vector3.up * eval;
+            transform.localPosition = Vector3.Lerp(Vector3.zero, endPos, -eval);
             SetJumpDirection(-eval * 5);
 
             timer += Time.deltaTime * 2;

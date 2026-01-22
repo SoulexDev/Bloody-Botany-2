@@ -2,6 +2,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Steamworks;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -15,7 +16,10 @@ public class GameProfile : NetworkBehaviour
     public PlayerHealth playerHealth;
     public PlayerRevive playerRevive;
 
-    public GameObject visual;
+    [Header("Visual")]
+    [SerializeField] private Renderer m_VisualRend;
+    [SerializeField] private Material m_InvisibleMat;
+    [SerializeField] private List<GameObject> m_VisualsToDisable;
 
     public readonly SyncVar<string> steamName = new SyncVar<string>();
     [SerializeField] private TextMeshPro m_NameTag;
@@ -39,7 +43,12 @@ public class GameProfile : NetworkBehaviour
         if (IsOwner)
         {
             Instance = this;
-            visual.SetActive(false);
+            m_VisualsToDisable.ForEach(v=>v.SetActive(false));
+
+            Material[] mats = m_VisualRend.sharedMaterials;
+            mats[1] = m_InvisibleMat;
+            m_VisualRend.sharedMaterials = mats;
+
             playerRevive.isInteractable = false;
 
             print(Owner);

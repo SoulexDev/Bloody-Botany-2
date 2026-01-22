@@ -36,10 +36,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 1
+    value: 1.5
   threshold:
     overrideState: 1
-    value: 0.5
+    value: 0.25
   softKnee:
     overrideState: 0
     value: 0.5
@@ -82,7 +82,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   mode:
-    overrideState: 0
+    overrideState: 1
     value: 0
   color:
     overrideState: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.303
+    value: 0.15
   smoothness:
     overrideState: 1
     value: 1
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
   m_Name: AmbientOcclusion
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -130,7 +130,7 @@ MonoBehaviour:
     value: 0
   intensity:
     overrideState: 1
-    value: 1.5
+    value: 1
   color:
     overrideState: 0
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -150,8 +150,8 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   zBias:
-    overrideState: 0
-    value: 0.0001
+    overrideState: 1
+    value: 0.0005
   directLightingStrength:
     overrideState: 0
     value: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
     value: 0.15
   quality:
     overrideState: 0
-    value: 2
+    value: 3
 --- !u!114 &6076170936116620860
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -232,7 +232,7 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 0
-    value: 0
+    value: 0.5
   contrast:
     overrideState: 0
     value: 0
@@ -1494,7 +1494,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.077
+    value: 0.1
   fastMode:
     overrideState: 0
     value: 0
