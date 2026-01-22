@@ -2,6 +2,7 @@ Shader "Bloody Botany/BeautifulSkybox"
 {
     Properties
     {
+        [Header(Textures)]
         [SingleLineTexture] _CloudsTex ("Clouds Texture", 2D) = "black" {}
         [SingleLineTexture] _SampleNoise ("Sample Noise", 2D) = "black" {}
 
@@ -20,7 +21,7 @@ Shader "Bloody Botany/BeautifulSkybox"
 
         [Header(Cloud Lighting Settings)]
         _AccumIntensity ("Accumulation Intensity", Range(1, 32)) = 16
-        _AbsorptionCoefficient ("Absorption Coefficient", Range(0, 4)) = 0.1
+        _AbsorptionCoefficient ("Absorption Coefficient", Range(0, 16)) = 0.1
         _ScatteringAniso ("Scattering Aniso", Range(0, 4)) = 0.1
     }
     SubShader
