@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Wood_Trim
+  m_Shader: {fileID: 4800000, guid: 6e32e1e8478b0b5419f22d97c3744dbb, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BrushMask:
+        m_Texture: {fileID: 2800000, guid: 3c77af798aa35ee49807be03059cbcae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlossMap:
+        m_Texture: {fileID: 2800000, guid: 7ae79d7ebbe8c9843a5e268b1faa14a0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b5f3323637724c745a64f850cf82ed25, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 980aaae0515cd574389f0c3f58a67606, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ProcMask:
+        m_Texture: {fileID: 2800000, guid: 4943dd7672604ff469de6b7baab17233, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecMap:
+        m_Texture: {fileID: 2800000, guid: 11b8d500ad33f284bb571bba7ff099ec, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Contrast: 4
+    - _Glossiness: 1
+    m_Colors:
+    - _BaseTint: {r: 1, g: 1, b: 1, a: 1}
+    - _MaskColor0: {r: 0.7075471, g: 0.6107601, b: 0.6107601, a: 1}
+    - _MaskColor1: {r: 0.735849, g: 0.20715249, b: 0.010412939, a: 1}
+    - _MaskColor2: {r: 0.43284965, g: 0.6698113, b: 0.6359597, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
