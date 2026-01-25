@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 592f044a52e43444587968efa6146496
+labels:
+- Networked
 PrefabImporter:
   externalObjects: {}
   userData: 

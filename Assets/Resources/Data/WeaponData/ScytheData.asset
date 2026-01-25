@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef86bf28a43e82a4897ec961ab7d8ee5, type: 3}
   m_Name: ScytheData
   m_EditorClassIdentifier: 
-  damage: 8
+  damage: 25
   hitRate: 0.5
+  sweepCount: 2

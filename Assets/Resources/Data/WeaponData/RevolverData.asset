@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   automatic: 1
   gunItem: {fileID: 11400000, guid: df8371465ad03c14997d216f8a8a9560, type: 2}
-  fireRate: 1
-  spread: 0.005
+  fireRate: 0.75
+  spread: 0.002
   damage: 12
   damageFalloff:
     serializedVersion: 2

@@ -3,6 +3,7 @@ guid: 56869e602fcb0b741b876255ea7ba70e
 labels:
 - Actor
 - Logic
+- Networked
 PrefabImporter:
   externalObjects: {}
   userData: 
