@@ -18,6 +18,7 @@ MonoBehaviour:
   - {fileID: 6076170936116620860}
   - {fileID: 1914171415278301534}
   - {fileID: 7676471959514739718}
+  - {fileID: 3056299598085087266}
 --- !u!114 &1649203706520247567
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -109,6 +110,43 @@ MonoBehaviour:
   opacity:
     overrideState: 0
     value: 1
+--- !u!114 &3056299598085087266
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
+  m_Name: AutoExposure
+  m_EditorClassIdentifier: Unity.Postprocessing.Runtime::UnityEngine.Rendering.PostProcessing.AutoExposure
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  filtering:
+    overrideState: 1
+    value: {x: 50, y: 95}
+  minLuminance:
+    overrideState: 1
+    value: -1
+  maxLuminance:
+    overrideState: 1
+    value: 1
+  keyValue:
+    overrideState: 1
+    value: 1
+  eyeAdaptation:
+    overrideState: 0
+    value: 0
+  speedUp:
+    overrideState: 0
+    value: 2
+  speedDown:
+    overrideState: 0
+    value: 1
 --- !u!114 &3231045839202525888
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -121,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
   m_Name: AmbientOcclusion
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -151,15 +189,15 @@ MonoBehaviour:
     value: 1
   zBias:
     overrideState: 1
-    value: 0.0005
+    value: 0.001
   directLightingStrength:
     overrideState: 0
     value: 0
   radius:
-    overrideState: 0
-    value: 0.15
+    overrideState: 1
+    value: 0.5
   quality:
-    overrideState: 0
+    overrideState: 1
     value: 3
 --- !u!114 &6076170936116620860
 MonoBehaviour:

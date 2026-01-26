@@ -73,8 +73,9 @@ Shader "Bloody Botany/TrimStandard"
         void surf (Input IN, inout SurfaceOutputStandardSpecular o)
         {
             //Calculate and assign normal
-            half3 worldNormal = WorldNormalVector(IN, o.Normal);
             o.Normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex)).rgb;
+            half3 worldNormal = WorldNormalVector(IN, o.Normal);
+            
 
             //Create triplanar mask
             half3 triplanarMask = abs(worldNormal);

@@ -8,12 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BarnRoofTiles
-  m_Shader: {fileID: 47, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 6e32e1e8478b0b5419f22d97c3744dbb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _NORMALMAP
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -24,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BrushMask:
+        m_Texture: {fileID: 2800000, guid: fe638ecfc380cea47860604552dba7a4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: b9d4273ef65dd2c4c8d2bce798361599, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -44,12 +48,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _GlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: b27af157d8db31946857f2def58090a5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: b9d4273ef65dd2c4c8d2bce798361599, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -60,8 +72,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ProcMask:
+        m_Texture: {fileID: 2800000, guid: 4943dd7672604ff469de6b7baab17233, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 2800000, guid: 60579a09a77aeb74a8efd95cfb0c03d4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -71,7 +91,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.95
+    - _Glossiness: 0.1
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
@@ -83,7 +103,11 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+    - _BaseTint: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MaskColor0: {r: 0.4339623, g: 0.21902815, b: 0.41657242, a: 0.2509804}
+    - _MaskColor1: {r: 0.8962264, g: 0.49206078, b: 0.12259703, a: 0.2509804}
+    - _MaskColor2: {r: 0.41985583, g: 0.4811321, b: 0.4513054, a: 0.2509804}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
